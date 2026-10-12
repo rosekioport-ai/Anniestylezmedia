@@ -83,7 +83,7 @@
   <div class="eyebrow">Have a project?</div>
   <h2>LET'S MAKE<br><span class="gold">SOMETHING.</span></h2>
   <div class="work-links">
-    <a class="contact-line" href="mailto:hello@example.com">hello@example.com <span>↗</span></a>
+    <a class="contact-line" id="emailLink" href="mailto:annieplans08@gmail.com">annieplans08@gmail.com <span>↗</span></a>
     <a class="contact-line whatsapp-contact" id="whatsappLink" href="#" target="_blank" rel="noopener">WhatsApp <span>↗</span></a>
   </div>
   <div class="footer-note">
@@ -399,8 +399,11 @@ function apply(){
   document.getElementById('whatsappLink').href=data.whatsapp?'https://wa.me/'+data.whatsapp:'#';
   document.getElementById('whatsappLink').style.opacity=data.whatsapp?'1':'.45';
   document.querySelector('.footer h2').innerHTML=esc(data.footer)+'<br><span class="gold">'+esc(data.footerGold)+'</span>';
-  document.querySelector('.footer .contact-line').innerHTML=esc(data.email)+' <span>↗</span>';
-  document.querySelector('.footer .contact-line').href='mailto:'+encodeURIComponent(data.email);
+  const mailAnchor = $('emailLink') || document.querySelector('.footer .contact-line');
+  if(mailAnchor){
+    mailAnchor.innerHTML = esc(data.email) + ' <span>↗</span>';
+    mailAnchor.href = 'mailto:' + encodeURIComponent(data.email) + '?subject=' + encodeURIComponent('Project Inquiry — AI Video Creator');
+  }
   document.querySelector('.footer-note span').textContent=data.footerLabel;
   document.querySelectorAll('.service').forEach((el,i)=>{el.querySelector('h3').textContent=data.services[i][0]});
   document.querySelectorAll('.card').forEach((c,i)=>{
