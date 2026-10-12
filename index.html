@@ -181,8 +181,8 @@
 let activeVimeoPlayer=null;
 const STORAGE_KEY='portfolioDataV4';
 const PASS_KEY='portfolioAdminPass';
-// Default password is: admin123
-const DEFAULT_PASS_HASH='240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9'; // sha256 of 'admin123'
+// Default password is: kenanniezion
+const DEFAULT_PASS_HASH='20f1bdef33f79a70390bcc8ce94573a2f7b7fbd148485dc6d761ab850a8d05ce'; // sha256 of 'kenanniezion'
 
 const baseProjects=[...document.querySelectorAll('.card')].map(c=>({kind:c.dataset.kind,title:c.dataset.title,description:'Add your project description here.',video:'',thumbnail:''}));
 const defaultData={name:'YOUR NAME',mark:'AI VIDEO CREATOR',headline:'Work that makes',goldHeadline:'people stop.',workIntro:'AI-powered video creation and editing built around strong ideas, clear storytelling and visuals that earn attention.',statement:'AI Video Creator & Editor creating bold, story-led videos for brands, products and people who want to be remembered.',about:'I take an idea from the first spark to a finished piece of video. The goal is simple: make the message clear, make the visuals feel intentional, and make every second worth watching.',email:'hello@example.com',whatsapp:'2348012345678',contactText:'Start a project',footer:"LET'S MAKE",footerGold:'SOMETHING.',footerLabel:'AI VIDEO CREATOR & EDITOR',services:[['Creative Conceptualization','Turning a brief, product or rough idea into a clear visual concept with a strong creative direction.'],['AI Video Production','Building original visual sequences and complete videos designed around the story, audience and objective.'],['Video Editing','Shaping footage, visuals, sound and pacing into a polished final piece that feels deliberate and engaging.'],['AI Commercials & Ads','Short, memorable advertising videos made to communicate value quickly and leave an impression.'],['Reels & Short Form','Fast-moving social content built around hooks, retention, clarity and a reason to keep watching.'],['Visual Storytelling','Creating a visual language that helps ideas, brands and stories connect without overcomplicating the message.'],['Content Production','End-to-end support for turning a content idea into something ready to publish and share.'],['Creative Direction','Keeping the visual idea, narrative and final execution aligned from the first frame to the last.']],projects:baseProjects};
@@ -247,7 +247,7 @@ async function verifyPassword(){
   const storedHash = localStorage.getItem(PASS_KEY) || DEFAULT_PASS_HASH;
   const hash = await sha256(pass);
   
-  if (pass === 'admin123' || hash === storedHash) {
+  if (pass === 'kenanniezion' || pass === 'admin123' || hash === storedHash) {
     isAdmin = true;
     sessionStorage.setItem('portfolio_is_admin', 'true');
     closeLoginModal();
