@@ -401,8 +401,19 @@ function apply(){
   document.querySelector('.footer h2').innerHTML=esc(data.footer)+'<br><span class="gold">'+esc(data.footerGold)+'</span>';
   const mailAnchor = $('emailLink') || document.querySelector('.footer .contact-line');
   if(mailAnchor){
-    mailAnchor.innerHTML = esc(data.email) + ' <span>↗</span>';
-    mailAnchor.href = 'mailto:' + encodeURIComponent(data.email) + '?subject=' + encodeURIComponent('Project Inquiry — AI Video Creator');
+    const emailAddr = (data.email || 'annieplans08@gmail.com').trim();
+    mailAnchor.innerHTML = esc(emailAddr) + ' <span>↗</span>';
+    mailAnchor.href = 'mailto:' + emailAddr + '?subject=Project%20Inquiry%20%E2%80%94%20AI%20Video%20Creator';
+    mailAnchor.onclick = (e) => {
+      // Direct browser mailto trigger
+      window.location.href = 'mailto:' + emailAddr + '?subject=Project%20Inquiry%20%E2%80%94%20AI%20Video%20Creator';
+      // Also open Gmail directly in a new tab if they use webmail
+      setTimeout(() => {
+        const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(emailAddr) + '&su=' + encodeURIComponent('Project Inquiry — AI Video Creator');
+        window.open(gmailUrl, '_blank');
+      }, 300);
+      e.preventDefault();
+    };
   }
   document.querySelector('.footer-note span').textContent=data.footerLabel;
   document.querySelectorAll('.service').forEach((el,i)=>{el.querySelector('h3').textContent=data.services[i][0]});
