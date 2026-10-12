@@ -191,6 +191,10 @@ const embedded=window.__PORTFOLIO_DATA__||null;
 let data=embedded||JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')||structuredClone(defaultData);
 data.whatsapp=data.whatsapp||'';
 
+const $=id=>document.getElementById(id); 
+const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function setVal(id,v){if($(id))$(id).value=String(v??'')}
+
 // Hash helper for password security
 async function sha256(str){
   const buf=new TextEncoder().encode(str);
@@ -203,16 +207,18 @@ let isAdmin=sessionStorage.getItem('portfolio_is_admin')==='true';
 
 function updateAdminUI(){
   const editBtn=$('openEditor');
+  const lockBtn=$('lockBtn');
+  if(!lockBtn) return;
   if(isAdmin){
-    editBtn.classList.add('visible');
-    $('lockBtn').textContent='🔓 Admin (Unlocked)';
-    $('lockBtn').style.opacity='1';
-    $('lockBtn').style.color='var(--gold)';
+    if(editBtn) editBtn.classList.add('visible');
+    lockBtn.textContent='🔓 Admin (Unlocked)';
+    lockBtn.style.opacity='1';
+    lockBtn.style.color='var(--gold)';
   }else{
-    editBtn.classList.remove('visible');
-    $('lockBtn').textContent='🔒 Admin';
-    $('lockBtn').style.opacity='0.4';
-    $('lockBtn').style.color='#444';
+    if(editBtn) editBtn.classList.remove('visible');
+    lockBtn.textContent='🔒 Admin';
+    lockBtn.style.opacity='0.4';
+    lockBtn.style.color='#444';
   }
 }
 
@@ -260,11 +266,8 @@ $('lockBtn').onclick=()=>{
   }else{
     openLoginModal();
   }
-};
+}; 
 
-const $=id=>document.getElementById(id); 
-const esc=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-function setVal(id,v){$(id).value=String(v??'')}
 
 function getDriveFileId(url){
   const raw=String(url||'').trim();
