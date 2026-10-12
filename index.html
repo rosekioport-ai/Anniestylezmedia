@@ -388,7 +388,14 @@ function apply(){
   document.querySelector('.statement').textContent=data.statement;
   document.querySelector('.identity-copy').textContent=data.about;
   document.querySelector('.identity .contact-line').innerHTML=esc(data.contactText)+' <span>↗</span>';
-  document.querySelector('.identity .contact-line').href='mailto:'+encodeURIComponent(data.email);
+  const identityLink = document.querySelector('.identity .contact-line');
+  if(data.whatsapp){
+    identityLink.href = 'https://wa.me/' + data.whatsapp;
+    identityLink.target = '_blank';
+    identityLink.rel = 'noopener';
+  } else {
+    identityLink.href = 'mailto:' + encodeURIComponent(data.email);
+  }
   document.getElementById('whatsappLink').href=data.whatsapp?'https://wa.me/'+data.whatsapp:'#';
   document.getElementById('whatsappLink').style.opacity=data.whatsapp?'1':'.45';
   document.querySelector('.footer h2').innerHTML=esc(data.footer)+'<br><span class="gold">'+esc(data.footerGold)+'</span>';
