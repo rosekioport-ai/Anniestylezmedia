@@ -199,12 +199,13 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   background: var(--bg-card);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
   padding: 26px 30px;
   display: flex;
   flex-direction: column;
   gap: 18px;
+  box-shadow: 0 20px 48px -10px rgba(215, 177, 90, 0.28), 0 0 22px rgba(215, 177, 90, 0.12);
 }
 
 .generator-head {
@@ -358,12 +359,13 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 /* BLUEPRINT OUTPUT CARDS ROW */
 .blueprint-card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
   padding: 24px 28px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-shadow: 0 16px 40px -10px rgba(215, 177, 90, 0.22), 0 0 18px rgba(215, 177, 90, 0.08);
 }
 .blueprint-summary {
   font-size: 12px;
@@ -444,20 +446,21 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 /* FEATURED REEL CARD */
 .reel-card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   position: relative;
-  transition: all 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
   cursor: pointer;
+  box-shadow: 0 20px 45px -10px rgba(215, 177, 90, 0.3), 0 0 22px rgba(215, 177, 90, 0.12);
 }
 .reel-card:hover {
-  border-color: var(--gold-border);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6), 0 0 25px var(--gold-glow);
-  transform: translateY(-2px);
+  border-color: var(--gold-light);
+  box-shadow: 0 26px 60px -8px rgba(215, 177, 90, 0.5), 0 0 35px rgba(215, 177, 90, 0.3);
+  transform: translateY(-4px);
 }
 .reel-screen {
   aspect-ratio: 16/10;
@@ -536,14 +539,20 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 /* BRAND FACE AVATAR CARD */
 .avatar-card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 14px;
   position: relative;
-  transition: all 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
+  box-shadow: 0 20px 45px -10px rgba(215, 177, 90, 0.3), 0 0 22px rgba(215, 177, 90, 0.12);
+}
+.avatar-card:hover {
+  border-color: var(--gold-light);
+  box-shadow: 0 26px 60px -8px rgba(215, 177, 90, 0.5), 0 0 35px rgba(215, 177, 90, 0.3);
+  transform: translateY(-4px);
 }
 .avatar-screen {
   aspect-ratio: 1/1;
@@ -613,18 +622,19 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .trio-card {
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
   padding: 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: all 0.3s var(--ease);
+  transition: all 0.35s var(--ease);
+  box-shadow: 0 18px 42px -10px rgba(215, 177, 90, 0.26), 0 0 20px rgba(215, 177, 90, 0.1);
 }
 .trio-card:hover {
-  border-color: var(--gold-border);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  border-color: var(--gold-light);
+  transform: translateY(-4px);
+  box-shadow: 0 24px 55px -6px rgba(215, 177, 90, 0.45), 0 0 32px rgba(215, 177, 90, 0.25);
 }
 .trio-num {
   font-family: 'JetBrains Mono', monospace;
@@ -674,29 +684,77 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   color: #08080a;
 }
 
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
+/* HORIZONTAL CAROUSEL SHELF (NO-SCROLL LAYOUT) */
+.carousel-nav {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
 }
+.carousel-arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-light);
+  font-size: 22px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+.carousel-arrow:hover {
+  background: var(--gold);
+  color: #08080a;
+  transform: scale(1.1);
+  box-shadow: 0 0 18px var(--gold-glow);
+}
+
+.gallery-grid {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding: 10px 4px 28px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.gallery-grid::-webkit-scrollbar {
+  display: none;
+}
+
 .card {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);
   background: var(--bg-card-solid);
-  border: 1px solid var(--border);
+  border: 1px solid var(--gold-border);
   cursor: pointer;
-  min-height: 320px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
   transition: all 0.35s var(--ease);
+  box-shadow: 0 18px 42px -10px rgba(215, 177, 90, 0.32), 0 6px 18px rgba(0, 0, 0, 0.7);
 }
 .card:hover {
-  transform: translateY(-4px);
-  border-color: var(--gold-border);
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 25px var(--gold-glow);
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--gold-light);
+  box-shadow: 0 28px 65px -8px rgba(215, 177, 90, 0.52), 0 0 36px rgba(215, 177, 90, 0.35);
 }
-.landscape .card:nth-child(1), .landscape .card:nth-child(4) { grid-column: span 7; }
-.landscape .card:nth-child(2), .landscape .card:nth-child(3), .landscape .card:nth-child(5), .landscape .card:nth-child(6), .landscape .card:nth-child(7) { grid-column: span 5; }
-.reel .card { grid-column: span 3; min-height: 480px; }
+
+.landscape .card {
+  width: 360px;
+  height: 240px;
+  min-height: 240px;
+}
+.reel .card {
+  width: 215px;
+  height: 350px;
+  min-height: 350px;
+}
 
 .visual {
   position: absolute;
@@ -818,45 +876,69 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .admin-lock-btn:hover { color: var(--gold); }
 
-/* VIDEO MODAL PLAYER */
+/* ZOOM-FORWARD VIDEO MODAL */
 .modal {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(5, 5, 7, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  display: none;
+  background: rgba(4, 4, 6, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.modal.open { display: flex; }
+.modal.open {
+  opacity: 1;
+  pointer-events: auto;
+}
 .modal-box {
   width: min(920px, 100%);
   background: #111115;
-  border: 1px solid var(--gold-border);
-  border-radius: 20px;
-  padding: 30px;
+  border: 1px solid var(--gold);
+  border-radius: 22px;
+  padding: 28px;
   position: relative;
-  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 50px var(--gold-glow);
+  box-shadow: 0 35px 120px rgba(0, 0, 0, 0.95), 0 0 70px rgba(215, 177, 90, 0.35);
+  transform: scale(0.65) translateY(40px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal.open .modal-box {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+.modal.closing .modal-box {
+  transform: scale(0.65) translateY(40px);
+  opacity: 0;
 }
 .close {
   position: absolute;
   right: 18px; top: 16px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  color: #aaa;
-  width: 36px; height: 36px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--gold-border);
+  color: var(--gold-light);
+  width: 38px; height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
+  z-index: 10;
 }
-.close:hover { color: #fff; border-color: var(--gold); background: rgba(215, 177, 90, 0.12); }
+.close:hover {
+  color: #08080a;
+  border-color: var(--gold);
+  background: var(--gold);
+  transform: rotate(90deg) scale(1.1);
+  box-shadow: 0 0 16px var(--gold-glow);
+}
 .modal-media {
   aspect-ratio: 16/9;
   background: #000;
@@ -1073,7 +1155,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       <div class="brand-name">Anniestylez Media</div>
     </div>
     <nav class="nav">
-      <button class="nav-tab active" data-tab="studio">Studio</button>
+      <button class="nav-tab active" data-tab="studio">The Experience</button>
       <button class="nav-tab" data-tab="projects">Projects (14)</button>
       <button class="nav-tab" data-tab="services">Services</button>
       <button class="nav-tab" data-tab="contact">Contact</button>
@@ -1092,7 +1174,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     </div>
   </div>
 
-  <!-- 1. STUDIO VIEW (DEFAULT ACTIVE) -->
+  <!-- 1. THE EXPERIENCE VIEW (DEFAULT ACTIVE) -->
   <div class="tab-view active" id="view-studio">
     <div class="studio-grid" id="studio">
       
@@ -1101,9 +1183,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         <div class="generator-head">
           <h1 class="generator-title">Generating a new campaign</h1>
           <div class="stepper">
-            <div class="step active" data-step-tab="studio" title="Click to view Studio Brief">
+            <div class="step active" data-step-tab="studio" title="Click to view The Experience">
               <span class="step-num">1</span>
-              <span>Brief</span>
+              <span>The Experience</span>
             </div>
             <div class="step-line"></div>
             <div class="step" data-step-tab="services" title="Click to view Services Concept">
@@ -1265,26 +1347,33 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       <div class="section-head">
         <div>
           <h2 class="section-title">Selected Projects</h2>
-          <span class="section-subtitle">Click any project to preview the cinematic video</span>
+          <span class="section-subtitle">Click any project to zoom forward into the cinematic video</span>
         </div>
-        <div class="gallery-filters">
-          <button class="g-filter active" data-filter="all">All work</button>
-          <button class="g-filter" data-filter="landscape">Landscape</button>
-          <button class="g-filter" data-filter="reel">Reels</button>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div class="gallery-filters">
+            <button class="g-filter active" data-filter="landscape">Landscape (7)</button>
+            <button class="g-filter" data-filter="reel">Reels (7)</button>
+            <button class="g-filter" data-filter="all">All (14)</button>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
+            <button class="carousel-arrow" id="nextTrack" title="Next projects" type="button">›</button>
+          </div>
         </div>
       </div>
 
-      <div class="gallery-grid landscape" id="portfolioGrid">
-        <article class="card" data-kind="landscape" data-title="Landscape Project 01"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Landscape Project 01</div></div><div class="type">Landscape</div></div></article>
-        <article class="card" data-kind="landscape" data-title="Landscape Project 02"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Landscape Project 02</div></div><div class="type">Landscape</div></div></article>
-        <article class="card" data-kind="landscape" data-title="Landscape Project 03"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Landscape Project 03</div></div><div class="type">Landscape</div></div></article>
-        <article class="card" data-kind="landscape" data-title="Landscape Project 04"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Landscape Project 04</div></div><div class="type">Landscape</div></div></article>
-        <article class="card" data-kind="landscape" data-title="Landscape Project 05"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">Landscape</div></div></article>
-        <article class="card" data-kind="landscape" data-title="Landscape Project 06"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">Landscape</div></div></article>
-        <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
-      </div>
+      <div class="carousel-shelf">
+        <div class="gallery-grid landscape" id="portfolioGrid">
+          <article class="card" data-kind="landscape" data-title="Landscape Project 01"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Landscape Project 01</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 02"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Landscape Project 02</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 03"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Landscape Project 03</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 04"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Landscape Project 04</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 05"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 06"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
+        </div>
 
-      <div class="gallery-grid reel" id="reelGrid" style="margin-top:16px">
+        <div class="gallery-grid reel" id="reelGrid" style="display:none;margin-top:16px">
         <article class="card" data-kind="reel" data-title="Reel 01"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Reel 01</div></div><div class="type">Reel</div></div></article>
         <article class="card" data-kind="reel" data-title="Reel 02"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Reel 02</div></div><div class="type">Reel</div></div></article>
         <article class="card" data-kind="reel" data-title="Reel 03"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Reel 03</div></div><div class="type">Reel</div></div></article>
@@ -1292,6 +1381,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         <article class="card" data-kind="reel" data-title="Reel 05"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Reel 05</div></div><div class="type">Reel</div></div></article>
         <article class="card" data-kind="reel" data-title="Reel 06"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Reel 06</div></div><div class="type">Reel</div></div></article>
         <article class="card" data-kind="reel" data-title="Reel 07"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Reel 07</div></div><div class="type">Reel</div></div></article>
+      </div>
       </div>
     </section>
   </div>
@@ -1644,13 +1734,26 @@ function openProjectModal(x) {
   const media = document.querySelector('.modal-media');
   const embed = parseVideoUrl(x.video || '');
   media.innerHTML = embed
-    ? `<iframe src="${esc(embed)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`
+    ? `<iframe src="${esc(embed)}?autoplay=1" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`
     : '<span>ADD A VIMEO OR YOUTUBE LINK IN ADMIN</span>';
+  
+  $('modal').classList.remove('closing');
   $('modal').classList.add('open');
   const iframe = media.querySelector('iframe');
   if (iframe && /vimeo\.com/.test(embed)) {
     iframe.addEventListener('load', () => setupVimeoPlayer(iframe, embed), { once: true });
   }
+}
+
+function closeProjectModal() {
+  const m = $('modal');
+  if (!m || !m.classList.contains('open')) return;
+  m.classList.add('closing');
+  setTimeout(() => {
+    resetActivePlayer();
+    m.classList.remove('open');
+    m.classList.remove('closing');
+  }, 350);
 }
 
 function resetActivePlayer() {
@@ -1664,6 +1767,10 @@ function setupVimeoPlayer(iframe, embed) {
   if (!window.Vimeo || !Vimeo.Player) return;
   try {
     activeVimeoPlayer = new Vimeo.Player(iframe);
+    activeVimeoPlayer.on('ended', () => {
+      // Auto-closes smoothly when playback finishes!
+      setTimeout(closeProjectModal, 800);
+    });
   } catch (e) {}
 }
 
@@ -1714,12 +1821,25 @@ $('logoutBtn').onclick = () => {
 const filters = document.querySelectorAll('.g-filter');
 const landscape = document.getElementById('portfolioGrid');
 const reels = document.getElementById('reelGrid');
+const prevTrackBtn = document.getElementById('prevTrack');
+const nextTrackBtn = document.getElementById('nextTrack');
+
+function scrollCarousel(dir) {
+  const activeTrack = (landscape && landscape.style.display !== 'none') ? landscape : reels;
+  if (!activeTrack) return;
+  const delta = dir === 'left' ? -380 : 380;
+  activeTrack.scrollBy({ left: delta, behavior: 'smooth' });
+}
+
+if (prevTrackBtn) prevTrackBtn.onclick = () => scrollCarousel('left');
+if (nextTrackBtn) nextTrackBtn.onclick = () => scrollCarousel('right');
+
 filters.forEach(btn => btn.addEventListener('click', () => {
   filters.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const f = btn.dataset.filter;
-  landscape.style.display = f === 'reel' ? 'none' : 'grid';
-  reels.style.display = f === 'landscape' ? 'none' : 'grid';
+  landscape.style.display = f === 'reel' ? 'none' : 'flex';
+  reels.style.display = f === 'landscape' ? 'none' : 'flex';
 }));
 
 // Video Tone Selector Interactivity
@@ -1734,11 +1854,16 @@ document.querySelectorAll('.tone-btn').forEach(btn => {
   });
 });
 
-$('close').onclick = () => { resetActivePlayer(); $('modal').classList.remove('open'); };
+$('close').onclick = closeProjectModal;
 $('modal').addEventListener('click', e => {
   if (e.target === $('modal')) {
-    resetActivePlayer();
-    $('modal').classList.remove('open');
+    closeProjectModal();
+  }
+});
+
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('modal').classList.contains('open')) {
+    closeProjectModal();
   }
 });
 
