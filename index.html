@@ -1476,6 +1476,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           <div class="working-screen">
             <video id="workingVideo" autoplay loop muted playsinline poster="avatar.jpg">
               <source src="working_loop.mp4" type="video/mp4">
+              <source src="https://drive.usercontent.google.com/download?id=1rtCSlh_yRcroucsHU_T-fmtHM49DEz3N&export=download" type="video/mp4">
             </video>
             <div class="working-overlay">
               <div class="working-live-badge">
@@ -2169,6 +2170,11 @@ function switchTab(tabName) {
 
   if (targetTabBtn) targetTabBtn.classList.add('active');
   targetView.classList.add('active');
+
+  if (tabName === 'studio') {
+    const v = $('workingVideo');
+    if (v) v.play().catch(() => {});
+  }
 
   // Update stepper active highlight
   document.querySelectorAll('.step[data-step-tab]').forEach(step => {
