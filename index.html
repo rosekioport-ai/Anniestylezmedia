@@ -874,6 +874,69 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   box-shadow: 0 26px 65px -8px rgba(215, 177, 90, 0.45), 0 0 35px rgba(215, 177, 90, 0.25);
 }
 
+.who-top-split {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+}
+.who-top-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+.who-portrait-box {
+  flex-shrink: 0;
+}
+.who-portrait-frame {
+  width: 130px;
+  height: 155px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  background: #111115;
+  border: 1px solid var(--gold-border);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.8), 0 0 25px rgba(215, 177, 90, 0.28);
+  transition: all 0.35s var(--ease);
+}
+.who-portrait-frame:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: var(--gold-light);
+  box-shadow: 0 22px 45px -6px rgba(0, 0, 0, 0.9), 0 0 35px rgba(215, 177, 90, 0.45);
+}
+.who-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease);
+}
+.who-portrait-frame:hover .who-portrait-img {
+  transform: scale(1.06);
+}
+.who-portrait-badge {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: rgba(8, 8, 10, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .who-pill {
   align-self: flex-start;
   display: inline-flex;
@@ -1501,6 +1564,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   .tone-box { flex-direction: column; align-items: flex-start; }
   .form-grid, .project-editor { grid-template-columns: 1fr; }
   .field.full { grid-column: auto; }
+  .who-top-split { flex-direction: column-reverse; align-items: flex-start; gap: 16px; }
+  .who-portrait-frame { width: 110px; height: 130px; }
 }
 </style>
 
@@ -1727,15 +1792,29 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       
       <!-- LEFT: WHO I AM & STORYTELLING -->
       <article class="who-card">
-        <div class="who-pill">
-          <span class="who-dot"></span>
-          <span>About • Who I Am</span>
+        <div class="who-top-split">
+          <div class="who-top-text">
+            <div class="who-pill">
+              <span class="who-dot"></span>
+              <span>About • Who I Am</span>
+            </div>
+            
+            <h1 class="who-title">
+              <span id="cHeadline">I turn Brands</span><br>
+              <span class="gold-text" id="cGoldHeadline">into Experiences.</span>
+            </h1>
+          </div>
+
+          <div class="who-portrait-box">
+            <div class="who-portrait-frame" title="Annie • AI Video Creator & Editor">
+              <img src="avatar.jpg" alt="Annie - Anniestylez Media" id="whoAvatarImg" class="who-portrait-img">
+              <div class="who-portrait-badge">
+                <span class="live-dot" style="width:5px;height:5px"></span>
+                <span>Annie</span>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <h1 class="who-title">
-          <span id="cHeadline">I turn Brands</span><br>
-          <span class="gold-text" id="cGoldHeadline">into Experiences.</span>
-        </h1>
 
         <div class="who-statement" id="cStatement">AI Video Creator &amp; Editor creating bold, story-led videos for brands, products and people who want to be experienced not just watched.</div>
 
