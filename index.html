@@ -1291,8 +1291,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       <div class="brand-name">Anniestylez Media</div>
     </div>
     <nav class="nav">
-      <button class="nav-tab active" data-tab="studio">The Experience</button>
-      <button class="nav-tab" data-tab="projects">Projects (14)</button>
+      <button class="nav-tab active" data-tab="experience">The Experience</button>
+      <button class="nav-tab" data-tab="studio">Studio</button>
       <button class="nav-tab" data-tab="services">Services</button>
       <button class="nav-tab" data-tab="contact">Contact</button>
     </nav>
@@ -1310,8 +1310,53 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     </div>
   </div>
 
-  <!-- 1. THE EXPERIENCE VIEW (DEFAULT ACTIVE) -->
-  <div class="tab-view active" id="view-studio">
+  <!-- 1. THE EXPERIENCE VIEW (VIDEOS SHOWCASE - DEFAULT ACTIVE) -->
+  <div class="tab-view active" id="view-experience">
+    <section class="gallery-section" id="work">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">The Experience</h2>
+          <span class="section-subtitle">Click any project to zoom forward into the cinematic video</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div class="gallery-filters">
+            <button class="g-filter active" data-filter="landscape">Landscape (7)</button>
+            <button class="g-filter" data-filter="reel">Reels (7)</button>
+            <button class="g-filter" data-filter="all">All (14)</button>
+          </div>
+          <div class="carousel-nav">
+            <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
+            <button class="carousel-arrow" id="nextTrack" title="Next projects" type="button">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-shelf">
+        <div class="gallery-grid landscape" id="portfolioGrid">
+          <article class="card" data-kind="landscape" data-title="Landscape Project 01"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Landscape Project 01</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 02"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Landscape Project 02</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 03"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Landscape Project 03</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 04"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Landscape Project 04</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 05"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 06"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
+        </div>
+
+        <div class="gallery-grid reel" id="reelGrid" style="display:none;margin-top:16px">
+          <article class="card" data-kind="reel" data-title="Reel 01"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Reel 01</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 02"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Reel 02</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 03"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Reel 03</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 04"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Reel 04</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 05"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Reel 05</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 06"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Reel 06</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 07"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Reel 07</div></div><div class="type">Reel</div></div></article>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 2. STUDIO VIEW (SECOND PAGE) -->
+  <div class="tab-view" id="view-studio">
     <div class="studio-grid" id="studio">
       
       <!-- LEFT: GENERATING A NEW CAMPAIGN -->
@@ -1319,9 +1364,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         <div class="generator-head">
           <h1 class="generator-title">Generating a new campaign</h1>
           <div class="stepper">
-            <div class="step active" data-step-tab="studio" title="Click to view The Experience">
+            <div class="step active" data-step-tab="studio" title="Click to view Studio">
               <span class="step-num">1</span>
-              <span>The Experience</span>
+              <span>Studio</span>
             </div>
             <div class="step-line"></div>
             <div class="step" data-step-tab="services" title="Click to view Services Concept">
@@ -1329,7 +1374,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
               <span>Concept</span>
             </div>
             <div class="step-line"></div>
-            <div class="step" data-step-tab="projects" title="Click to view Final Projects">
+            <div class="step" data-step-tab="experience" title="Click to view The Experience">
               <span class="step-num">3</span>
               <span>Final Reel</span>
             </div>
@@ -1420,7 +1465,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         <!-- FEATURED REEL -->
         <div class="reel-card" id="featuredReelCard">
           <div class="reel-screen">
-            <img src="https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql" alt="Featured Reel" id="featuredThumb">
+            <img src="https://lh3.googleusercontent.com/d/1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql=w1600" alt="Featured Reel" id="featuredThumb" onerror="this.src='https://drive.google.com/thumbnail?id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql&sz=w1600'">
             <div class="star-badge">★</div>
             <div class="play-btn">▶</div>
           </div>
@@ -1483,50 +1528,6 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     </section>
   </div>
 
-  <!-- 3. PROJECTS GALLERY VIEW -->
-  <div class="tab-view" id="view-projects">
-    <section class="gallery-section" id="work">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">Selected Projects</h2>
-          <span class="section-subtitle">Click any project to zoom forward into the cinematic video</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <div class="gallery-filters">
-            <button class="g-filter active" data-filter="landscape">Landscape (7)</button>
-            <button class="g-filter" data-filter="reel">Reels (7)</button>
-            <button class="g-filter" data-filter="all">All (14)</button>
-          </div>
-          <div class="carousel-nav">
-            <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
-            <button class="carousel-arrow" id="nextTrack" title="Next projects" type="button">›</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="carousel-shelf">
-        <div class="gallery-grid landscape" id="portfolioGrid">
-          <article class="card" data-kind="landscape" data-title="Landscape Project 01"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Landscape Project 01</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 02"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Landscape Project 02</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 03"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Landscape Project 03</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 04"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Landscape Project 04</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 05"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 06"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
-        </div>
-
-        <div class="gallery-grid reel" id="reelGrid" style="display:none;margin-top:16px">
-        <article class="card" data-kind="reel" data-title="Reel 01"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Reel 01</div></div><div class="type">Reel</div></div></article>
-        <article class="card" data-kind="reel" data-title="Reel 02"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Reel 02</div></div><div class="type">Reel</div></div></article>
-        <article class="card" data-kind="reel" data-title="Reel 03"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Reel 03</div></div><div class="type">Reel</div></div></article>
-        <article class="card" data-kind="reel" data-title="Reel 04"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Reel 04</div></div><div class="type">Reel</div></div></article>
-        <article class="card" data-kind="reel" data-title="Reel 05"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Reel 05</div></div><div class="type">Reel</div></div></article>
-        <article class="card" data-kind="reel" data-title="Reel 06"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Reel 06</div></div><div class="type">Reel</div></div></article>
-        <article class="card" data-kind="reel" data-title="Reel 07"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Reel 07</div></div><div class="type">Reel</div></div></article>
-      </div>
-      </div>
-    </section>
-  </div>
 
   <!-- 4. CONTACT VIEW -->
   <div class="tab-view" id="view-contact">
@@ -1784,9 +1785,9 @@ function getDriveImageSources(url) {
   const id = getDriveFileId(url);
   if (!id) return [String(url || '').trim()];
   return [
-    'https://drive.google.com/uc?export=view&id=' + encodeURIComponent(id),
+    'https://lh3.googleusercontent.com/d/' + encodeURIComponent(id) + '=w1600',
     'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w1600',
-    'https://lh3.googleusercontent.com/d/' + encodeURIComponent(id) + '=w1600'
+    'https://drive.google.com/uc?export=view&id=' + encodeURIComponent(id)
   ];
 }
 
@@ -2130,6 +2131,7 @@ window.addEventListener('keydown', e => {
 
 // TAB NAVIGATION LOGIC (NO-SCROLL TAB SWITCHING)
 function switchTab(tabName) {
+  if (tabName === 'projects') tabName = 'experience';
   const targetTabBtn = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
   const targetView = document.getElementById('view-' + tabName);
   if (!targetView) return;
@@ -2140,9 +2142,11 @@ function switchTab(tabName) {
   if (targetTabBtn) targetTabBtn.classList.add('active');
   targetView.classList.add('active');
 
-  // Update stepper active highlight if on Studio, Services, or Projects
+  // Update stepper active highlight if on Studio, Services, or Experience
   document.querySelectorAll('.step[data-step-tab]').forEach(step => {
-    if (step.dataset.stepTab === tabName) step.classList.add('active');
+    let sTab = step.dataset.stepTab;
+    if (sTab === 'projects') sTab = 'experience';
+    if (sTab === tabName) step.classList.add('active');
     else step.classList.remove('active');
   });
 
@@ -2167,8 +2171,8 @@ document.querySelectorAll('.step[data-step-tab]').forEach(step => {
 });
 
 const initialHash = window.location.hash.replace('#', '').toLowerCase();
-if (['studio', 'projects', 'services', 'contact'].includes(initialHash)) {
-  switchTab(initialHash);
+if (['experience', 'projects', 'studio', 'services', 'contact'].includes(initialHash)) {
+  switchTab(initialHash === 'projects' ? 'experience' : initialHash);
 }
 
 window.addEventListener('keydown', e => {
