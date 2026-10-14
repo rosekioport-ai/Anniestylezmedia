@@ -842,46 +842,240 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   text-transform: uppercase;
 }
 
-/* SECTION 4: CALL TO ACTION FOOTER BANNER */
-.cta-banner {
+/* SECTION 3: CONTACT & WHO I AM PAGE */
+.contact-page-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 28px;
+  align-items: stretch;
+  margin-bottom: 34px;
+}
+@media (max-width: 900px) {
+  .contact-page-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+}
+
+.who-card {
   background: var(--bg-card);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
-  padding: 44px 48px;
+  padding: 38px 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 35px var(--gold-glow);
-  margin-bottom: 30px;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  box-shadow: 0 20px 50px -10px rgba(215, 177, 90, 0.28), 0 0 25px rgba(215, 177, 90, 0.12);
+  transition: all 0.35s var(--ease);
 }
-.cta-title {
+.who-card:hover {
+  border-color: var(--gold-light);
+  box-shadow: 0 26px 65px -8px rgba(215, 177, 90, 0.45), 0 0 35px rgba(215, 177, 90, 0.25);
+}
+
+.who-pill {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba(215, 177, 90, 0.1);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.who-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+
+.who-title {
   font-family: 'Sora', sans-serif;
-  font-size: clamp(26px, 4vw, 42px);
+  font-size: clamp(28px, 3.8vw, 44px);
   font-weight: 750;
+  line-height: 1.15;
   color: #fff;
   letter-spacing: -0.03em;
-  margin-bottom: 8px;
 }
-.cta-meta {
+.gold-text {
+  color: var(--gold-light);
+  text-shadow: 0 0 24px rgba(215, 177, 90, 0.4);
+}
+
+.who-statement {
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  border-radius: 0 10px 10px 0;
+  font-family: 'Sora', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.6;
+  color: #f0f0f4;
+}
+
+.who-body {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  white-space: pre-line;
+}
+
+.who-pillars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.pillar-pill {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: rgba(215, 177, 90, 0.07);
+  color: var(--gold-light);
+  border: 1px solid var(--gold-border);
+  font-weight: 600;
+}
+
+/* CONTACT ACTION CARD */
+.contact-action-card {
+  background: linear-gradient(145deg, rgba(18, 18, 24, 0.95), rgba(10, 10, 14, 0.98));
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 38px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+  position: relative;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.8), 0 0 30px rgba(215, 177, 90, 0.2);
+  transition: all 0.35s var(--ease);
+}
+.contact-action-card:hover {
+  border-color: var(--gold-light);
+  box-shadow: 0 26px 65px -8px rgba(0, 0, 0, 0.95), 0 0 45px rgba(215, 177, 90, 0.35);
+}
+
+.contact-card-sub {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+}
+.contact-card-title {
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(22px, 2.5vw, 30px);
+  font-weight: 750;
+  line-height: 1.25;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.contact-card-desc {
   font-size: 13px;
+  line-height: 1.6;
   color: var(--text-muted);
 }
-.cta-meta strong { color: var(--gold-light); }
-.cta-btn {
-  background: linear-gradient(135deg, var(--gold), #ba8e30);
+
+.channels-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.channel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
+}
+.channel-item:hover {
+  background: rgba(215, 177, 90, 0.1);
+  border-color: var(--gold);
+  transform: translateX(3px);
+}
+.channel-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.channel-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background: rgba(215, 177, 90, 0.15);
+  color: var(--gold-light);
+  border: 1px solid var(--gold-border);
+}
+.channel-item.whatsapp .channel-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+.channel-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.channel-name {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.channel-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.channel-badge {
+  font-size: 10px;
+  color: var(--gold-light);
+  font-weight: 600;
+}
+.channel-item.whatsapp .channel-badge {
+  color: #10b981;
+}
+
+.contact-direct-btn {
+  background: linear-gradient(135deg, var(--gold), #b88f34);
   color: #08080a;
+  font-family: 'Sora', sans-serif;
   font-weight: 750;
   font-size: 14px;
-  padding: 16px 36px;
+  padding: 16px 28px;
   border-radius: 999px;
-  white-space: nowrap;
-  box-shadow: 0 6px 26px rgba(215, 177, 90, 0.4);
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 28px rgba(215, 177, 90, 0.45);
   transition: all 0.3s var(--ease);
 }
-.cta-btn:hover {
+.contact-direct-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(215, 177, 90, 0.55);
+  box-shadow: 0 12px 36px rgba(215, 177, 90, 0.65), 0 0 25px var(--gold-glow);
+  color: #000;
 }
 
 /* FOOTER NOTE */
@@ -1527,19 +1721,86 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   </div>
 
 
-  <!-- 4. CONTACT VIEW -->
+  <!-- 3. CONTACT & WHO I AM VIEW -->
   <div class="tab-view" id="view-contact">
-    <section class="cta-banner" id="contact">
-      <div>
-        <h2 class="cta-title">Got a brand to launch?<br>Let's make the ad.</h2>
-        <div class="cta-meta">
-          <a id="emailLink" href="mailto:annieplans08@gmail.com" style="color:var(--gold-light)">annieplans08@gmail.com</a> &nbsp;•&nbsp; 
-          <span>Lagos, Nigeria</span> &nbsp;•&nbsp;
-          <a id="whatsappLink" href="https://wa.me/2349076459262" target="_blank" rel="noopener" style="color:#10b981">Chat on WhatsApp ↗</a>
+    <div class="contact-page-grid" id="contact">
+      
+      <!-- LEFT: WHO I AM & STORYTELLING -->
+      <article class="who-card">
+        <div class="who-pill">
+          <span class="who-dot"></span>
+          <span>About • Who I Am</span>
         </div>
-      </div>
-      <a class="cta-btn" href="https://wa.me/2349076459262" target="_blank" rel="noopener">Start a project</a>
-    </section>
+        
+        <h1 class="who-title">
+          <span id="cHeadline">I turn Brands</span><br>
+          <span class="gold-text" id="cGoldHeadline">into Experiences.</span>
+        </h1>
+
+        <div class="who-statement" id="cStatement">AI Video Creator &amp; Editor creating bold, story-led videos for brands, products and people who want to be experienced not just watched.</div>
+
+        <div class="who-body" id="cAbout">I take an idea from the first spark to a finished piece of video. I turn real problems into creative stories that make people see themselves, understand the problem, and recognise the brand as the solution.
+
+The goal is simple: connect with both problem-aware and solution-aware viewers, then make them want what your brand offers.</div>
+
+        <div class="who-pillars">
+          <span class="pillar-pill">✦ Concept to Final Delivery</span>
+          <span class="pillar-pill">✦ Problem-Aware Storytelling</span>
+          <span class="pillar-pill">✦ High-Retention Visuals</span>
+          <span class="pillar-pill">✦ Scroll-Stopping Cuts</span>
+        </div>
+      </article>
+
+      <!-- RIGHT: DIRECT CONNECTION & CHANNELS -->
+      <aside class="contact-action-card">
+        <div>
+          <span class="contact-card-sub">Let's Collaborate</span>
+          <h2 class="contact-card-title">Got a brand to launch?<br><span class="gold-text">Let's make the ad.</span></h2>
+          <p class="contact-card-desc">Whether you have a full campaign brief or just the first spark of an idea, let's talk and bring it to life.</p>
+        </div>
+
+        <div class="channels-list">
+          <a class="channel-item whatsapp" id="cWhatsappCard" href="https://wa.me/2349076459262" target="_blank" rel="noopener">
+            <div class="channel-left">
+              <div class="channel-icon">💬</div>
+              <div class="channel-text">
+                <span class="channel-name">Chat on WhatsApp</span>
+                <span class="channel-val" id="cWhatsappNum">+234 907 645 9262</span>
+              </div>
+            </div>
+            <span class="channel-badge">Fast reply ↗</span>
+          </a>
+
+          <a class="channel-item" id="cEmailCard" href="mailto:annieplans08@gmail.com">
+            <div class="channel-left">
+              <div class="channel-icon">✉</div>
+              <div class="channel-text">
+                <span class="channel-name">Direct Email</span>
+                <span class="channel-val" id="cEmailAddr">annieplans08@gmail.com</span>
+              </div>
+            </div>
+            <span class="channel-badge">Send brief ↗</span>
+          </a>
+
+          <div class="channel-item" style="cursor:default">
+            <div class="channel-left">
+              <div class="channel-icon">📍</div>
+              <div class="channel-text">
+                <span class="channel-name">Location</span>
+                <span class="channel-val">Lagos, Nigeria • Worldwide</span>
+              </div>
+            </div>
+            <span class="channel-badge" style="color:var(--text-muted)">GMT+1</span>
+          </div>
+        </div>
+
+        <a class="contact-direct-btn" id="cMainBtn" href="https://wa.me/2349076459262" target="_blank" rel="noopener">
+          <span id="cBtnText">Start a project on WhatsApp</span>
+          <span>→</span>
+        </a>
+      </aside>
+
+    </div>
   </div>
 
   <!-- FOOTER BAR -->
@@ -1860,6 +2121,20 @@ function apply() {
     $('emailLink').href = `mailto:${data.email || 'annieplans08@gmail.com'}`;
     $('emailLink').textContent = data.email || 'annieplans08@gmail.com';
   }
+
+  // Update Who I Am & Contact View
+  if ($('cHeadline')) $('cHeadline').textContent = data.headline || 'I turn Brands';
+  if ($('cGoldHeadline')) $('cGoldHeadline').textContent = data.goldHeadline || 'into Experiences.';
+  if ($('cStatement')) $('cStatement').textContent = data.statement || '';
+  if ($('cAbout')) $('cAbout').textContent = data.about || '';
+  const waNum = (data.whatsapp || '2349076459262').replace(/\D/g, '');
+  if ($('cWhatsappCard')) $('cWhatsappCard').href = `https://wa.me/${waNum}`;
+  if ($('cWhatsappNum')) $('cWhatsappNum').textContent = `+${waNum}`;
+  if ($('cEmailCard')) $('cEmailCard').href = `mailto:${data.email || 'annieplans08@gmail.com'}`;
+  if ($('cEmailAddr')) $('cEmailAddr').textContent = data.email || 'annieplans08@gmail.com';
+  if ($('cMainBtn')) $('cMainBtn').href = `https://wa.me/${waNum}`;
+  if ($('cBtnText')) $('cBtnText').textContent = data.contactText ? `${data.contactText} on WhatsApp` : 'Start a project on WhatsApp';
+
   if (typeof updateBriefWaLink === 'function') updateBriefWaLink();
 
   // Update featured reel preview if present
