@@ -282,158 +282,148 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   color: #fff;
   letter-spacing: -0.01em;
 }
-.prompt-input {
+.prompt-textarea {
   font-size: 14px;
   line-height: 1.6;
-  color: var(--text);
-  background: transparent;
-  border: none;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
   outline: none;
   width: 100%;
+  padding: 12px 14px;
   font-family: inherit;
-  resize: none;
+  resize: vertical;
+  min-height: 68px;
+  transition: all 0.25s var(--ease);
 }
-.prompt-tags {
+.prompt-textarea:focus {
+  border-color: var(--gold);
+  background: rgba(215, 177, 90, 0.04);
+  box-shadow: 0 0 16px rgba(215, 177, 90, 0.25);
+}
+.prompt-selectors {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
-.prompt-tag {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border);
-  padding: 6px 14px;
+.prompt-select-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.prompt-select-pill select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(20, 20, 26, 0.85);
+  border: 1px solid var(--gold-border);
+  padding: 7px 28px 7px 14px;
   border-radius: 999px;
   font-size: 11px;
-  color: #bbb;
-  font-weight: 500;
+  color: var(--gold-light);
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.25s var(--ease);
+  font-family: inherit;
+}
+.prompt-select-pill select:hover, .prompt-select-pill select:focus {
+  border-color: var(--gold);
+  color: #fff;
+  background: rgba(215, 177, 90, 0.12);
+  box-shadow: 0 0 14px var(--gold-glow);
+}
+.prompt-select-arrow {
+  position: absolute;
+  right: 11px;
+  pointer-events: none;
+  font-size: 9px;
+  color: var(--gold);
 }
 
-/* VIDEO TONE SELECTOR */
-.tone-box {
-  background: var(--bg-input);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
-  padding: 20px;
+/* STUDIO SERVICES CONTAINER (MOVED INTO STUDIO) */
+.studio-services {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.studio-services-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 18px;
 }
-.tone-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.tone-title {
-  font-size: 12px;
+.studio-services-label {
+  font-size: 11px;
   font-weight: 700;
-  color: #fff;
-}
-.tone-sub {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-.tone-options {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.tone-btn {
-  padding: 7px 16px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  transition: all 0.25s var(--ease);
-}
-.tone-btn.active, .tone-btn:hover {
-  background: rgba(215, 177, 90, 0.12);
-  border-color: var(--gold-border);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
   color: var(--gold-light);
 }
-
-/* BLUEPRINT OUTPUT CARDS ROW */
-.blueprint-card {
-  background: var(--bg-card);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--radius-lg);
-  padding: 24px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 16px 40px -10px rgba(215, 177, 90, 0.22), 0 0 18px rgba(215, 177, 90, 0.08);
-}
-.blueprint-summary {
-  font-size: 12px;
-  line-height: 1.6;
-  color: var(--text-muted);
-}
-.blueprint-summary strong { color: #fff; }
-
-.blueprint-row {
+.studio-services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
-.bp-box {
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.bp-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: rgba(215, 177, 90, 0.1);
+.studio-service-card {
+  background: var(--bg-card);
   border: 1px solid var(--gold-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  color: var(--gold);
-  flex-shrink: 0;
-}
-.bp-icon img {
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  object-fit: cover;
-}
-.bp-text {
+  border-radius: var(--radius-md);
+  padding: 18px 16px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s var(--ease);
+  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.6), 0 0 15px rgba(215, 177, 90, 0.1);
 }
-.bp-label {
+.studio-service-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-light);
+  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.8), 0 0 25px rgba(215, 177, 90, 0.3);
+}
+.studio-service-card.active {
+  border-color: var(--gold);
+  background: linear-gradient(145deg, rgba(215, 177, 90, 0.12), rgba(17, 17, 21, 0.95));
+  box-shadow: 0 16px 40px -6px rgba(215, 177, 90, 0.35), 0 0 22px rgba(215, 177, 90, 0.25);
+}
+.ssc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ssc-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--gold);
+  font-weight: 700;
+}
+.ssc-badge {
   font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  border: 1px solid var(--border);
 }
-.bp-val {
-  font-size: 12px;
+.studio-service-card.active .ssc-badge {
+  background: var(--gold);
+  color: #08080a;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+.ssc-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
   font-weight: 700;
   color: #fff;
 }
-.bp-tags {
-  display: flex;
-  gap: 4px;
-  margin-top: 4px;
-}
-.bp-tag {
-  font-size: 9px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  color: #aaa;
+.ssc-desc {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-muted);
 }
 
 /* RIGHT COLUMN - PREVIEWS */
@@ -443,156 +433,180 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   gap: 20px;
 }
 
-/* FEATURED REEL CARD */
-.reel-card {
+/* WORKING VIDEO LOOP CONTAINER */
+.working-loop-card {
   background: var(--bg-card);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
-  padding: 18px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   position: relative;
   transition: all 0.35s var(--ease);
-  cursor: pointer;
-  box-shadow: 0 20px 45px -10px rgba(215, 177, 90, 0.3), 0 0 22px rgba(215, 177, 90, 0.12);
+  box-shadow: 0 20px 48px -10px rgba(215, 177, 90, 0.32), 0 0 25px rgba(215, 177, 90, 0.15);
 }
-.reel-card:hover {
+.working-loop-card:hover {
   border-color: var(--gold-light);
-  box-shadow: 0 26px 60px -8px rgba(215, 177, 90, 0.5), 0 0 35px rgba(215, 177, 90, 0.3);
+  box-shadow: 0 28px 65px -8px rgba(215, 177, 90, 0.52), 0 0 40px rgba(215, 177, 90, 0.35);
   transform: translateY(-4px);
 }
-.reel-screen {
+.working-screen {
   aspect-ratio: 16/10;
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 60% 40%, rgba(215, 177, 90, 0.2), transparent 45%), #15151a;
+  background: #0d0d12;
+  border: 1px solid var(--border);
 }
-.reel-screen img {
+.working-screen video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
-.play-btn {
+.working-overlay {
   position: absolute;
-  right: 14px;
-  bottom: 14px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #fff;
-  color: #08080a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
-  transition: transform 0.2s var(--ease);
-}
-.reel-card:hover .play-btn { transform: scale(1.1); }
-.star-badge {
-  position: absolute;
-  right: 14px;
-  top: 14px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(8px);
-  color: var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-}
-.reel-info {
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 8, 10, 0.2) 0%, transparent 40%, rgba(8, 8, 10, 0.92) 100%);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+  padding: 16px;
+  pointer-events: none;
 }
-.reel-title {
+.working-live-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  background: rgba(8, 8, 10, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulseLive 1.6s infinite ease-in-out;
+}
+@keyframes pulseLive {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+.working-caption {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.working-title {
   font-family: 'Sora', sans-serif;
   font-size: 15px;
   font-weight: 700;
   color: #fff;
 }
-.reel-meta {
+.working-sub {
   font-size: 11px;
-  color: var(--text-muted);
-}
-.reel-pills {
-  display: flex;
-  gap: 6px;
-  margin-top: 6px;
-}
-.reel-pill {
-  font-size: 10px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: rgba(215, 177, 90, 0.1);
   color: var(--gold-light);
-  border: 1px solid var(--gold-border);
 }
 
-/* BRAND FACE AVATAR CARD */
-.avatar-card {
-  background: var(--bg-card);
+/* 3D FLOATING GLOWING STATEMENT CARD */
+.statement-3d-stage {
+  perspective: 1000px;
+  width: 100%;
+}
+.statement-3d-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(18, 18, 24, 0.95), rgba(10, 10, 14, 0.98));
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
-  padding: 18px;
+  padding: 30px 26px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  position: relative;
-  transition: all 0.35s var(--ease);
-  box-shadow: 0 20px 45px -10px rgba(215, 177, 90, 0.3), 0 0 22px rgba(215, 177, 90, 0.12);
-}
-.avatar-card:hover {
-  border-color: var(--gold-light);
-  box-shadow: 0 26px 60px -8px rgba(215, 177, 90, 0.5), 0 0 35px rgba(215, 177, 90, 0.3);
-  transform: translateY(-4px);
-}
-.avatar-screen {
-  aspect-ratio: 1/1;
-  max-height: 220px;
-  border-radius: var(--radius-md);
-  position: relative;
+  gap: 16px;
   overflow: hidden;
-  border: 1px solid var(--border-light);
+  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(215, 177, 90, 0.28);
+  transform-style: preserve-3d;
+  animation: float3D 6s ease-in-out infinite alternate;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
 }
-.avatar-screen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.statement-3d-card:hover {
+  transform: rotateX(4deg) rotateY(-5deg) translateY(-8px);
+  border-color: var(--gold-light);
+  box-shadow: 0 32px 75px -8px rgba(0, 0, 0, 0.95), 0 0 50px rgba(215, 177, 90, 0.5);
 }
-.avatar-badge {
+@keyframes float3D {
+  0% {
+    transform: rotateX(3deg) rotateY(-4deg) translateY(0px);
+    box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.8), 0 0 28px rgba(215, 177, 90, 0.25);
+  }
+  50% {
+    transform: rotateX(-3deg) rotateY(4deg) translateY(-10px);
+    box-shadow: 0 30px 65px -10px rgba(0, 0, 0, 0.9), 0 0 42px rgba(215, 177, 90, 0.38);
+  }
+  100% {
+    transform: rotateX(4deg) rotateY(-2deg) translateY(-4px);
+    box-shadow: 0 24px 55px -8px rgba(0, 0, 0, 0.85), 0 0 32px rgba(215, 177, 90, 0.3);
+  }
+}
+.statement-gold-beam {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  background: rgba(8, 8, 10, 0.7);
-  backdrop-filter: blur(10px);
-  border-radius: 999px;
-  font-size: 10px;
-  color: var(--gold-light);
-  font-weight: 600;
-  border: 1px solid var(--gold-border);
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(215, 177, 90, 0.25), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(20px);
 }
-.avatar-name {
+.statement-quote-mark {
+  font-family: 'Sora', serif;
+  font-size: 38px;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.8;
+  height: 24px;
+}
+.statement-text {
   font-family: 'Sora', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 750;
+  line-height: 1.5;
   color: #fff;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 22px rgba(215, 177, 90, 0.4), 0 2px 10px rgba(0, 0, 0, 0.8);
+  position: relative;
+  z-index: 2;
 }
-.avatar-sub {
+.statement-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+.author-line {
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold-glow);
+}
+.author-name {
   font-size: 11px;
-  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--gold-light);
+  font-weight: 700;
 }
 
 /* SECTION 2: WHAT GETS MADE HERE (3 Core Services) */
@@ -1293,7 +1307,6 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     <nav class="nav">
       <button class="nav-tab active" data-tab="experience">The Experience</button>
       <button class="nav-tab" data-tab="studio">Studio</button>
-      <button class="nav-tab" data-tab="services">Services</button>
       <button class="nav-tab" data-tab="contact">Contact</button>
     </nav>
     <div style="display:flex;align-items:center;gap:12px">
@@ -1320,9 +1333,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         </div>
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <div class="gallery-filters">
-            <button class="g-filter active" data-filter="landscape">Landscape (7)</button>
+            <button class="g-filter" data-filter="landscape">Landscape (7)</button>
             <button class="g-filter" data-filter="reel">Reels (7)</button>
-            <button class="g-filter" data-filter="all">All (14)</button>
+            <button class="g-filter active" data-filter="all">All (14)</button>
           </div>
           <div class="carousel-nav">
             <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
@@ -1342,7 +1355,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
         </div>
 
-        <div class="gallery-grid reel" id="reelGrid" style="display:none;margin-top:16px">
+        <div class="gallery-grid reel" id="reelGrid" style="display:flex;margin-top:16px">
           <article class="card" data-kind="reel" data-title="Reel 01"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Reel 01</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Reel 02"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Reel 02</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Reel 03"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Reel 03</div></div><div class="type">Reel</div></div></article>
@@ -1364,90 +1377,86 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         <div class="generator-head">
           <h1 class="generator-title">Generating a new campaign</h1>
           <div class="stepper">
-            <div class="step active" data-step-tab="studio" title="Click to view Studio">
+            <div class="step active" data-step-tab="studio" title="Studio Brief & Specs">
               <span class="step-num">1</span>
-              <span>Studio</span>
+              <span>Brief &amp; Specs</span>
             </div>
             <div class="step-line"></div>
-            <div class="step" data-step-tab="services" title="Click to view Services Concept">
+            <div class="step" data-step-tab="studio" title="Capabilities">
               <span class="step-num">2</span>
-              <span>Concept</span>
+              <span>Capabilities</span>
             </div>
             <div class="step-line"></div>
-            <div class="step" data-step-tab="experience" title="Click to view The Experience">
+            <div class="step" data-step-tab="experience" title="View The Experience">
               <span class="step-num">3</span>
-              <span>Final Reel</span>
+              <span>The Experience</span>
             </div>
           </div>
         </div>
 
-        <!-- YOUR BRIEF PROMPT BOX -->
+        <!-- YOUR BRIEF PROMPT BOX (EDITABLE TEXTAREA + SELECTABLE OPTIONS) -->
         <div class="prompt-box">
           <div class="prompt-box-label">Your brief</div>
-          <input class="prompt-input" id="demoPrompt" readonly value="A 30-second AI cinematic concept ad built around curiosity, storytelling and premium retention">
-          <div class="prompt-tags">
-            <span class="prompt-tag">English ▾</span>
-            <span class="prompt-tag">30 seconds ▾</span>
-            <span class="prompt-tag">9:16 vertical ▾</span>
+          <textarea class="prompt-textarea" id="demoPrompt" placeholder="Describe your brand, project idea or campaign brief here...">A 30-second AI cinematic concept ad built around curiosity, storytelling and premium retention</textarea>
+          <div class="prompt-selectors">
+            <div class="prompt-select-pill" title="Select audio / voiceover language">
+              <select id="briefLang">
+                <option value="English" selected>English</option>
+                <option value="French">French</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Pidgin">Pidgin</option>
+                <option value="Yoruba">Yoruba</option>
+              </select>
+              <span class="prompt-select-arrow">▾</span>
+            </div>
+            <div class="prompt-select-pill" title="Select video duration">
+              <select id="briefDuration">
+                <option value="15 seconds">15 seconds</option>
+                <option value="30 seconds" selected>30 seconds</option>
+                <option value="60 seconds">60 seconds</option>
+              </select>
+              <span class="prompt-select-arrow">▾</span>
+            </div>
+            <div class="prompt-select-pill" title="Select video format">
+              <select id="briefFormat">
+                <option value="9:16 vertical (Reel/TikTok)" selected>9:16 vertical</option>
+                <option value="16:9 landscape (YouTube/TV)">16:9 landscape</option>
+                <option value="1:1 square (Feed)">1:1 square</option>
+              </select>
+              <span class="prompt-select-arrow">▾</span>
+            </div>
           </div>
         </div>
 
-        <!-- VIDEO TONE SELECTOR -->
-        <div class="tone-box">
-          <div class="tone-info">
-            <div class="tone-title">Video tone</div>
-            <div class="tone-sub">Each tone reshapes the avatar, the edit style and the soundtrack.</div>
+        <!-- EMBEDDED SERVICES (MOVED INTO STUDIO SPACE) -->
+        <div class="studio-services">
+          <div class="studio-services-head">
+            <span class="studio-services-label">Select Capability • Embedded in Studio</span>
           </div>
-          <div class="tone-options">
-            <button class="tone-btn active" data-tone="bold">◉ Bold &amp; polished</button>
-            <button class="tone-btn" data-tone="playful">○ Playful</button>
-            <button class="tone-btn" data-tone="premium">○ Premium</button>
-          </div>
-        </div>
-
-        <!-- BLUEPRINT ROW -->
-        <div class="blueprint-card">
-          <div class="blueprint-summary">
-            Your brief: <strong>A 30-second AI concept ad for a brand launching this season</strong><br>
-            Format: <strong>AI Video Ad</strong> &nbsp;•&nbsp; Duration: <strong>30 sec</strong> &nbsp;•&nbsp; Tone: <strong>Bold and polished</strong>
-          </div>
-          <div class="blueprint-row">
-            <div class="bp-box">
-              <div class="bp-icon">
-                <img src="avatar.jpg" alt="Annie">
+          <div class="studio-services-grid">
+            <div class="studio-service-card active" data-service="AI videos" title="Click to select AI videos">
+              <div class="ssc-top">
+                <span class="ssc-num">01</span>
+                <span class="ssc-badge">Active</span>
               </div>
-              <div class="bp-text">
-                <span class="bp-label">Avatar</span>
-                <span class="bp-val">Annie</span>
-                <div class="bp-tags">
-                  <span class="bp-tag">Natural</span>
-                  <span class="bp-tag">Warm</span>
-                </div>
-              </div>
+              <h3 class="ssc-title">AI videos</h3>
+              <p class="ssc-desc">Story-led video built for the scroll, from first frame to final cut.</p>
             </div>
-
-            <div class="bp-box">
-              <div class="bp-icon">▶</div>
-              <div class="bp-text">
-                <span class="bp-label">Edit Style</span>
-                <span class="bp-val">Fast cuts</span>
-                <div class="bp-tags">
-                  <span class="bp-tag">Punchy</span>
-                  <span class="bp-tag">Hook-first</span>
-                </div>
+            <div class="studio-service-card" data-service="Brand UGC" title="Click to select Brand UGC">
+              <div class="ssc-top">
+                <span class="ssc-num">02</span>
+                <span class="ssc-badge">Select</span>
               </div>
+              <h3 class="ssc-title">Brand UGC</h3>
+              <p class="ssc-desc">Creator-style content that feels real, with an avatar that stays on brand.</p>
             </div>
-
-            <div class="bp-box">
-              <div class="bp-icon">♫</div>
-              <div class="bp-text">
-                <span class="bp-label">Soundtrack</span>
-                <span class="bp-val">Glow beat</span>
-                <div class="bp-tags">
-                  <span class="bp-tag">Upbeat</span>
-                  <span class="bp-tag">Clean</span>
-                </div>
+            <div class="studio-service-card" data-service="Adverts" title="Click to select Adverts">
+              <div class="ssc-top">
+                <span class="ssc-num">03</span>
+                <span class="ssc-badge">Select</span>
               </div>
+              <h3 class="ssc-title">Adverts</h3>
+              <p class="ssc-desc">Ad creatives with a hook, a clear message and a close that converts.</p>
             </div>
           </div>
         </div>
@@ -1462,36 +1471,34 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
       <!-- RIGHT: PREVIEWS -->
       <div class="previews-col">
-        <!-- FEATURED REEL -->
-        <div class="reel-card" id="featuredReelCard">
-          <div class="reel-screen">
-            <img src="https://lh3.googleusercontent.com/d/1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql=w1600" alt="Featured Reel" id="featuredThumb" onerror="this.src='https://drive.google.com/thumbnail?id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql&sz=w1600'">
-            <div class="star-badge">★</div>
-            <div class="play-btn">▶</div>
-          </div>
-          <div class="reel-info">
-            <div class="reel-title" id="featuredTitle">Real Estate Campaign</div>
-            <div class="reel-meta">AI Cinematic • 30 sec</div>
-            <div class="reel-pills">
-              <span class="reel-pill">Energetic</span>
-              <span class="reel-pill">Vertical</span>
+        <!-- WORKING VIDEO LOOP CONTAINER -->
+        <div class="working-loop-card" id="workingLoopCard">
+          <div class="working-screen">
+            <video id="workingVideo" autoplay loop muted playsinline poster="avatar.jpg">
+              <source src="working_loop.mp4" type="video/mp4">
+            </video>
+            <div class="working-overlay">
+              <div class="working-live-badge">
+                <span class="live-dot"></span>
+                <span>Annie in Studio • Live</span>
+              </div>
+              <div class="working-caption">
+                <span class="working-title">Workflow In Progress</span>
+                <span class="working-sub">Crafting high-retention AI cinematic experiences</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- BRAND FACE AVATAR CARD -->
-        <div class="avatar-card">
-          <div class="avatar-screen">
-            <img src="avatar.jpg" alt="Annie Headshot">
-            <div class="avatar-badge">★ Brand face</div>
-          </div>
-          <div>
-            <div class="avatar-name">Annie</div>
-            <div class="avatar-sub">Anniestylez Media AI Video Creator &amp; Editor</div>
-            <div class="reel-pills" style="margin-top:8px">
-              <span class="reel-pill">AI UGC</span>
-              <span class="reel-pill">On-brand</span>
-              <span class="reel-pill">Scroll-stopping</span>
+        <!-- 3D FLOATING GLOWING STATEMENT CARD -->
+        <div class="statement-3d-stage">
+          <div class="statement-3d-card">
+            <div class="statement-gold-beam"></div>
+            <div class="statement-quote-mark">“</div>
+            <p class="statement-text">If it doesn't solve a problem, no one would remember it.</p>
+            <div class="statement-author">
+              <span class="author-line"></span>
+              <span class="author-name">Anniestylez Media</span>
             </div>
           </div>
         </div>
@@ -1499,33 +1506,6 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       </div>
 
     </div>
-  </div>
-
-  <!-- 2. SERVICES VIEW -->
-  <div class="tab-view" id="view-services">
-    <section id="services" style="margin-bottom:50px">
-      <div class="section-head">
-        <h2 class="section-title">What gets made here</h2>
-        <span class="section-subtitle">Three things, done properly.</span>
-      </div>
-      <div class="services-trio">
-        <div class="trio-card">
-          <span class="trio-num">01</span>
-          <h3 class="trio-heading">AI videos</h3>
-          <p class="trio-desc">Story-led video built for the scroll, from first frame to final cut.</p>
-        </div>
-        <div class="trio-card">
-          <span class="trio-num">02</span>
-          <h3 class="trio-heading">Brand UGC</h3>
-          <p class="trio-desc">Creator-style content that feels real, with an avatar that stays on brand.</p>
-        </div>
-        <div class="trio-card">
-          <span class="trio-num">03</span>
-          <h3 class="trio-heading">Adverts</h3>
-          <p class="trio-desc">Ad creatives with a hook, a clear message and a close that converts.</p>
-        </div>
-      </div>
-    </section>
   </div>
 
 
@@ -1864,14 +1844,14 @@ function apply() {
   }
   if (typeof updateBriefWaLink === 'function') updateBriefWaLink();
 
-  // Update featured reel preview with project 0
+  // Update featured reel preview if present
   if (data.projects && data.projects.length > 0) {
     const p0 = data.projects[0];
     if (p0) {
-      $('featuredTitle').textContent = p0.title;
+      if ($('featuredTitle')) $('featuredTitle').textContent = p0.title;
       const thumb = getDriveImageSources(p0.thumbnail)[0];
-      if (thumb) $('featuredThumb').src = thumb;
-      $('featuredReelCard').onclick = () => openProjectModal(p0);
+      if (thumb && $('featuredThumb')) $('featuredThumb').src = thumb;
+      if ($('featuredReelCard')) $('featuredReelCard').onclick = () => openProjectModal(p0);
     }
   }
 
@@ -1895,7 +1875,7 @@ function openProjectModal(x) {
   $('modalTitle').textContent = x.title;
   $('modalDesc').textContent = x.description || '';
   resetActivePlayer();
-  stopAmbientSound();
+  stopAmbientSound(true);
   const media = document.querySelector('.modal-media');
   const embed = parseVideoUrl(x.video || '');
   media.innerHTML = embed
@@ -1990,10 +1970,17 @@ const prevTrackBtn = document.getElementById('prevTrack');
 const nextTrackBtn = document.getElementById('nextTrack');
 
 function scrollCarousel(dir) {
-  const activeTrack = (landscape && landscape.style.display !== 'none') ? landscape : reels;
-  if (!activeTrack) return;
+  // In 'all' or 'landscape', ONLY scroll the landscape track!
+  const activeFilter = document.querySelector('.g-filter.active')?.dataset.filter || 'all';
+  let targetTrack = landscape;
+  if (activeFilter === 'reel') {
+    targetTrack = reels;
+  } else {
+    targetTrack = landscape;
+  }
+  if (!targetTrack) return;
   const delta = dir === 'left' ? -380 : 380;
-  activeTrack.scrollBy({ left: delta, behavior: 'smooth' });
+  targetTrack.scrollBy({ left: delta, behavior: 'smooth' });
 }
 
 if (prevTrackBtn) prevTrackBtn.onclick = () => scrollCarousel('left');
@@ -2007,106 +1994,146 @@ filters.forEach(btn => btn.addEventListener('click', () => {
   reels.style.display = f === 'landscape' ? 'none' : 'flex';
 }));
 
-// Dynamic WhatsApp Brief Pre-filler
-let currentTone = 'Bold & polished';
+// Dynamic WhatsApp Brief Pre-filler with Selected Service & Options
+let currentService = 'AI videos';
 function updateBriefWaLink() {
   const briefBtn = $('sendBriefWaBtn');
   if (!briefBtn) return;
   const num = data.whatsapp || '2349076459262';
-  const msg = `Hi Annie! I just generated a campaign concept on your website:
+  const briefText = ($('demoPrompt')?.value || 'A 30-second AI concept ad').trim();
+  const lang = $('briefLang')?.value || 'English';
+  const dur = $('briefDuration')?.value || '30 seconds';
+  const fmt = $('briefFormat')?.value || '9:16 vertical';
+  const srv = currentService || 'AI videos';
+  
+  const msg = `Hi Annie! I just shaped a campaign brief on your website studio:
 
-• Project: 30-sec AI Cinematic Concept Ad
-• Selected Tone: ${currentTone}
-• Goal: Bold, story-led visuals built for high retention
+• Service: ${srv}
+• Specs: ${fmt} • ${dur} • ${lang}
+• Brief: "${briefText}"
 
 Can we discuss bringing this project to life?`;
   briefBtn.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 
-document.querySelectorAll('.tone-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tone-btn').forEach(b => {
-      b.classList.remove('active');
-      b.textContent = b.textContent.replace('◉', '○');
+// Service Selection Cards inside Studio
+document.querySelectorAll('.studio-service-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.studio-service-card').forEach(c => {
+      c.classList.remove('active');
+      const badge = c.querySelector('.ssc-badge');
+      if (badge) badge.textContent = 'Select';
     });
-    btn.classList.add('active');
-    btn.textContent = btn.textContent.replace('○', '◉');
-    currentTone = btn.textContent.replace('◉', '').replace('○', '').trim();
+    card.classList.add('active');
+    const activeBadge = card.querySelector('.ssc-badge');
+    if (activeBadge) activeBadge.textContent = 'Active';
+    currentService = card.dataset.service || 'AI videos';
     updateBriefWaLink();
   });
 });
+
+// Editable Brief & Specs Event Listeners
+if ($('demoPrompt')) $('demoPrompt').addEventListener('input', updateBriefWaLink);
+['briefLang', 'briefDuration', 'briefFormat'].forEach(id => {
+  if ($(id)) $(id).addEventListener('change', updateBriefWaLink);
+});
 updateBriefWaLink();
 
-// Web Audio API Ambient Soundscape Generator
+// Web Audio API Ambient Soundscape Generator with Breathing Loop
 let audioCtx = null;
 let ambientNodes = {};
 let isAmbientPlaying = false;
+let ambientBreathTimer = null;
 
-function toggleAmbientSound() {
-  const dock = $('audioDock');
-  const icon = $('audioIcon');
-  const sub = $('audioSubText');
+function startAmbientSound() {
+  try {
+    const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+    if (!audioCtx) audioCtx = new AudioCtxClass();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
 
-  if (!isAmbientPlaying) {
-    try {
-      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
-      if (!audioCtx) audioCtx = new AudioCtxClass();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
+    const masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
 
-      const masterGain = audioCtx.createGain();
-      masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-      masterGain.gain.exponentialRampToValueAtTime(0.038, audioCtx.currentTime + 1.2);
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(420, audioCtx.currentTime);
 
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(380, audioCtx.currentTime);
+    // Epic warm cinematic harmonic drone (D2, A2, D3, F#3, A3)
+    const freqs = [73.42, 110.00, 146.83, 185.00, 220.00];
+    const oscs = freqs.map((f, i) => {
+      const osc = audioCtx.createOscillator();
+      osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+      osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+      osc.detune.setValueAtTime((i - 2) * 4, audioCtx.currentTime);
+      osc.connect(filter);
+      osc.start();
+      return osc;
+    });
 
-      // Warm cinematic harmonic drone (D2, A2, D3, F#3)
-      const freqs = [73.42, 110.00, 146.83, 185.00];
-      const oscs = freqs.map((f, i) => {
-        const osc = audioCtx.createOscillator();
-        osc.type = i % 2 === 0 ? 'sine' : 'triangle';
-        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
-        osc.detune.setValueAtTime((i - 1.5) * 5, audioCtx.currentTime);
-        osc.connect(filter);
-        osc.start();
-        return osc;
-      });
+    filter.connect(masterGain);
+    masterGain.connect(audioCtx.destination);
 
-      filter.connect(masterGain);
-      masterGain.connect(audioCtx.destination);
+    ambientNodes = { masterGain, oscs, filter };
+    isAmbientPlaying = true;
 
-      ambientNodes = { masterGain, oscs };
-      isAmbientPlaying = true;
-      if (dock) dock.classList.add('playing');
-      if (icon) icon.textContent = '❚❚';
-      if (sub) sub.textContent = 'Atmosphere playing';
-    } catch (e) {
-      console.warn('Audio not available yet', e);
+    const dock = $('audioDock');
+    const icon = $('audioIcon');
+    const sub = $('audioSubText');
+    if (dock) dock.classList.add('playing');
+    if (icon) icon.textContent = '❚❚';
+    if (sub) sub.textContent = 'Atmosphere playing';
+
+    // Cinematic breathing loop: swell in and swell out
+    let swellUp = false;
+    function breathe() {
+      if (!isAmbientPlaying || !ambientNodes.masterGain) return;
+      const t = audioCtx.currentTime;
+      const targetGain = swellUp ? 0.046 : 0.014;
+      ambientNodes.masterGain.gain.linearRampToValueAtTime(targetGain, t + 4.0);
+      swellUp = !swellUp;
+      ambientBreathTimer = setTimeout(breathe, 4200);
     }
-  } else {
-    stopAmbientSound();
+    masterGain.gain.linearRampToValueAtTime(0.046, audioCtx.currentTime + 3.0);
+    ambientBreathTimer = setTimeout(breathe, 3200);
+  } catch (e) {
+    console.warn('Audio not available yet', e);
   }
 }
 
-function stopAmbientSound() {
+function stopAmbientSound(isQuick = false) {
+  if (ambientBreathTimer) {
+    clearTimeout(ambientBreathTimer);
+    ambientBreathTimer = null;
+  }
   if (!isAmbientPlaying || !ambientNodes.masterGain) return;
+
   const dock = $('audioDock');
   const icon = $('audioIcon');
   const sub = $('audioSubText');
 
+  const fadeTime = isQuick ? 0.18 : 0.6;
   try {
-    ambientNodes.masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+    ambientNodes.masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+    ambientNodes.masterGain.gain.setValueAtTime(ambientNodes.masterGain.gain.value, audioCtx.currentTime);
+    ambientNodes.masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + fadeTime);
     setTimeout(() => {
       if (ambientNodes.oscs) ambientNodes.oscs.forEach(o => { try { o.stop(); } catch (e) {} });
       ambientNodes = {};
-    }, 650);
+    }, (fadeTime * 1000) + 50);
   } catch (e) {}
 
   isAmbientPlaying = false;
   if (dock) dock.classList.remove('playing');
   if (icon) icon.textContent = '▶';
   if (sub) sub.textContent = 'Click to listen';
+}
+
+function toggleAmbientSound() {
+  if (!isAmbientPlaying) {
+    startAmbientSound();
+  } else {
+    stopAmbientSound(false);
+  }
 }
 
 if ($('audioToggleBtn')) $('audioToggleBtn').onclick = toggleAmbientSound;
@@ -2132,6 +2159,7 @@ window.addEventListener('keydown', e => {
 // TAB NAVIGATION LOGIC (NO-SCROLL TAB SWITCHING)
 function switchTab(tabName) {
   if (tabName === 'projects') tabName = 'experience';
+  if (tabName === 'services') tabName = 'studio';
   const targetTabBtn = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
   const targetView = document.getElementById('view-' + tabName);
   if (!targetView) return;
@@ -2142,10 +2170,11 @@ function switchTab(tabName) {
   if (targetTabBtn) targetTabBtn.classList.add('active');
   targetView.classList.add('active');
 
-  // Update stepper active highlight if on Studio, Services, or Experience
+  // Update stepper active highlight
   document.querySelectorAll('.step[data-step-tab]').forEach(step => {
     let sTab = step.dataset.stepTab;
     if (sTab === 'projects') sTab = 'experience';
+    if (sTab === 'services') sTab = 'studio';
     if (sTab === tabName) step.classList.add('active');
     else step.classList.remove('active');
   });
@@ -2172,7 +2201,7 @@ document.querySelectorAll('.step[data-step-tab]').forEach(step => {
 
 const initialHash = window.location.hash.replace('#', '').toLowerCase();
 if (['experience', 'projects', 'studio', 'services', 'contact'].includes(initialHash)) {
-  switchTab(initialHash === 'projects' ? 'experience' : initialHash);
+  switchTab(initialHash === 'projects' ? 'experience' : (initialHash === 'services' ? 'studio' : initialHash));
 }
 
 window.addEventListener('keydown', e => {
