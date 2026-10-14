@@ -736,9 +736,20 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   padding: 10px 4px 28px;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
 .gallery-grid::-webkit-scrollbar {
   display: none;
+}
+.gallery-grid.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+}
+.gallery-grid.is-dragging .card {
+  pointer-events: none;
 }
 
 .card {
@@ -752,6 +763,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   scroll-snap-align: start;
   transition: all 0.35s var(--ease);
   box-shadow: 0 18px 42px -10px rgba(215, 177, 90, 0.32), 0 6px 18px rgba(0, 0, 0, 0.7);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 }
 .card:hover {
   transform: translateY(-6px) scale(1.02);
@@ -782,6 +796,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   object-fit: cover;
   display: block;
   transition: transform 0.6s var(--ease);
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 .card:hover .visual img { transform: scale(1.05); }
 .placeholder {
@@ -1922,6 +1939,10 @@ function setupVimeoPlayer(iframe, embed) {
 
 function bindCards() {
   document.querySelectorAll('.card').forEach(card => card.onclick = () => {
+    if (card.dataset.dragged === 'true') {
+      card.dataset.dragged = 'false';
+      return;
+    }
     openProjectModal({
       title: card.dataset.title,
       description: card.dataset.description,
@@ -1994,6 +2015,54 @@ filters.forEach(btn => btn.addEventListener('click', () => {
   landscape.style.display = f === 'reel' ? 'none' : 'flex';
   reels.style.display = f === 'landscape' ? 'none' : 'flex';
 }));
+
+// SILKY SMOOTH MOUSE DRAG-TO-SCROLL FOR BOTH LANDSCAPE & REELS
+function setupDragScroll(slider) {
+  if (!slider) return;
+  let isDown = false;
+  let startX = 0;
+  let scrollLeft = 0;
+  let hasMoved = false;
+
+  slider.addEventListener('mousedown', (e) => {
+    isDown = true;
+    hasMoved = false;
+    startX = e.pageX - slider.offsetLeft;
+    scrollLeft = slider.scrollLeft;
+    slider.classList.add('is-dragging');
+  });
+
+  const stopDrag = () => {
+    if (!isDown) return;
+    isDown = false;
+    slider.classList.remove('is-dragging');
+    if (hasMoved) {
+      slider.querySelectorAll('.card').forEach(c => c.dataset.dragged = 'true');
+      setTimeout(() => {
+        slider.querySelectorAll('.card').forEach(c => c.dataset.dragged = 'false');
+      }, 100);
+    }
+  };
+
+  window.addEventListener('mouseup', stopDrag);
+  slider.addEventListener('mouseleave', stopDrag);
+
+  slider.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    const x = e.pageX - slider.offsetLeft;
+    const walk = (x - startX);
+    if (Math.abs(walk) > 4) {
+      hasMoved = true;
+      e.preventDefault();
+    }
+    slider.scrollLeft = scrollLeft - walk;
+  });
+
+  slider.addEventListener('dragstart', (e) => e.preventDefault());
+}
+
+setupDragScroll(landscape);
+setupDragScroll(reels);
 
 // Dynamic WhatsApp Brief Pre-filler with Selected Service & Options
 let currentService = 'AI videos';
