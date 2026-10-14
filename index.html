@@ -765,9 +765,6 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
 }
-.gallery-grid.is-dragging .card {
-  pointer-events: none;
-}
 
 .card {
   position: relative;
@@ -2309,16 +2306,18 @@ function setupVimeoPlayer(iframe, embed) {
 }
 
 function bindCards() {
-  document.querySelectorAll('.card').forEach(card => card.onclick = () => {
-    if (card.dataset.dragged === 'true') {
-      card.dataset.dragged = 'false';
-      return;
-    }
-    openProjectModal({
-      title: card.dataset.title,
-      description: card.dataset.description,
-      video: card.dataset.video
-    });
+  document.querySelectorAll('.card').forEach(card => {
+    card.onclick = (e) => {
+      const slider = card.closest('.gallery-grid');
+      if (slider && slider._lastDragTime && (Date.now() - slider._lastDragTime < 220)) {
+        return;
+      }
+      openProjectModal({
+        title: card.dataset.title,
+        description: card.dataset.description,
+        video: card.dataset.video
+      });
+    };
   });
 }
 
@@ -2393,26 +2392,23 @@ function setupDragScroll(slider) {
   let isDown = false;
   let startX = 0;
   let scrollLeft = 0;
-  let hasMoved = false;
+  let isDragging = false;
 
   slider.addEventListener('mousedown', (e) => {
     isDown = true;
-    hasMoved = false;
+    isDragging = false;
     startX = e.pageX - slider.offsetLeft;
     scrollLeft = slider.scrollLeft;
-    slider.classList.add('is-dragging');
   });
 
   const stopDrag = () => {
     if (!isDown) return;
     isDown = false;
     slider.classList.remove('is-dragging');
-    if (hasMoved) {
-      slider.querySelectorAll('.card').forEach(c => c.dataset.dragged = 'true');
-      setTimeout(() => {
-        slider.querySelectorAll('.card').forEach(c => c.dataset.dragged = 'false');
-      }, 100);
+    if (isDragging) {
+      slider._lastDragTime = Date.now();
     }
+    isDragging = false;
   };
 
   window.addEventListener('mouseup', stopDrag);
@@ -2421,12 +2417,15 @@ function setupDragScroll(slider) {
   slider.addEventListener('mousemove', (e) => {
     if (!isDown) return;
     const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startX);
-    if (Math.abs(walk) > 4) {
-      hasMoved = true;
+    const walk = x - startX;
+    if (Math.abs(walk) > 10) {
+      if (!isDragging) {
+        isDragging = true;
+        slider.classList.add('is-dragging');
+      }
       e.preventDefault();
+      slider.scrollLeft = scrollLeft - walk;
     }
-    slider.scrollLeft = scrollLeft - walk;
   });
 
   slider.addEventListener('dragstart', (e) => e.preventDefault());
