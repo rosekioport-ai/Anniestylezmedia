@@ -981,6 +981,142 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .video-end button:hover { background: var(--gold); color: #08080a; }
 
+/* VIP PREMIERE SPOTLIGHT BEAM */
+.modal::before {
+  content: '';
+  position: absolute;
+  width: min(850px, 92vw);
+  height: min(850px, 92vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(215, 177, 90, 0.22) 0%, rgba(215, 177, 90, 0.06) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(24px);
+}
+
+/* WHATSAPP BRIEF ACTION BUTTON */
+.send-brief-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(215, 177, 90, 0.16), rgba(215, 177, 90, 0.06));
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  color: var(--gold-light);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 10px 25px -8px rgba(215, 177, 90, 0.25);
+  transition: all 0.3s var(--ease);
+}
+.send-brief-btn:hover {
+  background: linear-gradient(135deg, var(--gold), #b88f34);
+  color: #08080a;
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -6px rgba(215, 177, 90, 0.5), 0 0 20px var(--gold-glow);
+}
+.send-brief-btn .btn-arrow {
+  font-size: 16px;
+  transition: transform 0.25s ease;
+}
+.send-brief-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* FLOATING AMBIENT AUDIO DOCK */
+.audio-dock {
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 18px;
+  background: rgba(14, 14, 18, 0.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  box-shadow: 0 18px 45px -8px rgba(0, 0, 0, 0.85), 0 0 25px rgba(215, 177, 90, 0.22);
+  transition: all 0.3s var(--ease);
+}
+.audio-dock:hover {
+  border-color: var(--gold-light);
+  box-shadow: 0 24px 55px -6px rgba(0, 0, 0, 0.95), 0 0 35px rgba(215, 177, 90, 0.35);
+}
+.audio-toggle-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), #b88f34);
+  color: #08080a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(215, 177, 90, 0.4);
+  transition: transform 0.25s var(--ease);
+}
+.audio-toggle-btn:hover {
+  transform: scale(1.1);
+}
+.audio-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 18px;
+}
+.wave-bar {
+  width: 3px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--gold);
+  transition: height 0.2s ease;
+}
+.audio-dock.playing .wave-bar {
+  animation: soundwave 0.8s ease-in-out infinite alternate;
+}
+.audio-dock.playing .wave-bar:nth-child(1) { animation-delay: 0.1s; height: 14px; }
+.audio-dock.playing .wave-bar:nth-child(2) { animation-delay: 0.3s; height: 18px; }
+.audio-dock.playing .wave-bar:nth-child(3) { animation-delay: 0.15s; height: 10px; }
+.audio-dock.playing .wave-bar:nth-child(4) { animation-delay: 0.45s; height: 16px; }
+.audio-dock.playing .wave-bar:nth-child(5) { animation-delay: 0.2s; height: 12px; }
+.audio-dock.playing .wave-bar:nth-child(6) { animation-delay: 0.35s; height: 17px; }
+.audio-dock.playing .wave-bar:nth-child(7) { animation-delay: 0.25s; height: 8px; }
+
+@keyframes soundwave {
+  0% { height: 4px; }
+  100% { height: 18px; }
+}
+
+.audio-label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.audio-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+.audio-sub {
+  font-size: 9px;
+  color: var(--gold-light);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
 /* SECRET ADMIN MODAL & EDITOR PANEL */
 .login-modal {
   position: fixed;
@@ -1271,6 +1407,12 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           </div>
         </div>
 
+        <!-- DIRECT WHATSAPP ACTION BUTTON -->
+        <a class="send-brief-btn" id="sendBriefWaBtn" href="https://wa.me/2349076459262" target="_blank" rel="noopener">
+          <span>⚡ Send this campaign brief to Annie on WhatsApp</span>
+          <span class="btn-arrow">→</span>
+        </a>
+
       </div>
 
       <!-- RIGHT: PREVIEWS -->
@@ -1481,6 +1623,26 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     <p id="modalDesc">Replace this placeholder with your project video, case study or project description.</p>
   </div>
 </div>
+
+<!-- FLOATING AMBIENT AUDIO DOCK -->
+<aside class="audio-dock" id="audioDock">
+  <button class="audio-toggle-btn" id="audioToggleBtn" title="Toggle Studio Ambient Atmosphere" type="button">
+    <span id="audioIcon">▶</span>
+  </button>
+  <div class="audio-waves" id="audioWaves">
+    <span class="wave-bar"></span>
+    <span class="wave-bar"></span>
+    <span class="wave-bar"></span>
+    <span class="wave-bar"></span>
+    <span class="wave-bar"></span>
+    <span class="wave-bar"></span>
+    <span class="wave-bar"></span>
+  </div>
+  <div class="audio-label">
+    <span class="audio-title">Studio Atmosphere</span>
+    <span class="audio-sub" id="audioSubText">Click to listen</span>
+  </div>
+</aside>
 
 <script src="https://player.vimeo.com/api/player.js"></script>
 
@@ -1699,6 +1861,7 @@ function apply() {
     $('emailLink').href = `mailto:${data.email || 'annieplans08@gmail.com'}`;
     $('emailLink').textContent = data.email || 'annieplans08@gmail.com';
   }
+  if (typeof updateBriefWaLink === 'function') updateBriefWaLink();
 
   // Update featured reel preview with project 0
   if (data.projects && data.projects.length > 0) {
@@ -1731,6 +1894,7 @@ function openProjectModal(x) {
   $('modalTitle').textContent = x.title;
   $('modalDesc').textContent = x.description || '';
   resetActivePlayer();
+  stopAmbientSound();
   const media = document.querySelector('.modal-media');
   const embed = parseVideoUrl(x.video || '');
   media.innerHTML = embed
@@ -1842,7 +2006,22 @@ filters.forEach(btn => btn.addEventListener('click', () => {
   reels.style.display = f === 'landscape' ? 'none' : 'flex';
 }));
 
-// Video Tone Selector Interactivity
+// Dynamic WhatsApp Brief Pre-filler
+let currentTone = 'Bold & polished';
+function updateBriefWaLink() {
+  const briefBtn = $('sendBriefWaBtn');
+  if (!briefBtn) return;
+  const num = data.whatsapp || '2349076459262';
+  const msg = `Hi Annie! I just generated a campaign concept on your website:
+
+• Project: 30-sec AI Cinematic Concept Ad
+• Selected Tone: ${currentTone}
+• Goal: Bold, story-led visuals built for high retention
+
+Can we discuss bringing this project to life?`;
+  briefBtn.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+}
+
 document.querySelectorAll('.tone-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tone-btn').forEach(b => {
@@ -1851,8 +2030,90 @@ document.querySelectorAll('.tone-btn').forEach(btn => {
     });
     btn.classList.add('active');
     btn.textContent = btn.textContent.replace('○', '◉');
+    currentTone = btn.textContent.replace('◉', '').replace('○', '').trim();
+    updateBriefWaLink();
   });
 });
+updateBriefWaLink();
+
+// Web Audio API Ambient Soundscape Generator
+let audioCtx = null;
+let ambientNodes = {};
+let isAmbientPlaying = false;
+
+function toggleAmbientSound() {
+  const dock = $('audioDock');
+  const icon = $('audioIcon');
+  const sub = $('audioSubText');
+
+  if (!isAmbientPlaying) {
+    try {
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      if (!audioCtx) audioCtx = new AudioCtxClass();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      const masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+      masterGain.gain.exponentialRampToValueAtTime(0.038, audioCtx.currentTime + 1.2);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(380, audioCtx.currentTime);
+
+      // Warm cinematic harmonic drone (D2, A2, D3, F#3)
+      const freqs = [73.42, 110.00, 146.83, 185.00];
+      const oscs = freqs.map((f, i) => {
+        const osc = audioCtx.createOscillator();
+        osc.type = i % 2 === 0 ? 'sine' : 'triangle';
+        osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+        osc.detune.setValueAtTime((i - 1.5) * 5, audioCtx.currentTime);
+        osc.connect(filter);
+        osc.start();
+        return osc;
+      });
+
+      filter.connect(masterGain);
+      masterGain.connect(audioCtx.destination);
+
+      ambientNodes = { masterGain, oscs };
+      isAmbientPlaying = true;
+      if (dock) dock.classList.add('playing');
+      if (icon) icon.textContent = '❚❚';
+      if (sub) sub.textContent = 'Atmosphere playing';
+    } catch (e) {
+      console.warn('Audio not available yet', e);
+    }
+  } else {
+    stopAmbientSound();
+  }
+}
+
+function stopAmbientSound() {
+  if (!isAmbientPlaying || !ambientNodes.masterGain) return;
+  const dock = $('audioDock');
+  const icon = $('audioIcon');
+  const sub = $('audioSubText');
+
+  try {
+    ambientNodes.masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.6);
+    setTimeout(() => {
+      if (ambientNodes.oscs) ambientNodes.oscs.forEach(o => { try { o.stop(); } catch (e) {} });
+      ambientNodes = {};
+    }, 650);
+  } catch (e) {}
+
+  isAmbientPlaying = false;
+  if (dock) dock.classList.remove('playing');
+  if (icon) icon.textContent = '▶';
+  if (sub) sub.textContent = 'Click to listen';
+}
+
+if ($('audioToggleBtn')) $('audioToggleBtn').onclick = toggleAmbientSound;
+if ($('audioDock')) $('audioDock').onclick = (e) => {
+  if (e.target !== $('audioToggleBtn') && !$('audioToggleBtn').contains(e.target)) {
+    toggleAmbientSound();
+  }
+};
 
 $('close').onclick = closeProjectModal;
 $('modal').addEventListener('click', e => {
