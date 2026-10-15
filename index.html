@@ -2160,7 +2160,9 @@ function parseVideoUrl(raw) {
   if (/^[a-zA-Z0-9_-]{26,45}$/.test(u)) {
     return {
       type: 'drive',
+      hdStream: 'https://drive.google.com/uc?export=download&id=' + u,
       embed: 'https://drive.google.com/file/d/' + u + '/preview',
+      id: u,
       raw: u
     };
   }
@@ -2182,7 +2184,9 @@ function parseVideoUrl(raw) {
       if (id) {
         return {
           type: 'drive',
+          hdStream: 'https://drive.google.com/uc?export=download&id=' + id,
           embed: 'https://drive.google.com/file/d/' + id + '/preview',
+          id: id,
           raw: u
         };
       }
@@ -2335,6 +2339,9 @@ function openProjectModal(x) {
   if (parsed) {
     if (parsed.type === 'direct') {
       media.innerHTML = `<video src="${esc(parsed.embed)}" controls autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000"></video><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`;
+    } else if (parsed.type === 'drive') {
+      // Plays in crystal clear original HD with automatic fallback to Drive preview
+      media.innerHTML = `<video src="${esc(parsed.hdStream)}" controls autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000" onerror="this.onerror=null;this.outerHTML='<iframe src=\\'${esc(parsed.embed)}\\' allow=\\'autoplay; fullscreen\\' allowfullscreen></iframe>'"></video><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`;
     } else {
       let src = parsed.embed;
       if (parsed.type === 'vimeo' || parsed.type === 'youtube') {
@@ -2370,6 +2377,13 @@ function resetActivePlayer() {
   if (activeVimeoPlayer) {
     try { activeVimeoPlayer.destroy(); } catch (e) {}
     activeVimeoPlayer = null;
+  }
+  const media = document.querySelector('.modal-media');
+  if (media) {
+    const vid = media.querySelector('video');
+    if (vid) {
+      try { vid.pause(); vid.src = ''; vid.load(); } catch (e) {}
+    }
   }
 }
 
