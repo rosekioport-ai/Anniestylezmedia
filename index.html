@@ -39,7 +39,12 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  background: var(--bg);
+  background: 
+    radial-gradient(ellipse 90% 48% at 50% -6%, rgba(229, 190, 108, 0.32) 0%, transparent 68%),
+    radial-gradient(ellipse 70% 42% at 88% 22%, rgba(215, 145, 55, 0.20) 0%, transparent 62%),
+    radial-gradient(ellipse 70% 42% at 12% 70%, rgba(195, 120, 40, 0.18) 0%, transparent 62%),
+    radial-gradient(ellipse 95% 42% at 50% 100%, rgba(229, 190, 108, 0.22) 0%, transparent 70%),
+    #0e0b08;
   color: var(--text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: -0.015em;
@@ -60,15 +65,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .page {
   min-height: 100vh;
   position: relative;
-  background: 
-    radial-gradient(ellipse 90% 48% at 50% -6%, rgba(229, 190, 108, 0.32) 0%, transparent 68%),
-    radial-gradient(ellipse 70% 42% at 88% 22%, rgba(215, 145, 55, 0.20) 0%, transparent 62%),
-    radial-gradient(ellipse 70% 42% at 12% 70%, rgba(195, 120, 40, 0.18) 0%, transparent 62%),
-    radial-gradient(ellipse 95% 42% at 50% 100%, rgba(229, 190, 108, 0.22) 0%, transparent 70%),
-    #0e0b08;
-  padding: 20px 4vw 48px;
-  max-width: 1320px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 20px 2.5vw 48px;
+  margin: 0;
 }
 
 /* TOP HEADER */
