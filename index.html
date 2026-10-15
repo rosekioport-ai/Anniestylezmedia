@@ -224,9 +224,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 /* MAIN PROMPT STUDIO GRID */
 .studio-grid {
   display: grid;
-  grid-template-columns: 1.75fr 1fr;
-  gap: 20px;
-  margin-bottom: 26px;
+  grid-template-columns: 1.55fr 1fr;
+  gap: 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+  align-items: start;
 }
 
 /* LEFT COLUMN - PROMPT GENERATOR */
@@ -236,26 +238,26 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   -webkit-backdrop-filter: blur(20px) saturate(130%);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
-  padding: 28px 32px;
+  padding: 18px 22px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  box-shadow: 0 22px 52px -10px rgba(0, 0, 0, 0.75), 0 0 26px rgba(223, 186, 106, 0.14), inset 0 1px 0 rgba(255, 245, 225, 0.1);
+  gap: 10px;
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.75), 0 0 24px rgba(223, 186, 106, 0.14), inset 0 1px 0 rgba(255, 245, 225, 0.1);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .generator-head {
   text-align: center;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .generator-title {
   font-family: var(--font-serif);
-  font-size: clamp(28px, 3.4vw, 40px);
+  font-size: clamp(20px, 2.1vw, 28px);
   font-weight: 600;
   color: #fff;
   letter-spacing: -0.015em;
-  margin-bottom: 14px;
+  margin-bottom: 6px;
   text-shadow: 0 4px 22px rgba(0, 0, 0, 0.75);
 }
 
@@ -311,32 +313,59 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   background: var(--bg-input);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-md);
-  padding: 22px;
+  padding: 10px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
   box-shadow: inset 0 1px 0 rgba(255, 245, 225, 0.06), 0 8px 24px rgba(0, 0, 0, 0.4);
 }
+.prompt-box-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 .prompt-box-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 750;
   color: var(--gold-light);
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
+.spark-idea-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  background: rgba(223, 186, 106, 0.12);
+  border: 1px solid var(--gold-border);
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--gold-light);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+}
+.spark-idea-btn:hover {
+  background: linear-gradient(135deg, var(--gold), #b88d37);
+  color: #0c0a07;
+  border-color: var(--gold);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 14px var(--gold-glow);
+}
 .prompt-textarea {
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 13px;
+  line-height: 1.42;
   color: var(--text);
   background: rgba(255, 248, 235, 0.025);
   border: 1px solid rgba(223, 186, 106, 0.18);
   border-radius: var(--radius-sm);
   outline: none;
   width: 100%;
-  padding: 14px 16px;
+  padding: 8px 12px;
   font-family: inherit;
   resize: vertical;
-  min-height: 72px;
+  min-height: 46px;
+  height: 46px;
   transition: all 0.28s var(--ease);
 }
 .prompt-textarea:focus {
@@ -346,9 +375,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .prompt-selectors {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-  padding-top: 8px;
+  padding-top: 6px;
   border-top: 1px solid rgba(255, 245, 225, 0.06);
 }
 .prompt-select-pill {
@@ -361,36 +390,81 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   -webkit-appearance: none;
   background: rgba(24, 21, 17, 0.88);
   border: 1px solid var(--gold-border);
-  padding: 8px 30px 8px 16px;
+  padding: 5px 24px 5px 12px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--gold-light);
   font-weight: 600;
   cursor: pointer;
   outline: none;
   transition: all 0.25s var(--ease);
   font-family: inherit;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 245, 225, 0.08);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 245, 225, 0.08);
 }
 .prompt-select-pill select:hover, .prompt-select-pill select:focus {
   border-color: var(--gold-border-hover);
   color: #fff;
   background: rgba(32, 28, 22, 0.95);
-  box-shadow: 0 0 16px var(--gold-glow);
+  box-shadow: 0 0 14px var(--gold-glow);
 }
 .prompt-select-arrow {
   position: absolute;
-  right: 12px;
+  right: 9px;
   pointer-events: none;
-  font-size: 9px;
+  font-size: 8px;
   color: var(--gold);
+}
+
+/* VISUAL MOOD CHIPS */
+.mood-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+.mood-row-label {
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold-light);
+  opacity: 0.85;
+}
+.mood-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.mood-chip {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(223, 186, 106, 0.18);
+  color: var(--text-muted);
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.22s var(--ease);
+}
+.mood-chip:hover {
+  border-color: var(--gold-border-hover);
+  color: #fff;
+  background: rgba(223, 186, 106, 0.08);
+}
+.mood-chip.active {
+  background: linear-gradient(135deg, rgba(223, 186, 106, 0.25), rgba(223, 186, 106, 0.1));
+  border-color: var(--gold);
+  color: var(--gold-light);
+  box-shadow: 0 0 10px rgba(223, 186, 106, 0.25);
+  font-weight: 750;
 }
 
 /* STUDIO SERVICES CONTAINER (MOVED INTO STUDIO) */
 .studio-services {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
 }
 .studio-services-head {
   display: flex;
@@ -398,7 +472,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   align-items: center;
 }
 .studio-services-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 750;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -407,24 +481,24 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .studio-services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 8px;
 }
 .studio-service-card {
   background: var(--bg-card);
   backdrop-filter: blur(16px);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-md);
-  padding: 20px 18px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   cursor: pointer;
   position: relative;
   transition: all 0.32s var(--ease);
   box-shadow: var(--glass-shadow);
 }
 .studio-service-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   border-color: var(--gold-border-hover);
   background: var(--bg-card-hover);
   box-shadow: var(--glass-shadow-hover);
@@ -432,7 +506,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .studio-service-card.active {
   border-color: var(--gold);
   background: linear-gradient(155deg, rgba(223, 186, 106, 0.16) 0%, rgba(20, 18, 14, 0.96) 100%);
-  box-shadow: 0 18px 45px -8px rgba(0, 0, 0, 0.85), 0 0 28px rgba(223, 186, 106, 0.28), inset 0 1px 0 rgba(255, 245, 225, 0.18);
+  box-shadow: 0 12px 30px -6px rgba(0, 0, 0, 0.85), 0 0 20px rgba(223, 186, 106, 0.25), inset 0 1px 0 rgba(255, 245, 225, 0.18);
 }
 .ssc-top {
   display: flex;
@@ -463,22 +537,92 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .ssc-title {
   font-family: 'Sora', sans-serif;
-  font-size: 14.5px;
+  font-size: 13px;
   font-weight: 750;
   color: #fff;
   letter-spacing: -0.01em;
 }
 .ssc-desc {
-  font-size: 11.5px;
-  line-height: 1.55;
+  font-size: 10.5px;
+  line-height: 1.4;
   color: var(--text-muted);
+}
+
+/* PACKAGE TIERS & LIVE SCOPE BADGE */
+.package-scope-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 7px 12px;
+  background: rgba(18, 16, 13, 0.6);
+  border: 1px solid rgba(223, 186, 106, 0.16);
+  border-radius: var(--radius-sm);
+}
+.pkg-tiers {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.pkg-label {
+  font-size: 10px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold-light);
+  opacity: 0.85;
+  margin-right: 2px;
+}
+.pkg-tier {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(223, 186, 106, 0.18);
+  color: var(--text-muted);
+  padding: 3.5px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 0.22s var(--ease);
+}
+.pkg-tier:hover {
+  border-color: var(--gold-border-hover);
+  color: #fff;
+  background: rgba(223, 186, 106, 0.08);
+}
+.pkg-tier.active {
+  background: linear-gradient(135deg, var(--gold), #b88d37);
+  border-color: var(--gold);
+  color: #0c0a07;
+  font-weight: 800;
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+.scope-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9.5px;
+  font-weight: 650;
+  color: var(--gold-light);
+  background: rgba(223, 186, 106, 0.08);
+  border: 1px solid rgba(223, 186, 106, 0.22);
+  border-radius: 999px;
+  padding: 3.5px 10px;
+}
+.scope-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
 }
 
 /* RIGHT COLUMN - PREVIEWS */
 .previews-col {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 /* WORKING VIDEO LOOP CONTAINER */
@@ -488,10 +632,10 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   -webkit-backdrop-filter: blur(20px) saturate(130%);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   position: relative;
   transition: all 0.35s var(--ease);
   box-shadow: var(--glass-shadow);
@@ -499,10 +643,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .working-loop-card:hover {
   border-color: var(--gold-border-hover);
   box-shadow: var(--glass-shadow-hover);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 .working-screen {
-  aspect-ratio: 16/10;
+  aspect-ratio: 16/9;
+  max-height: 220px;
   border-radius: var(--radius-md);
   position: relative;
   overflow: hidden;
@@ -522,7 +667,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px;
+  padding: 12px;
   pointer-events: none;
 }
 .working-live-badge {
@@ -581,20 +726,20 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   background: linear-gradient(150deg, rgba(22, 19, 15, 0.96) 0%, rgba(12, 10, 8, 0.98) 100%);
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-lg);
-  padding: 32px 28px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   overflow: hidden;
-  box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.88), 0 0 32px rgba(223, 186, 106, 0.22), inset 0 1px 0 rgba(255, 245, 225, 0.12);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.88), 0 0 28px rgba(223, 186, 106, 0.2), inset 0 1px 0 rgba(255, 245, 225, 0.12);
   transform-style: preserve-3d;
   animation: float3D 6s ease-in-out infinite alternate;
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
 }
 .statement-3d-card:hover {
-  transform: rotateX(4deg) rotateY(-5deg) translateY(-8px);
+  transform: rotateX(4deg) rotateY(-5deg) translateY(-4px);
   border-color: var(--gold-border-hover);
-  box-shadow: 0 32px 75px -8px rgba(0, 0, 0, 0.95), 0 0 48px rgba(223, 186, 106, 0.45);
+  box-shadow: 0 26px 60px -8px rgba(0, 0, 0, 0.95), 0 0 40px rgba(223, 186, 106, 0.35);
 }
 @keyframes float3D {
   0% {
@@ -602,12 +747,12 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(223, 186, 106, 0.2);
   }
   50% {
-    transform: rotateX(-3deg) rotateY(4deg) translateY(-10px);
-    box-shadow: 0 30px 65px -10px rgba(0, 0, 0, 0.92), 0 0 38px rgba(223, 186, 106, 0.32);
+    transform: rotateX(-3deg) rotateY(4deg) translateY(-6px);
+    box-shadow: 0 26px 55px -10px rgba(0, 0, 0, 0.9), 0 0 32px rgba(223, 186, 106, 0.28);
   }
   100% {
-    transform: rotateX(4deg) rotateY(-2deg) translateY(-4px);
-    box-shadow: 0 24px 55px -8px rgba(0, 0, 0, 0.85), 0 0 28px rgba(223, 186, 106, 0.25);
+    transform: rotateX(4deg) rotateY(-2deg) translateY(-2px);
+    box-shadow: 0 22px 50px -8px rgba(0, 0, 0, 0.85), 0 0 26px rgba(223, 186, 106, 0.22);
   }
 }
 .statement-gold-beam {
@@ -623,18 +768,18 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .statement-quote-mark {
   font-family: var(--font-serif);
-  font-size: 58px;
+  font-size: 38px;
   line-height: 1;
   color: var(--gold);
   opacity: 0.92;
-  height: 28px;
+  height: 18px;
 }
 .statement-text {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: clamp(18px, 2.1vw, 23px);
+  font-size: clamp(14px, 1.4vw, 16.5px);
   font-weight: 500;
-  line-height: 1.52;
+  line-height: 1.45;
   color: #fff9ed;
   letter-spacing: 0.005em;
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.85);
@@ -1389,14 +1534,14 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   background: linear-gradient(135deg, rgba(223, 186, 106, 0.16), rgba(223, 186, 106, 0.06));
   border: 1px solid var(--gold-border);
   border-radius: var(--radius-md);
-  padding: 15px 22px;
+  padding: 10px 18px;
   color: var(--gold-light);
   font-weight: 750;
-  font-size: 13.5px;
+  font-size: 12.5px;
   letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 10px 25px -8px rgba(223, 186, 106, 0.25), inset 0 1px 0 rgba(255, 245, 225, 0.1);
+  box-shadow: 0 8px 20px -6px rgba(223, 186, 106, 0.25), inset 0 1px 0 rgba(255, 245, 225, 0.1);
   transition: all 0.3s var(--ease);
 }
 .send-brief-btn:hover {
@@ -1751,7 +1896,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       <!-- LEFT: GENERATING A NEW CAMPAIGN -->
       <div class="generator-card">
         <div class="generator-head">
-          <h1 class="generator-title">Generating a new campaign</h1>
+          <h1 class="generator-title">Hit me with the ideas 😊</h1>
           <div class="stepper">
             <div class="step active" data-step-tab="studio" title="Studio Brief & Specs">
               <span class="step-num">1</span>
@@ -1772,7 +1917,10 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
         <!-- YOUR BRIEF PROMPT BOX (EDITABLE TEXTAREA + SELECTABLE OPTIONS) -->
         <div class="prompt-box">
-          <div class="prompt-box-label">Your brief</div>
+          <div class="prompt-box-top">
+            <span class="prompt-box-label">Your brief</span>
+            <button type="button" class="spark-idea-btn" id="sparkIdeaBtn" title="Click to generate a fresh creative concept idea">✨ Spark an idea</button>
+          </div>
           <textarea class="prompt-textarea" id="demoPrompt" placeholder="Describe your brand, project idea or campaign brief here...">A 30-second AI cinematic concept ad built around curiosity, storytelling and premium retention</textarea>
           <div class="prompt-selectors">
             <div class="prompt-select-pill" title="Select audio / voiceover language">
@@ -1800,6 +1948,15 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
                 <option value="1:1 square (Feed)">1:1 square</option>
               </select>
               <span class="prompt-select-arrow">▾</span>
+            </div>
+          </div>
+          <div class="mood-row">
+            <span class="mood-row-label">Visual Style:</span>
+            <div class="mood-chips" id="moodChips">
+              <button type="button" class="mood-chip active" data-mood="Cinematic Luxury">✨ Cinematic Luxury</button>
+              <button type="button" class="mood-chip" data-mood="High-Energy Reel">⚡ High-Energy Reel</button>
+              <button type="button" class="mood-chip" data-mood="Warm Storytelling">🌿 Warm Storytelling</button>
+              <button type="button" class="mood-chip" data-mood="Sci-Fi Futuristic">🪐 Sci-Fi Futuristic</button>
             </div>
           </div>
         </div>
@@ -1831,6 +1988,20 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
               <h3 class="ssc-title">Adverts</h3>
               <p class="ssc-desc">Ad creatives with a hook, a clear message and a close that converts.</p>
             </div>
+          </div>
+        </div>
+
+        <!-- PACKAGE TIERS & TURNAROUND SCOPE -->
+        <div class="package-scope-row">
+          <div class="pkg-tiers" id="pkgTiers">
+            <span class="pkg-label">Tier:</span>
+            <button type="button" class="pkg-tier active" data-pkg="Single Video" data-scope="2–4 Days • 4K Master + Sound Design">⚡ Single Video</button>
+            <button type="button" class="pkg-tier" data-pkg="Full Campaign" data-scope="5–8 Days • 3x Formats + Full Sound Mix">🔥 Full Campaign</button>
+            <button type="button" class="pkg-tier" data-pkg="Brand Retainer" data-scope="Dedicated Queue • Weekly Content Pipeline">👑 Brand Retainer</button>
+          </div>
+          <div class="scope-badge" id="scopeBadge">
+            <span class="scope-dot"></span>
+            <span id="scopeText">Turnaround: 2–4 Days • 4K Master + Sound Design</span>
           </div>
         </div>
 
@@ -2922,8 +3093,21 @@ function setupDragScroll(slider) {
 setupDragScroll(landscape);
 setupDragScroll(reels);
 
-// Dynamic WhatsApp Brief Pre-filler with Selected Service & Options
+// Dynamic WhatsApp Brief Pre-filler with Selected Service, Mood, Package & Options
 let currentService = 'AI videos';
+let currentMood = 'Cinematic Luxury';
+let currentPackage = 'Single Video';
+
+const creativeBriefIdeas = [
+  "A 30-second AI cinematic concept ad built around curiosity, storytelling and premium retention",
+  "A high-impact luxury product showcase highlighting craftsmanship, moody lighting, and sound design",
+  "A relatable problem-to-solution story showing daily customer struggle, turning our service into the hero",
+  "A fast-hook 9:16 vertical campaign with an AI brand avatar demonstrating how simple our solution is",
+  "A futuristic sci-fi commercial introducing an innovative tech product with bold cinematic realism",
+  "A warm, emotional documentary-style brand story connecting community impact with authentic people"
+];
+let lastIdeaIdx = 0;
+
 function updateBriefWaLink() {
   const briefBtn = $('sendBriefWaBtn');
   if (!briefBtn) return;
@@ -2933,16 +3117,66 @@ function updateBriefWaLink() {
   const dur = $('briefDuration')?.value || '30 seconds';
   const fmt = $('briefFormat')?.value || '9:16 vertical';
   const srv = currentService || 'AI videos';
+  const mood = currentMood || 'Cinematic Luxury';
+  const pkg = currentPackage || 'Single Video';
   
   const msg = `Hi Annie! I just shaped a campaign brief on your website studio:
 
 • Service: ${srv}
+• Package: ${pkg}
+• Visual Style: ${mood}
 • Specs: ${fmt} • ${dur} • ${lang}
 • Brief: "${briefText}"
 
 Can we discuss bringing this project to life?`;
   briefBtn.href = `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
+
+// Spark An Idea Generator Button
+const sparkBtn = $('sparkIdeaBtn');
+if (sparkBtn) {
+  sparkBtn.addEventListener('click', () => {
+    let nextIdx = Math.floor(Math.random() * creativeBriefIdeas.length);
+    if (nextIdx === lastIdeaIdx) {
+      nextIdx = (nextIdx + 1) % creativeBriefIdeas.length;
+    }
+    lastIdeaIdx = nextIdx;
+    const promptInput = $('demoPrompt');
+    if (promptInput) {
+      promptInput.value = creativeBriefIdeas[nextIdx];
+      promptInput.style.transform = 'scale(1.01)';
+      promptInput.style.borderColor = 'var(--gold)';
+      setTimeout(() => {
+        promptInput.style.transform = 'none';
+        promptInput.style.borderColor = 'rgba(223, 186, 106, 0.18)';
+      }, 300);
+    }
+    updateBriefWaLink();
+  });
+}
+
+// Visual Mood Chips Selector
+document.querySelectorAll('.mood-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.mood-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    currentMood = chip.dataset.mood || 'Cinematic Luxury';
+    updateBriefWaLink();
+  });
+});
+
+// Package Tiers & Dynamic Turnaround Scope Selector
+document.querySelectorAll('.pkg-tier').forEach(tier => {
+  tier.addEventListener('click', () => {
+    document.querySelectorAll('.pkg-tier').forEach(t => t.classList.remove('active'));
+    tier.classList.add('active');
+    currentPackage = tier.dataset.pkg || 'Single Video';
+    const scope = tier.dataset.scope || '2–4 Days • 4K Master + Sound Design';
+    const scopeTxt = $('scopeText');
+    if (scopeTxt) scopeTxt.textContent = `Turnaround: ${scope}`;
+    updateBriefWaLink();
+  });
+});
 
 // Service Selection Cards inside Studio
 document.querySelectorAll('.studio-service-card').forEach(card => {
