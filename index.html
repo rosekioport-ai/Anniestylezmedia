@@ -1252,7 +1252,14 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   justify-content: center;
   color: var(--gold);
 }
-.modal-media iframe, .modal-media img { width: 100%; height: 100%; border: 0; display: block; object-fit: cover; }
+.modal-box.is-reel {
+  width: min(460px, 92vw);
+}
+.modal-box.is-reel .modal-media {
+  aspect-ratio: 9/16;
+  max-height: 72vh;
+}
+.modal-media iframe, .modal-media video, .modal-media img { width: 100%; height: 100%; border: 0; display: block; object-fit: cover; }
 .modal h3 { font-family: 'Sora', sans-serif; font-size: 24px; margin: 20px 0 8px; font-weight: 700; color: #fff; }
 .modal p { color: var(--text-muted); font-size: 14px; line-height: 1.7; white-space: pre-line; }
 
@@ -1960,7 +1967,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
     <section class="editor-section">
       <h3>Projects — 7 Landscape + 7 Reels</h3>
       <div class="project-editor" id="projectEditor"></div>
-      <div class="hint">Paste a Google Drive image sharing link or direct image URL for the thumbnail. Paste your Vimeo or YouTube link for the video.</div>
+      <div class="hint">Paste a Google Drive image sharing link or direct image URL for the thumbnail. Paste your Vimeo, YouTube, or Google Drive link for the video.</div>
     </section>
   </div>
 </div>
@@ -2145,15 +2152,46 @@ function getDriveImageSources(url) {
 
 function parseVideoUrl(raw) {
   let u = String(raw || '').trim();
-  if (!u) return '';
+  if (!u) return null;
   const src = u.match(/<iframe[^>]+src=["']([^"']+)["']/i);
   if (src) u = src[1];
+
+  // Direct Google Drive file ID check (26 to 45 alphanumeric characters)
+  if (/^[a-zA-Z0-9_-]{26,45}$/.test(u)) {
+    return {
+      type: 'drive',
+      embed: 'https://drive.google.com/file/d/' + u + '/preview',
+      raw: u
+    };
+  }
+
   try {
     const x = new URL(u);
     const host = x.hostname.toLowerCase().replace(/^www\./, '');
+
+    // 1. Google Drive Video Links (preview, view, uc, open)
+    if (host === 'drive.google.com' || host === 'docs.google.com') {
+      let id = '';
+      const m = x.pathname.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (m) id = m[1];
+      if (!id) id = x.searchParams.get('id') || '';
+      if (!id) {
+        const m2 = x.pathname.match(/\/d\/([a-zA-Z0-9_-]+)/);
+        if (m2) id = m2[1];
+      }
+      if (id) {
+        return {
+          type: 'drive',
+          embed: 'https://drive.google.com/file/d/' + id + '/preview',
+          raw: u
+        };
+      }
+    }
+
+    // 2. Vimeo Video Links
     if (host === 'vimeo.com' || host.endsWith('.vimeo.com')) {
       let m = x.pathname.match(/(?:\/video\/|\/)(\d+)(?:\/)?/);
-      if (!m) return '';
+      if (!m) return null;
       const id = m[1];
       let hash = x.searchParams.get('h');
       if (!hash) {
@@ -2162,18 +2200,40 @@ function parseVideoUrl(raw) {
       }
       let out = 'https://player.vimeo.com/video/' + id;
       if (hash) out += '?h=' + encodeURIComponent(hash);
-      return out;
+      return {
+        type: 'vimeo',
+        embed: out,
+        raw: u
+      };
     }
+
+    // 3. YouTube Video Links
     if (host === 'youtube.com' || host === 'youtu.be' || host === 'youtube-nocookie.com') {
       let id = '';
       if (host === 'youtu.be') id = x.pathname.split('/').filter(Boolean)[0] || '';
       else if (x.pathname.startsWith('/embed/')) id = x.pathname.split('/')[2] || '';
       else if (x.pathname.startsWith('/shorts/')) id = x.pathname.split('/')[2] || '';
       else id = x.searchParams.get('v') || '';
-      if (id) return 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id);
+      if (id) {
+        return {
+          type: 'youtube',
+          embed: 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id),
+          raw: u
+        };
+      }
     }
-    return '';
-  } catch (e) { return ''; }
+
+    // 4. Direct video files (.mp4, .webm, .mov)
+    if (/\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(x.pathname)) {
+      return {
+        type: 'direct',
+        embed: u,
+        raw: u
+      };
+    }
+
+    return null;
+  } catch (e) { return null; }
 }
 
 function loadEditor() {
@@ -2185,7 +2245,7 @@ function loadEditor() {
       <h4>${x.kind === 'reel' ? 'Reel' : 'Landscape'} ${String(i % 7 + 1).padStart(2, '0')}</h4>
       <div class="field"><label>Title</label><input data-project="${i}" data-part="title" value="${esc(x.title)}"></div>
       <div class="field"><label>Description</label><textarea data-project="${i}" data-part="description">${esc(x.description)}</textarea></div>
-      <div class="field"><label>Video link</label><input data-project="${i}" data-part="video" value="${esc(x.video)}" placeholder="Paste normal Vimeo / YouTube link"></div>
+      <div class="field"><label>Video link</label><input data-project="${i}" data-part="video" value="${esc(x.video)}" placeholder="Paste Vimeo, YouTube, or Google Drive link"></div>
       <div class="field"><label>Thumbnail URL</label><input data-project="${i}" data-part="thumbnail" value="${esc(x.thumbnail)}" placeholder="Google Drive share link or direct URL"></div>
     </div>
   `).join('');
@@ -2262,18 +2322,37 @@ function openProjectModal(x) {
   $('modalDesc').textContent = x.description || '';
   resetActivePlayer();
   stopAmbientSound(true);
+
+  const box = document.querySelector('.modal-box');
+  if (box) {
+    if (x.kind === 'reel') box.classList.add('is-reel');
+    else box.classList.remove('is-reel');
+  }
+
   const media = document.querySelector('.modal-media');
-  const embed = parseVideoUrl(x.video || '');
-  media.innerHTML = embed
-    ? `<iframe src="${esc(embed)}?autoplay=1" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`
-    : '<span>ADD A VIMEO OR YOUTUBE LINK IN ADMIN</span>';
+  const parsed = parseVideoUrl(x.video || '');
+
+  if (parsed) {
+    if (parsed.type === 'direct') {
+      media.innerHTML = `<video src="${esc(parsed.embed)}" controls autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000"></video><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`;
+    } else {
+      let src = parsed.embed;
+      if (parsed.type === 'vimeo' || parsed.type === 'youtube') {
+        src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+      }
+      media.innerHTML = `<iframe src="${esc(src)}" allow="autoplay; fullscreen; picture-in-picture; encrypted-media" allowfullscreen loading="lazy"></iframe><div class="video-end"><div class="video-end-title">Project finished</div><button type="button" id="replayVideo">Replay video</button></div>`;
+
+      const iframe = media.querySelector('iframe');
+      if (iframe && parsed.type === 'vimeo') {
+        iframe.addEventListener('load', () => setupVimeoPlayer(iframe, parsed.embed), { once: true });
+      }
+    }
+  } else {
+    media.innerHTML = '<span>ADD A VIMEO, YOUTUBE OR GOOGLE DRIVE LINK IN ADMIN</span>';
+  }
   
   $('modal').classList.remove('closing');
   $('modal').classList.add('open');
-  const iframe = media.querySelector('iframe');
-  if (iframe && /vimeo\.com/.test(embed)) {
-    iframe.addEventListener('load', () => setupVimeoPlayer(iframe, embed), { once: true });
-  }
 }
 
 function closeProjectModal() {
