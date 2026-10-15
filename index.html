@@ -2042,8 +2042,26 @@ const defaultData = {
   projects: baseProjects
 };
 
+function getSavedData() {
+  const keys = [STORAGE_KEY, 'portfolioDataV4', 'portfolioDataV3', 'portfolioDataV2', 'portfolioData'];
+  for (const k of keys) {
+    try {
+      const raw = localStorage.getItem(k);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && Array.isArray(parsed.projects) && parsed.projects.length) {
+          return parsed;
+        }
+      }
+    } catch (e) {}
+  }
+  return null;
+}
+
+const savedLocal = getSavedData();
 const embedded = window.__PORTFOLIO_DATA__ || null;
-let data = embedded || JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || structuredClone(defaultData);
+// Prioritize user's saved data so custom links are preserved on reload
+let data = savedLocal || embedded || structuredClone(defaultData);
 data.whatsapp = data.whatsapp || '2349076459262';
 
 const $ = id => document.getElementById(id);
