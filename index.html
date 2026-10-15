@@ -1647,19 +1647,19 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
       <div class="carousel-shelf">
         <div class="gallery-grid landscape" id="portfolioGrid">
-          <article class="card" data-kind="landscape" data-title="Landscape Project 01"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Landscape Project 01</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 02"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Landscape Project 02</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 03"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Landscape Project 03</div></div><div class="type">Landscape</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 04"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Landscape Project 04</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Real Estate Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Real Estate Campaign</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Construction Technology"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Construction Technology</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Academic Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Academic Campaign</div></div><div class="type">Landscape</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Brand Unveiling"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Brand Unveiling</div></div><div class="type">Landscape</div></div></article>
           <article class="card" data-kind="landscape" data-title="Landscape Project 05"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">Landscape</div></div></article>
           <article class="card" data-kind="landscape" data-title="Landscape Project 06"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">Landscape</div></div></article>
           <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
         </div>
 
         <div class="gallery-grid reel" id="reelGrid" style="display:flex;margin-top:16px">
-          <article class="card" data-kind="reel" data-title="Reel 01"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Reel 01</div></div><div class="type">Reel</div></div></article>
-          <article class="card" data-kind="reel" data-title="Reel 02"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Reel 02</div></div><div class="type">Reel</div></div></article>
-          <article class="card" data-kind="reel" data-title="Reel 03"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Reel 03</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Chauffeur Services"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Chauffeur Services</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Bridal Makeovers"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Bridal Makeovers</div></div><div class="type">Reel</div></div></article>
+          <article class="card" data-kind="reel" data-title="Local Market Runs"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Local Market Runs</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Reel 04"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Reel 04</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Reel 05"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Reel 05</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Reel 06"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Reel 06</div></div><div class="type">Reel</div></div></article>
@@ -2229,8 +2229,26 @@ window.__PORTFOLIO_DATA__ = {
 };
 
 const embedded = window.__PORTFOLIO_DATA__ || null;
-// Prioritize user's saved data so custom links are preserved on reload
-let data = savedLocal || embedded || structuredClone(defaultData);
+
+// Start with official embedded data so links are NEVER lost or blank
+let data = structuredClone(embedded || defaultData);
+
+// If user has non-empty edits in their browser localStorage, merge them in
+if (savedLocal && Array.isArray(savedLocal.projects)) {
+  savedLocal.projects.forEach((sp, idx) => {
+    if (data.projects[idx]) {
+      // Only merge if the saved value is an actual non-empty string!
+      if (sp.video && sp.video.trim()) data.projects[idx].video = sp.video.trim();
+      if (sp.thumbnail && sp.thumbnail.trim()) data.projects[idx].thumbnail = sp.thumbnail.trim();
+      if (sp.title && sp.title.trim()) data.projects[idx].title = sp.title.trim();
+      if (sp.description && sp.description.trim()) data.projects[idx].description = sp.description.trim();
+    }
+  });
+  ['name', 'mark', 'headline', 'goldHeadline', 'workIntro', 'statement', 'about', 'email', 'whatsapp', 'contactText', 'footer', 'footerGold', 'footerLabel'].forEach(k => {
+    if (savedLocal[k] && String(savedLocal[k]).trim()) data[k] = savedLocal[k];
+  });
+}
+
 data.whatsapp = data.whatsapp || '2349076459262';
 
 // Enforce rule: Vimeo ONLY for the second reel slot (Reel 02), rejected everywhere else
@@ -2239,12 +2257,17 @@ if (data && Array.isArray(data.projects)) {
     const isSecondReel = isSecondReelSlot(p, idx);
     if (isSecondReel) {
       if (p.video && !p.video.toLowerCase().includes('vimeo')) p.video = '';
-      if (!p.video) p.video = 'https://vimeo.com/1233304990?share=copy&fl=sv&fe=ci';
+      if (!p.video) p.video = 'https://vimeo.com/1236068443?share=copy&fl=sv&fe=ci';
     } else {
       if (p.video && p.video.toLowerCase().includes('vimeo')) p.video = '';
     }
   });
 }
+
+// Immediately synchronize browser storage so stale empty cache is purged!
+try {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+} catch (e) {}
 
 const $ = id => document.getElementById(id);
 const esc = v => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
