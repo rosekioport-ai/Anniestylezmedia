@@ -6,33 +6,34 @@
 <title>Anniestylez Media — AI Video Studio & Creator</title>
 <meta name="description" content="AI Video Creator & Editor portfolio designed as an interactive campaign generation studio.">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #090807;
-  --bg-subtle: #0f0d0b;
-  --bg-card: rgba(22, 19, 16, 0.76);
-  --bg-card-hover: rgba(28, 24, 20, 0.88);
-  --bg-card-solid: #151310;
-  --bg-input: rgba(16, 14, 11, 0.88);
-  --text: #fbf8f3;
-  --text-muted: #a49d91;
-  --text-subtle: #756e64;
-  --gold: #dfba6a;
-  --gold-light: #f6e7c1;
-  --gold-warm: #e8a846;
-  --gold-dark: #b88d37;
-  --gold-glow: rgba(223, 186, 106, 0.22);
-  --gold-border: rgba(223, 186, 106, 0.24);
-  --gold-border-hover: rgba(246, 231, 193, 0.48);
-  --border: rgba(255, 240, 215, 0.08);
-  --border-light: rgba(255, 240, 215, 0.14);
+  --bg: #0e0b08;
+  --bg-subtle: #16120d;
+  --bg-card: rgba(28, 22, 16, 0.82);
+  --bg-card-hover: rgba(36, 28, 20, 0.94);
+  --bg-card-solid: #1b1510;
+  --bg-input: rgba(20, 16, 12, 0.92);
+  --text: #fbf7f0;
+  --text-muted: #b0a799;
+  --text-subtle: #7d7467;
+  --gold: #e5be6c;
+  --gold-light: #fbeed2;
+  --gold-warm: #f0b04a;
+  --gold-dark: #b88a32;
+  --gold-glow: rgba(229, 190, 108, 0.32);
+  --gold-border: rgba(229, 190, 108, 0.30);
+  --gold-border-hover: rgba(251, 238, 210, 0.65);
+  --border: rgba(255, 238, 205, 0.12);
+  --border-light: rgba(255, 238, 205, 0.18);
+  --font-serif: 'Playfair Display', Georgia, serif;
   --radius-lg: 26px;
   --radius-md: 18px;
   --radius-sm: 12px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --glass-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(255, 245, 225, 0.08);
-  --glass-shadow-hover: 0 28px 65px -10px rgba(0, 0, 0, 0.92), 0 0 32px rgba(223, 186, 106, 0.25), inset 0 1px 0 rgba(255, 245, 225, 0.18);
+  --glass-shadow: 0 22px 55px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(229, 190, 108, 0.12), inset 0 1px 0 rgba(255, 245, 220, 0.14);
+  --glass-shadow-hover: 0 32px 75px -8px rgba(0, 0, 0, 0.96), 0 0 50px rgba(229, 190, 108, 0.38), inset 0 1px 0 rgba(255, 245, 220, 0.24);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,7 +51,7 @@ body {
 ::selection { background: var(--gold); color: #0c0a07; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #26221c; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: #2c241b; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
 a { color: inherit; text-decoration: none; transition: all 0.25s var(--ease); }
@@ -60,12 +61,12 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   min-height: 100vh;
   position: relative;
   background: 
-    radial-gradient(ellipse at 50% -12%, rgba(223, 186, 106, 0.15) 0%, transparent 55%),
-    radial-gradient(circle at 90% 20%, rgba(210, 155, 75, 0.07) 0%, transparent 42%),
-    radial-gradient(circle at 10% 72%, rgba(195, 140, 65, 0.06) 0%, transparent 45%),
-    radial-gradient(ellipse at 50% 100%, rgba(180, 125, 55, 0.06) 0%, transparent 52%),
-    #090807;
-  padding: 24px 4vw 48px;
+    radial-gradient(ellipse 90% 48% at 50% -6%, rgba(229, 190, 108, 0.32) 0%, transparent 68%),
+    radial-gradient(ellipse 70% 42% at 88% 22%, rgba(215, 145, 55, 0.20) 0%, transparent 62%),
+    radial-gradient(ellipse 70% 42% at 12% 70%, rgba(195, 120, 40, 0.18) 0%, transparent 62%),
+    radial-gradient(ellipse 95% 42% at 50% 100%, rgba(229, 190, 108, 0.22) 0%, transparent 70%),
+    #0e0b08;
+  padding: 16px 4vw 24px;
   max-width: 1320px;
   margin: 0 auto;
 }
@@ -75,14 +76,14 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 10px 22px;
   background: rgba(18, 16, 13, 0.75);
   backdrop-filter: blur(20px) saturate(130%);
   -webkit-backdrop-filter: blur(20px) saturate(130%);
   border: 1px solid var(--gold-border);
   border-radius: 999px;
   box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 245, 225, 0.1);
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   position: relative;
   z-index: 20;
 }
@@ -250,13 +251,13 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 
 .generator-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(24px, 3vw, 34px);
-  font-weight: 750;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3.4vw, 40px);
+  font-weight: 600;
   color: #fff;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   margin-bottom: 14px;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 4px 22px rgba(0, 0, 0, 0.75);
 }
 
 /* STEPPER */
@@ -622,21 +623,22 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   filter: blur(24px);
 }
 .statement-quote-mark {
-  font-family: 'Sora', serif;
-  font-size: 42px;
+  font-family: var(--font-serif);
+  font-size: 58px;
   line-height: 1;
   color: var(--gold);
-  opacity: 0.85;
-  height: 26px;
+  opacity: 0.92;
+  height: 28px;
 }
 .statement-text {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(16px, 1.8vw, 20px);
-  font-weight: 750;
-  line-height: 1.55;
-  color: var(--text);
-  letter-spacing: -0.02em;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(18px, 2.1vw, 23px);
+  font-weight: 500;
+  line-height: 1.52;
+  color: #fff9ed;
+  letter-spacing: 0.005em;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.85);
   position: relative;
   z-index: 2;
 }
@@ -668,12 +670,12 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   margin-bottom: 24px;
 }
 .section-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(24px, 3.5vw, 36px);
-  font-weight: 750;
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3.6vw, 38px);
+  font-weight: 600;
   color: #fff;
-  letter-spacing: -0.03em;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.015em;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 .section-subtitle {
   font-size: 12.5px;
@@ -833,8 +835,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
 .landscape .card {
   width: 360px;
-  height: 240px;
-  min-height: 240px;
+  height: 202.5px;
+  aspect-ratio: 16 / 9;
 }
 .reel .card {
   width: 215px;
@@ -852,6 +854,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
@@ -873,8 +876,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .meta {
   position: absolute;
   left: 0; right: 0; bottom: 0;
-  padding: 22px 20px;
-  background: linear-gradient(180deg, transparent 0%, rgba(9, 8, 7, 0.6) 38%, rgba(9, 8, 7, 0.98) 100%);
+  padding: 14px 18px;
+  background: linear-gradient(180deg, transparent 0%, rgba(9, 8, 7, 0.45) 45%, rgba(9, 8, 7, 0.95) 100%);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -1705,9 +1708,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         </div>
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <div class="gallery-filters">
-            <button class="g-filter" data-filter="landscape">Landscape (7)</button>
+            <button class="g-filter active" data-filter="landscape">Landscape (7)</button>
             <button class="g-filter" data-filter="reel">Reels (7)</button>
-            <button class="g-filter active" data-filter="all">All (14)</button>
+            <button class="g-filter" data-filter="all">All (14)</button>
           </div>
           <div class="carousel-nav">
             <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
@@ -1727,7 +1730,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">Landscape</div></div></article>
         </div>
 
-        <div class="gallery-grid reel" id="reelGrid" style="display:flex;margin-top:16px">
+        <div class="gallery-grid reel" id="reelGrid" style="display:none;margin-top:16px">
           <article class="card" data-kind="reel" data-title="Chauffeur Services"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Chauffeur Services</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Bridal Makeovers"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Bridal Makeovers</div></div><div class="type">Reel</div></div></article>
           <article class="card" data-kind="reel" data-title="Local Market Runs"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Local Market Runs</div></div><div class="type">Reel</div></div></article>
@@ -2847,7 +2850,7 @@ const nextTrackBtn = document.getElementById('nextTrack');
 
 function scrollCarousel(dir) {
   // In 'all' or 'landscape', ONLY scroll the landscape track!
-  const activeFilter = document.querySelector('.g-filter.active')?.dataset.filter || 'all';
+  const activeFilter = document.querySelector('.g-filter.active')?.dataset.filter || 'landscape';
   let targetTrack = landscape;
   if (activeFilter === 'reel') {
     targetTrack = reels;
