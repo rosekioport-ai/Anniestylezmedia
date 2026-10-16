@@ -1835,19 +1835,445 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   .contact-page-grid { grid-template-columns: 1fr; min-height: auto; }
   .services-trio { grid-template-columns: 1fr; }
   .blueprint-row { grid-template-columns: 1fr; }
-  .landscape .card, .reel .card { grid-column: span 12; min-height: 320px; }
-  .reel .card { min-height: 480px; }
+  .landscape .card { width: clamp(280px, 42vw, 360px); aspect-ratio: 16 / 9; height: auto; min-height: unset; }
+  .reel .card { width: clamp(180px, 26vw, 220px); aspect-ratio: 9 / 16; height: auto; min-height: unset; }
+  .studio-services-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
   .cta-banner { flex-direction: column; text-align: center; }
 }
+
+@media (max-width: 768px) {
+  .package-scope-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .pkg-tiers {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .scope-badge {
+    justify-content: center;
+  }
+  .prompt-selectors {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .prompt-select-pill {
+    flex: 1 1 calc(50% - 6px);
+  }
+  .mood-chips {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
 @media (max-width: 600px) {
-  .page { padding: 16px 3.5vw 50px; }
-  .brand-logo-img { height: 42px; }
-  .brand-tagline { font-size: 11px; letter-spacing: 0.025em; }
-  .tone-box { flex-direction: column; align-items: flex-start; }
-  .form-grid, .project-editor { grid-template-columns: 1fr; }
-  .field.full { grid-column: auto; }
-  .who-top-split { flex-direction: column-reverse; align-items: flex-start; gap: 16px; }
-  .who-portrait-frame { width: 110px; height: 130px; }
+  .page {
+    padding: 12px 14px 85px;
+  }
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .brand {
+    grid-column: 1;
+  }
+  .brand-logo-img {
+    height: 36px;
+  }
+  .brand-tagline {
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+  .header > div {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-btn {
+    padding: 7px 14px;
+    font-size: 11px;
+  }
+  .edit-btn {
+    padding: 5px 9px;
+    font-size: 9px;
+  }
+  .nav {
+    grid-column: 1 / -1;
+    order: unset;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+    gap: 4px;
+  }
+  .nav-tab {
+    flex: 1;
+    text-align: center;
+    padding: 7px 4px;
+    font-size: 11px;
+  }
+
+  .status-pill-wrap {
+    margin-bottom: 12px;
+  }
+  .status-pill {
+    padding: 5px 12px;
+    font-size: 10px;
+    line-height: 1.35;
+    white-space: normal;
+    text-align: center;
+    border-radius: 999px;
+    max-width: 100%;
+  }
+
+  /* WORK GALLERY ON MOBILE */
+  .gallery-section {
+    padding-top: 10px;
+    margin-bottom: 24px;
+    border-top: none;
+  }
+  .section-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: 24px;
+  }
+  .gallery-filters {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 3px;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+  .g-filter {
+    flex: 1;
+    text-align: center;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .carousel-nav {
+    display: flex;
+    gap: 8px;
+    align-self: flex-end;
+  }
+  .carousel-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  .gallery-grid {
+    gap: 12px;
+    padding: 4px 2px 14px;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+  .landscape .card {
+    width: 82vw;
+    max-width: 310px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    min-height: unset;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+  }
+  .reel .card {
+    width: 58vw;
+    max-width: 210px;
+    aspect-ratio: 9 / 16;
+    height: auto;
+    min-height: unset;
+    flex-shrink: 0;
+    scroll-snap-align: center;
+  }
+
+  /* STUDIO VIEW ON MOBILE */
+  .studio-grid {
+    gap: 14px;
+  }
+  .generator-card {
+    padding: 16px 14px;
+    border-radius: 20px;
+    gap: 10px;
+  }
+  .generator-title {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .stepper {
+    gap: 6px;
+  }
+  .step {
+    font-size: 10px;
+    gap: 5px;
+  }
+  .step-num {
+    width: 18px;
+    height: 18px;
+    font-size: 9px;
+  }
+  .step-line {
+    width: 10px;
+  }
+  .prompt-box {
+    padding: 12px;
+    border-radius: 14px;
+  }
+  .prompt-box-top {
+    margin-bottom: 8px;
+  }
+  .prompt-textarea {
+    font-size: 12.5px;
+    min-height: 65px;
+  }
+  .prompt-selectors {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .prompt-select-pill {
+    width: 100%;
+  }
+  .mood-chips {
+    gap: 5px;
+  }
+  .mood-chip {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+  .studio-services-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .studio-service-card {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+  .ssc-title {
+    font-size: 12px;
+  }
+  .ssc-desc {
+    font-size: 10px;
+  }
+  .package-scope-row {
+    padding: 8px 10px;
+  }
+  .pkg-tiers {
+    gap: 4px;
+  }
+  .pkg-tier {
+    padding: 3px 8px;
+    font-size: 9.5px;
+  }
+  .scope-badge {
+    font-size: 9px;
+    padding: 3px 8px;
+  }
+  .send-brief-btn {
+    padding: 12px 14px;
+    font-size: 11.5px;
+    border-radius: 12px;
+  }
+  .previews-col {
+    gap: 12px;
+  }
+  .working-loop-card {
+    padding: 10px;
+    border-radius: 18px;
+  }
+  .working-screen {
+    min-height: 180px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+  }
+  .working-title {
+    font-size: 13px;
+  }
+  .working-sub {
+    font-size: 10px;
+  }
+  .statement-3d-stage {
+    perspective: none;
+    flex: unset;
+  }
+  .statement-3d-card {
+    transform: none !important;
+    animation: none !important;
+    padding: 16px;
+    border-radius: 18px;
+  }
+  .statement-text {
+    font-size: 14.5px;
+    line-height: 1.5;
+  }
+
+  /* CONTACT VIEW ON MOBILE */
+  .contact-page-grid {
+    gap: 14px;
+  }
+  .who-card {
+    padding: 18px 16px;
+    border-radius: 20px;
+    gap: 12px;
+  }
+  .who-top-split {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+  .who-top-text {
+    gap: 8px;
+  }
+  .who-portrait-box {
+    flex-shrink: 0;
+  }
+  .who-portrait-frame {
+    width: 78px;
+    height: 98px;
+    border-radius: 14px;
+  }
+  .who-portrait-badge {
+    font-size: 8px;
+    padding: 2px 6px;
+    bottom: 4px;
+  }
+  .who-title {
+    font-size: 22px;
+    line-height: 1.2;
+  }
+  .who-statement {
+    font-size: 12.5px;
+    line-height: 1.5;
+    padding: 10px 12px;
+  }
+  .who-body {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .who-pillars {
+    gap: 6px;
+  }
+  .pillar-pill {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+  .contact-action-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+    gap: 14px;
+  }
+  .contact-card-title {
+    font-size: 20px;
+  }
+  .contact-card-desc {
+    font-size: 12px;
+  }
+  .channels-list {
+    gap: 8px;
+  }
+  .channel-item {
+    padding: 10px 12px;
+  }
+  .channel-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 11px;
+  }
+  .channel-val {
+    font-size: 12px;
+  }
+  .contact-direct-btn {
+    padding: 13px 18px;
+    font-size: 12.5px;
+  }
+  .footer-row {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    font-size: 10px;
+  }
+
+  /* MODALS, AUDIO DOCK & ADMIN ON MOBILE */
+  .modal {
+    padding: 12px;
+  }
+  .modal-box {
+    padding: 16px 14px;
+    border-radius: 18px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-box.is-reel {
+    width: 100%;
+  }
+  .modal-box.is-reel .modal-media {
+    max-height: 52vh;
+  }
+  .close {
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+  .modal h3 {
+    font-size: 18px;
+    margin: 12px 0 6px;
+  }
+  .modal p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .audio-dock {
+    bottom: 12px;
+    padding: 6px 12px;
+    gap: 8px;
+    max-width: calc(100vw - 28px);
+  }
+  .audio-sub {
+    display: none;
+  }
+  .audio-title {
+    font-size: 10px;
+  }
+  .audio-toggle-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 9px;
+  }
+  .wave-bar {
+    width: 2px;
+  }
+  .form-grid, .project-editor {
+    grid-template-columns: 1fr;
+  }
+  .field.full {
+    grid-column: auto;
+  }
+  .editor {
+    padding: 14px 10px;
+  }
+  .editor-panel {
+    padding: 16px 12px;
+  }
+  .editor-head {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .login-card {
+    padding: 24px 18px;
+    width: 92vw;
+  }
 }
 </style>
 
