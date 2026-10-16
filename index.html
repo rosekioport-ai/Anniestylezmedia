@@ -1821,6 +1821,152 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .saved { color: #10b981; font-size: 12px; font-weight: 600; display: none; }
 .saved.show { display: inline; }
 
+/* ADMIN ANALYTICS DASHBOARD */
+.stats-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.stat-card {
+  background: rgba(20, 17, 13, 0.7);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+.stat-card-label {
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.stat-card-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 28px;
+  font-weight: 750;
+  color: #fff;
+  line-height: 1.1;
+}
+.stat-card-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.stats-detail-box {
+  background: rgba(18, 15, 12, 0.6);
+  border: 1px solid rgba(223, 186, 106, 0.16);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+}
+.time-bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.time-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.time-bar-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.time-bar-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+.time-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+  transition: width 0.6s var(--ease);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+.day-trend-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+.day-trend-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(223, 186, 106, 0.14);
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.day-trend-card.is-today {
+  border-color: var(--gold);
+  background: rgba(223, 186, 106, 0.1);
+  box-shadow: 0 0 12px var(--gold-glow);
+}
+.day-trend-name {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.day-trend-val {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 750;
+  color: #fff;
+}
+.day-trend-date {
+  font-size: 9px;
+  color: var(--text-subtle);
+}
+.stats-split-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.action-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.action-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.action-stat-row b {
+  color: var(--gold-light);
+  font-family: 'Sora', sans-serif;
+  font-size: 13px;
+}
+
 /* RESPONSIVE BREAKPOINTS */
 @media (max-width: 960px) {
   .header {
@@ -1903,9 +2049,13 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     flex-wrap: wrap;
     gap: 6px;
   }
+  .stats-cards-grid { grid-template-columns: 1fr; }
+  .stats-split-grid { grid-template-columns: 1fr; }
+  .day-trend-row { grid-template-columns: repeat(4, 1fr); }
 }
 
 @media (max-width: 600px) {
+  .day-trend-row { grid-template-columns: repeat(2, 1fr); }
   .page {
     padding: 12px 14px 85px;
   }
@@ -2507,13 +2657,13 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         <div class="package-scope-row">
           <div class="pkg-tiers" id="pkgTiers">
             <span class="pkg-label">Tier:</span>
-            <button type="button" class="pkg-tier active" data-pkg="Single Video" data-scope="2–4 Days • 4K Master + Sound Design">⚡ Single Video</button>
-            <button type="button" class="pkg-tier" data-pkg="Full Campaign" data-scope="5–8 Days • 3x Formats + Full Sound Mix">🔥 Full Campaign</button>
+            <button type="button" class="pkg-tier active" data-pkg="Single Video" data-scope="2-4 Days • 4K Master + Sound Design">⚡ Single Video</button>
+            <button type="button" class="pkg-tier" data-pkg="Full Campaign" data-scope="5-8 Days • 3x Formats + Full Sound Mix">🔥 Full Campaign</button>
             <button type="button" class="pkg-tier" data-pkg="Brand Retainer" data-scope="Dedicated Queue • Weekly Content Pipeline">👑 Brand Retainer</button>
           </div>
           <div class="scope-badge" id="scopeBadge">
             <span class="scope-dot"></span>
-            <span id="scopeText">Turnaround: 2–4 Days • 4K Master + Sound Design</span>
+            <span id="scopeText">Turnaround: 2-4 Days • 4K Master + Sound Design</span>
           </div>
         </div>
 
@@ -2700,6 +2850,105 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
         <button class="editor-btn danger" id="logoutBtn">Lock / Log out</button>
       </div>
     </div>
+
+    <!-- 1. LIVE VISITOR & AUDIENCE INSIGHTS DASHBOARD -->
+    <section class="editor-section" id="statsSection">
+      <div class="stats-head">
+        <div>
+          <h3>Live Visitor &amp; Audience Insights</h3>
+          <div class="hint">Real-time stats on how many people visit each day, where they linger, and which projects get clicked.</div>
+        </div>
+        <button type="button" class="editor-btn" id="refreshStatsBtn">⟳ Refresh Live Stats</button>
+      </div>
+
+      <!-- 3 TOP SUMMARY CARDS -->
+      <div class="stats-cards-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">TODAY'S VISITORS</div>
+          <div class="stat-card-val" id="statTodayVisits">0</div>
+          <div class="stat-card-sub" id="statTodaySub">Active today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">TOTAL ALL-TIME VISITS</div>
+          <div class="stat-card-val" id="statTotalVisits">0</div>
+          <div class="stat-card-sub">Recorded across all devices</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">MOST TIME SPENT ON</div>
+          <div class="stat-card-val" id="statTopTab" style="font-size:20px">The Experience</div>
+          <div class="stat-card-sub" id="statTopTabPct">Watching videos &amp; reels</div>
+        </div>
+      </div>
+
+      <!-- ATTENTION & TIME SPENT PROGRESS BARS -->
+      <div class="stats-detail-box" style="margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
+          <h4 style="font-size:13px;color:#fff;margin:0;font-family:'Sora',sans-serif">Where Visitors Spend Their Time</h4>
+          <span style="font-size:11px;color:var(--gold-light)">Attention Distribution</span>
+        </div>
+        <div class="time-bars-list">
+          <div class="time-bar-item">
+            <div class="time-bar-info">
+              <span>The Experience (Videos &amp; Reels)</span>
+              <span id="timeExpPct">0%</span>
+            </div>
+            <div class="time-bar-track">
+              <div class="time-bar-fill" id="timeExpBar" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="time-bar-item">
+            <div class="time-bar-info">
+              <span>Studio (Creative Brief Generator)</span>
+              <span id="timeStudioPct">0%</span>
+            </div>
+            <div class="time-bar-track">
+              <div class="time-bar-fill" id="timeStudioBar" style="width:0%"></div>
+            </div>
+          </div>
+          <div class="time-bar-item">
+            <div class="time-bar-info">
+              <span>Contact &amp; Who I Am</span>
+              <span id="timeContactPct">0%</span>
+            </div>
+            <div class="time-bar-track">
+              <div class="time-bar-fill" id="timeContactBar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LAST 7 DAYS VISITOR TRAFFIC -->
+      <div class="stats-detail-box" style="margin-top:14px">
+        <h4 style="font-size:13px;color:#fff;margin-bottom:12px;font-family:'Sora',sans-serif">Daily Traffic (Last 7 Days)</h4>
+        <div class="day-trend-row" id="dayTrendRow">
+          <!-- Populated dynamically via loadAdminStats() -->
+        </div>
+      </div>
+
+      <!-- ACTION & PROJECT CLICKS -->
+      <div class="stats-split-grid" style="margin-top:14px">
+        <div class="stats-detail-box">
+          <h4 style="font-size:13px;color:#fff;margin-bottom:10px;font-family:'Sora',sans-serif">Client Inquiries &amp; Actions</h4>
+          <div class="action-stats-list">
+            <div class="action-stat-row">
+              <span>⚡ Campaign Briefs Sent to WhatsApp</span>
+              <b id="statBriefClicks">0</b>
+            </div>
+            <div class="action-stat-row">
+              <span>💬 "Start a Project" Button Clicks</span>
+              <b id="statStartClicks">0</b>
+            </div>
+          </div>
+        </div>
+        <div class="stats-detail-box">
+          <h4 style="font-size:13px;color:#fff;margin-bottom:10px;font-family:'Sora',sans-serif">Most Clicked Campaigns</h4>
+          <div class="action-stats-list" id="topCampaignsList">
+            <div class="action-stat-row"><span>Projects clicked will show here</span><b>0</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="editor-section">
       <h3>Admin Security</h3>
       <div class="form-grid">
@@ -2726,7 +2975,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
       </div>
     </section>
     <section class="editor-section">
-      <h3>Projects — 7 Landscape + 7 Reels</h3>
+      <h3>Projects: 7 Landscape + 7 Reels</h3>
       <div class="project-editor" id="projectEditor"></div>
       <div class="hint">Paste a Google Drive image sharing link or direct image URL for the thumbnail. Paste your YouTube, Google Drive, or MP4 link for the video (Vimeo is disabled).</div>
     </section>
@@ -3277,8 +3526,8 @@ function loadEditor() {
     }
 
     const inputLabel = isSecondReel
-      ? 'Video link (VIMEO ONLY for Reel 02 — Second Reel)'
-      : 'Video link (YouTube, Google Drive, or MP4 — No Vimeo)';
+      ? 'Video link (VIMEO ONLY for Reel 02: Second Reel)'
+      : 'Video link (YouTube, Google Drive, or MP4: No Vimeo)';
     const inputPlaceholder = isSecondReel
       ? 'Paste Vimeo link here (Only Vimeo allowed for Reel 02)'
       : 'Paste YouTube, Google Drive, or MP4 link';
@@ -3289,7 +3538,7 @@ function loadEditor() {
     return `
     <div class="project-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h4 style="margin:0">${x.kind === 'reel' ? 'Reel' : 'Landscape'} ${String(i % 7 + 1).padStart(2, '0')}${isSecondReel ? ' (Second Reel — Vimeo Only)' : ''}</h4>
+        <h4 style="margin:0">${x.kind === 'reel' ? 'Reel' : 'Landscape'} ${String(i % 7 + 1).padStart(2, '0')}${isSecondReel ? ' (Second Reel: Vimeo Only)' : ''}</h4>
         <span style="font-size: 11px; font-weight: 700; color: ${badgeColor}; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 999px;">${badgeText}</span>
       </div>
       <div class="field"><label>Title</label><input data-project="${i}" data-part="title" value="${esc(x.title)}"></div>
@@ -3420,6 +3669,8 @@ function openProjectModal(x) {
     else box.classList.remove('is-reel');
   }
 
+  if (typeof recordProjectClick === 'function') recordProjectClick(x.title);
+
   const media = document.querySelector('.modal-media');
   const isSecondReel = x.isSecondReel === true || x.isSecondReel === '1' || x.isBridal || isSecondReelSlot(x);
   const parsed = parseVideoUrl(x.video || '', isSecondReel);
@@ -3511,10 +3762,217 @@ async function saveLive() {
   loadEditor();
 }
 
+// ==========================================
+// VISITOR & ENGAGEMENT INSIGHTS TRACKER (CLOUD)
+// ==========================================
+const STATS_API = 'https://abacus.jasoncameron.dev';
+const STATS_NS = 'anniestylezmedia';
+
+function getStatsDate(offsetDays = 0) {
+  const d = new Date();
+  if (offsetDays !== 0) d.setDate(d.getDate() - offsetDays);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+// 1. Record daily unique visitor session
+function trackVisitorSession() {
+  try {
+    const today = getStatsDate(0);
+    const key = 'as_session_visit_' + today;
+    if (!sessionStorage.getItem(key)) {
+      sessionStorage.setItem(key, '1');
+      fetch(`${STATS_API}/hit/${STATS_NS}/visits-${today}`, { mode: 'cors' }).catch(() => {});
+      fetch(`${STATS_API}/hit/${STATS_NS}/total-visits`, { mode: 'cors' }).catch(() => {});
+    }
+  } catch (e) {}
+}
+
+// 2. Record time / attention spent per section
+let currentTrackedTab = 'experience';
+let tabAttentionInterval = null;
+
+function recordTabAttentionPulse() {
+  try {
+    if (document.hidden) return;
+    const tabKey = 'tab-' + (currentTrackedTab || 'experience');
+    fetch(`${STATS_API}/hit/${STATS_NS}/${tabKey}`, { mode: 'cors' }).catch(() => {});
+  } catch (e) {}
+}
+
+function startAttentionTracking() {
+  if (tabAttentionInterval) clearInterval(tabAttentionInterval);
+  tabAttentionInterval = setInterval(recordTabAttentionPulse, 20000);
+}
+
+function recordTabSwitch(newTab) {
+  if (newTab !== currentTrackedTab) {
+    recordTabAttentionPulse();
+    currentTrackedTab = newTab;
+  }
+}
+
+// 3. Record project click
+function recordProjectClick(title) {
+  try {
+    if (!title) return;
+    const clean = title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 22);
+    fetch(`${STATS_API}/hit/${STATS_NS}/proj-${clean}`, { mode: 'cors' }).catch(() => {});
+  } catch (e) {}
+}
+
+// 4. Record client inquiry actions
+function recordActionClick(type) {
+  try {
+    fetch(`${STATS_API}/hit/${STATS_NS}/action-${type}`, { mode: 'cors' }).catch(() => {});
+  } catch (e) {}
+}
+
+// 5. Load and render stats in Admin panel
+let statsLoading = false;
+async function loadAdminStats() {
+  if (statsLoading) return;
+  statsLoading = true;
+  const refreshBtn = $('refreshStatsBtn');
+  if (refreshBtn) refreshBtn.textContent = '⟳ Loading live stats...';
+
+  const todayStr = getStatsDate(0);
+  const daysList = [];
+  const daysNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = getStatsDate(i);
+    const dayLabel = i === 0 ? 'Today' : daysNames[d.getDay()];
+    const shortDate = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    daysList.push({ key: dateStr, label: dayLabel, date: shortDate, isToday: i === 0 });
+  }
+
+  const fetchVal = async (key) => {
+    try {
+      const res = await fetch(`${STATS_API}/get/${STATS_NS}/${key}`, { mode: 'cors' });
+      if (!res.ok) return 0;
+      const json = await res.json();
+      return Number(json.value) || 0;
+    } catch (e) {
+      return 0;
+    }
+  };
+
+  try {
+    const [
+      totalVisits,
+      todayVisits,
+      tabExp,
+      tabStudio,
+      tabContact,
+      briefClicks,
+      startClicks,
+      ...dailyCounts
+    ] = await Promise.all([
+      fetchVal('total-visits'),
+      fetchVal('visits-' + todayStr),
+      fetchVal('tab-experience'),
+      fetchVal('tab-studio'),
+      fetchVal('tab-contact'),
+      fetchVal('action-brief'),
+      fetchVal('action-start'),
+      ...daysList.map(d => fetchVal('visits-' + d.key))
+    ]);
+
+    if ($('statTodayVisits')) $('statTodayVisits').textContent = todayVisits;
+    if ($('statTotalVisits')) $('statTotalVisits').textContent = totalVisits;
+
+    const totalTabPoints = tabExp + tabStudio + tabContact;
+    let expPct = 0, studioPct = 0, contactPct = 0;
+    let topTabName = 'The Experience';
+    let topTabSub = 'Watching videos & reels';
+
+    if (totalTabPoints > 0) {
+      expPct = Math.round((tabExp / totalTabPoints) * 100);
+      studioPct = Math.round((tabStudio / totalTabPoints) * 100);
+      contactPct = Math.max(0, 100 - expPct - studioPct);
+
+      if (studioPct > expPct && studioPct >= contactPct) {
+        topTabName = 'Studio';
+        topTabSub = `${studioPct}% of visitor attention`;
+      } else if (contactPct > expPct && contactPct > studioPct) {
+        topTabName = 'Contact';
+        topTabSub = `${contactPct}% of visitor attention`;
+      } else {
+        topTabName = 'The Experience';
+        topTabSub = `${expPct}% of visitor attention`;
+      }
+    } else {
+      expPct = 60;
+      studioPct = 30;
+      contactPct = 10;
+      topTabName = 'The Experience';
+      topTabSub = 'Default showcase view';
+    }
+
+    if ($('statTopTab')) $('statTopTab').textContent = topTabName;
+    if ($('statTopTabPct')) $('statTopTabPct').textContent = topTabSub;
+
+    if ($('timeExpPct')) $('timeExpPct').textContent = expPct + '%';
+    if ($('timeExpBar')) $('timeExpBar').style.width = expPct + '%';
+    if ($('timeStudioPct')) $('timeStudioPct').textContent = studioPct + '%';
+    if ($('timeStudioBar')) $('timeStudioBar').style.width = studioPct + '%';
+    if ($('timeContactPct')) $('timeContactPct').textContent = contactPct + '%';
+    if ($('timeContactBar')) $('timeContactBar').style.width = contactPct + '%';
+
+    const trendBox = $('dayTrendRow');
+    if (trendBox) {
+      trendBox.innerHTML = daysList.map((d, idx) => {
+        const count = dailyCounts[idx] || 0;
+        return `
+          <div class="day-trend-card ${d.isToday ? 'is-today' : ''}">
+            <div class="day-trend-name">${d.label}</div>
+            <div class="day-trend-val">${count}</div>
+            <div class="day-trend-date">${d.date}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    if ($('statBriefClicks')) $('statBriefClicks').textContent = briefClicks;
+    if ($('statStartClicks')) $('statStartClicks').textContent = startClicks;
+
+    const topProjects = (data.projects || []).slice(0, 6);
+    const projPromises = topProjects.map(p => {
+      const clean = (p.title || '').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 22);
+      return fetchVal('proj-' + clean).then(v => ({ title: p.title, count: v }));
+    });
+    const projResults = await Promise.all(projPromises);
+    projResults.sort((a, b) => b.count - a.count);
+
+    const campList = $('topCampaignsList');
+    if (campList) {
+      campList.innerHTML = projResults.map(p => `
+        <div class="action-stat-row">
+          <span>${esc(p.title)}</span>
+          <b>${p.count} views</b>
+        </div>
+      `).join('');
+    }
+
+  } catch (err) {
+    console.warn('Could not load stats:', err);
+  } finally {
+    statsLoading = false;
+    if (refreshBtn) refreshBtn.textContent = '⟳ Refresh Live Stats';
+  }
+}
+
 function openEditorPanel() {
   loadEditor();
   $('editor').classList.add('open');
+  loadAdminStats();
 }
+
+if ($('refreshStatsBtn')) $('refreshStatsBtn').onclick = loadAdminStats;
 
 $('openEditor').onclick = openEditorPanel;
 $('closeEditor').onclick = () => $('editor').classList.remove('open');
@@ -3683,12 +4141,30 @@ document.querySelectorAll('.pkg-tier').forEach(tier => {
     document.querySelectorAll('.pkg-tier').forEach(t => t.classList.remove('active'));
     tier.classList.add('active');
     currentPackage = tier.dataset.pkg || 'Single Video';
-    const scope = tier.dataset.scope || '2–4 Days • 4K Master + Sound Design';
+    const scope = tier.dataset.scope || '2-4 Days • 4K Master + Sound Design';
     const scopeTxt = $('scopeText');
     if (scopeTxt) scopeTxt.textContent = `Turnaround: ${scope}`;
     updateBriefWaLink();
   });
 });
+
+// Client Inquiry Action Trackers
+const briefActionBtn = $('sendBriefWaBtn');
+if (briefActionBtn) {
+  briefActionBtn.addEventListener('click', () => {
+    if (typeof recordActionClick === 'function') recordActionClick('brief');
+  });
+}
+if ($('topCtaBtn')) {
+  $('topCtaBtn').addEventListener('click', () => {
+    if (typeof recordActionClick === 'function') recordActionClick('start');
+  });
+}
+if ($('cMainBtn')) {
+  $('cMainBtn').addEventListener('click', () => {
+    if (typeof recordActionClick === 'function') recordActionClick('start');
+  });
+}
 
 // Service Selection Cards inside Studio
 document.querySelectorAll('.studio-service-card').forEach(card => {
@@ -3837,6 +4313,7 @@ document.addEventListener('click', e => {
 function switchTab(tabName) {
   if (tabName === 'projects') tabName = 'experience';
   if (tabName === 'services') tabName = 'studio';
+  if (typeof recordTabSwitch === 'function') recordTabSwitch(tabName);
   const targetTabBtn = document.querySelector(`.nav-tab[data-tab="${tabName}"]`);
   const targetView = document.getElementById('view-' + tabName);
   if (!targetView) return;
@@ -3896,6 +4373,10 @@ window.addEventListener('keydown', e => {
 
 updateAdminUI();
 apply();
+
+// Initialize visitor session tracking and active attention monitoring
+if (typeof trackVisitorSession === 'function') trackVisitorSession();
+if (typeof startAttentionTracking === 'function') startAttentionTracking();
 </script>
 </body>
 </html>
