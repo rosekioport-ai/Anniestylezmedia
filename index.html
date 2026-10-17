@@ -2773,8 +2773,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
             <div class="channel-left">
               <div class="channel-icon">💬</div>
               <div class="channel-text">
-                <span class="channel-name">Chat on WhatsApp</span>
-                <span class="channel-val" id="cWhatsappNum">+234 907 645 9262</span>
+                <span class="channel-val">Chat on WhatsApp</span>
               </div>
             </div>
             <span class="channel-badge">Fast reply ↗</span>
@@ -3612,7 +3611,6 @@ function apply() {
   if ($('cAbout')) $('cAbout').textContent = data.about || '';
   const waNum = (data.whatsapp || '2349076459262').replace(/\D/g, '');
   if ($('cWhatsappCard')) $('cWhatsappCard').href = `https://wa.me/${waNum}`;
-  if ($('cWhatsappNum')) $('cWhatsappNum').textContent = `+${waNum}`;
   if ($('cEmailCard')) $('cEmailCard').href = `mailto:${data.email || 'annieplans08@gmail.com'}`;
   if ($('cEmailAddr')) $('cEmailAddr').textContent = data.email || 'annieplans08@gmail.com';
   if ($('cMainBtn')) $('cMainBtn').href = `https://wa.me/${waNum}`;
@@ -4162,6 +4160,11 @@ if ($('topCtaBtn')) {
 }
 if ($('cMainBtn')) {
   $('cMainBtn').addEventListener('click', () => {
+    if (typeof recordActionClick === 'function') recordActionClick('start');
+  });
+}
+if ($('cWhatsappCard')) {
+  $('cWhatsappCard').addEventListener('click', () => {
     if (typeof recordActionClick === 'function') recordActionClick('start');
   });
 }
