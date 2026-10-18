@@ -22,22 +22,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #050505;
-  --bg-subtle: #0b0b0d;
-  --bg-card: rgba(15, 15, 18, 0.78);
-  --bg-card-hover: rgba(22, 22, 26, 0.92);
-  --bg-card-solid: #0d0d10;
+  --bg: #000000;
+  --bg-subtle: #080808;
+  --bg-card: rgba(14, 14, 16, 0.88);
+  --bg-card-hover: rgba(22, 22, 26, 0.95);
+  --bg-card-solid: #0c0c0e;
   --bg-input: rgba(12, 12, 14, 0.95);
-  --text: #fcfcfc;
-  --text-muted: #9da1aa;
-  --text-subtle: #636773;
+  --text: #ffffff;
+  --text-muted: #a0a0a8;
+  --text-subtle: #686872;
   --gold: #f3ce7a;
   --gold-light: #fff3d4;
   --gold-warm: #e5ba5a;
   --gold-dark: #b18428;
-  --gold-glow: rgba(243, 206, 122, 0.25);
-  --gold-border: rgba(255, 255, 255, 0.08);
-  --gold-border-hover: rgba(243, 206, 122, 0.60);
+  --gold-glow: rgba(243, 206, 122, 0.3);
+  --gold-border: rgba(243, 206, 122, 0.28);
+  --gold-border-hover: rgba(243, 206, 122, 0.75);
   --border: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.14);
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -45,8 +45,8 @@
   --radius-md: 18px;
   --radius-sm: 12px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --glass-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.92), 0 0 25px rgba(243, 206, 122, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  --glass-shadow-hover: 0 34px 80px -8px rgba(0, 0, 0, 0.98), 0 0 45px rgba(243, 206, 122, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.98), 0 0 20px rgba(243, 206, 122, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --glass-shadow-hover: 0 34px 80px -8px rgba(0, 0, 0, 1), 0 0 45px rgba(243, 206, 122, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,13 +55,10 @@ html {
   overflow-x: hidden;
   max-width: 100vw;
   width: 100%;
+  background: #000000;
 }
 body {
-  background: 
-    radial-gradient(ellipse 90% 45% at 50% -8%, rgba(243, 206, 122, 0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 35% at 85% 18%, rgba(243, 206, 122, 0.05) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 35% at 15% 75%, rgba(243, 206, 122, 0.04) 0%, transparent 55%),
-    #050505;
+  background: #000000;
   color: var(--text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: -0.015em;
@@ -863,18 +860,6 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   flex-direction: column;
   align-items: center;
   gap: 16px;
-}
-.cinema-spotlight {
-  position: absolute;
-  top: -80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(850px, 94vw);
-  height: 420px;
-  background: radial-gradient(ellipse 65% 55% at 50% 0%, rgba(243, 206, 122, 0.18) 0%, rgba(243, 206, 122, 0.04) 50%, transparent 75%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(24px);
 }
 .hero-badge-wrap {
   position: relative;
@@ -2656,7 +2641,6 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   <div class="tab-view active" id="view-experience">
     <!-- CINEMATIC HERO STATEMENT -->
     <div class="experience-hero">
-      <div class="cinema-spotlight"></div>
       <div class="hero-badge-wrap">
         <span class="hero-cinema-badge"><span class="badge-dot"></span> DIRECTED BY ANNIESTYLEZ</span>
       </div>
