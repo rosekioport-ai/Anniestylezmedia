@@ -22,31 +22,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --bg: #0e0b08;
-  --bg-subtle: #16120d;
-  --bg-card: rgba(28, 22, 16, 0.82);
-  --bg-card-hover: rgba(36, 28, 20, 0.94);
-  --bg-card-solid: #1b1510;
-  --bg-input: rgba(20, 16, 12, 0.92);
-  --text: #fbf7f0;
-  --text-muted: #b0a799;
-  --text-subtle: #7d7467;
-  --gold: #e5be6c;
-  --gold-light: #fbeed2;
-  --gold-warm: #f0b04a;
-  --gold-dark: #b88a32;
-  --gold-glow: rgba(229, 190, 108, 0.32);
-  --gold-border: rgba(229, 190, 108, 0.30);
-  --gold-border-hover: rgba(251, 238, 210, 0.65);
-  --border: rgba(255, 238, 205, 0.12);
-  --border-light: rgba(255, 238, 205, 0.18);
+  --bg: #050505;
+  --bg-subtle: #0b0b0d;
+  --bg-card: rgba(15, 15, 18, 0.78);
+  --bg-card-hover: rgba(22, 22, 26, 0.92);
+  --bg-card-solid: #0d0d10;
+  --bg-input: rgba(12, 12, 14, 0.95);
+  --text: #fcfcfc;
+  --text-muted: #9da1aa;
+  --text-subtle: #636773;
+  --gold: #f3ce7a;
+  --gold-light: #fff3d4;
+  --gold-warm: #e5ba5a;
+  --gold-dark: #b18428;
+  --gold-glow: rgba(243, 206, 122, 0.25);
+  --gold-border: rgba(255, 255, 255, 0.08);
+  --gold-border-hover: rgba(243, 206, 122, 0.60);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.14);
   --font-serif: 'Playfair Display', Georgia, serif;
   --radius-lg: 26px;
   --radius-md: 18px;
   --radius-sm: 12px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --glass-shadow: 0 22px 55px -10px rgba(0, 0, 0, 0.85), 0 0 35px rgba(229, 190, 108, 0.12), inset 0 1px 0 rgba(255, 245, 220, 0.14);
-  --glass-shadow-hover: 0 32px 75px -8px rgba(0, 0, 0, 0.96), 0 0 50px rgba(229, 190, 108, 0.38), inset 0 1px 0 rgba(255, 245, 220, 0.24);
+  --glass-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.92), 0 0 25px rgba(243, 206, 122, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --glass-shadow-hover: 0 34px 80px -8px rgba(0, 0, 0, 0.98), 0 0 45px rgba(243, 206, 122, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -58,11 +58,10 @@ html {
 }
 body {
   background: 
-    radial-gradient(ellipse 90% 48% at 50% -6%, rgba(229, 190, 108, 0.32) 0%, transparent 68%),
-    radial-gradient(ellipse 70% 42% at 88% 22%, rgba(215, 145, 55, 0.20) 0%, transparent 62%),
-    radial-gradient(ellipse 70% 42% at 12% 70%, rgba(195, 120, 40, 0.18) 0%, transparent 62%),
-    radial-gradient(ellipse 95% 42% at 50% 100%, rgba(229, 190, 108, 0.22) 0%, transparent 70%),
-    #0e0b08;
+    radial-gradient(ellipse 90% 45% at 50% -8%, rgba(243, 206, 122, 0.14) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 35% at 85% 18%, rgba(243, 206, 122, 0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 35% at 15% 75%, rgba(243, 206, 122, 0.04) 0%, transparent 55%),
+    #050505;
   color: var(--text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   letter-spacing: -0.015em;
@@ -74,10 +73,10 @@ body {
   min-height: 100vh;
 }
 
-::selection { background: var(--gold); color: #0c0a07; }
+::selection { background: var(--gold); color: #050505; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #2c241b; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: #1c1c20; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
 a { color: inherit; text-decoration: none; transition: all 0.25s var(--ease); }
@@ -213,18 +212,18 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 
 .header-btn {
-  background: linear-gradient(135deg, #e5c57b 0%, #d4a94e 45%, #b68733 100%);
-  color: #0c0a07;
+  background: linear-gradient(135deg, #fae29e 0%, #eac168 50%, #b88b32 100%);
+  color: #060503;
   font-weight: 750;
   font-size: 12px;
   padding: 10px 22px;
   border-radius: 999px;
-  box-shadow: 0 6px 22px rgba(212, 169, 78, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 6px 22px rgba(234, 193, 104, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transition: all 0.3s var(--ease);
   letter-spacing: 0.02em;
 }
 .header-btn:hover {
-  box-shadow: 0 8px 30px rgba(212, 169, 78, 0.58), 0 0 18px rgba(229, 197, 123, 0.4);
+  box-shadow: 0 8px 30px rgba(234, 193, 104, 0.55), 0 0 20px rgba(250, 226, 158, 0.45);
   transform: translateY(-1.5px) scale(1.02);
   color: #000;
 }
@@ -1020,8 +1019,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .card:hover {
   transform: translateY(-8px) scale(1.025);
-  border-color: rgba(223, 186, 106, 0.6);
-  box-shadow: 0 30px 70px -10px rgba(0, 0, 0, 0.95), 0 0 50px rgba(223, 186, 106, 0.3), 0 0 90px rgba(212, 169, 78, 0.15), inset 0 1px 0 rgba(255, 245, 225, 0.28);
+  border-color: rgba(243, 206, 122, 0.7);
+  box-shadow: 0 32px 75px -10px rgba(0, 0, 0, 0.98), 0 0 50px rgba(243, 206, 122, 0.32), 0 0 90px rgba(229, 186, 90, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 .card::after {
   content: '';
@@ -1032,11 +1031,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(18, 16, 13, 0.78) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dfba6a'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") no-repeat center center / 20px 20px;
+  background: rgba(10, 10, 12, 0.8) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23f3ce7a'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") no-repeat center center / 20px 20px;
   backdrop-filter: blur(10px) saturate(140%);
   -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border: 1px solid rgba(223, 186, 106, 0.45);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7), 0 0 24px rgba(223, 186, 106, 0.4);
+  border: 1px solid rgba(243, 206, 122, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), 0 0 25px rgba(243, 206, 122, 0.45);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s var(--ease), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1062,7 +1061,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: #12100d;
+  background: #08080a;
 }
 .visual::before {
   content: '';
@@ -1289,8 +1288,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
 }
 .gold-text {
-  color: var(--gold-light);
-  text-shadow: 0 0 28px rgba(223, 186, 106, 0.45);
+  background: linear-gradient(135deg, #ffffff 10%, #fae6b8 50%, #e0b457 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 2px 14px rgba(243, 206, 122, 0.35));
 }
 
 .who-statement {
@@ -1388,18 +1390,18 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   align-items: center;
   justify-content: space-between;
   padding: 15px 18px;
-  background: rgba(255, 248, 235, 0.03);
-  border: 1px solid rgba(223, 186, 106, 0.16);
+  background: rgba(18, 18, 22, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
   text-decoration: none;
   transition: all 0.28s var(--ease);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 .channel-item:hover {
-  background: rgba(223, 186, 106, 0.12);
-  border-color: var(--gold);
+  background: rgba(28, 28, 34, 0.9);
+  border-color: rgba(243, 206, 122, 0.5);
   transform: translateX(4px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
 }
 .channel-left {
   display: flex;
@@ -1450,8 +1452,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 
 .contact-direct-btn {
-  background: linear-gradient(135deg, #e5c57b 0%, #d4a94e 45%, #b68733 100%);
-  color: #0c0a07;
+  background: linear-gradient(135deg, #fae29e 0%, #eac168 50%, #b88b32 100%);
+  color: #060503;
   font-family: 'Sora', sans-serif;
   font-weight: 750;
   font-size: 14px;
@@ -1463,13 +1465,13 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   align-items: center;
   justify-content: center;
   gap: 10px;
-  box-shadow: 0 8px 30px rgba(212, 169, 78, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  box-shadow: 0 8px 30px rgba(234, 193, 104, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transition: all 0.3s var(--ease);
   letter-spacing: 0.01em;
 }
 .contact-direct-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 38px rgba(212, 169, 78, 0.65), 0 0 25px var(--gold-glow);
+  box-shadow: 0 12px 38px rgba(234, 193, 104, 0.65), 0 0 25px var(--gold-glow);
   color: #000;
 }
 
@@ -1638,8 +1640,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  background: linear-gradient(135deg, rgba(223, 186, 106, 0.16), rgba(223, 186, 106, 0.06));
-  border: 1px solid var(--gold-border);
+  background: linear-gradient(135deg, rgba(243, 206, 122, 0.16), rgba(243, 206, 122, 0.05));
+  border: 1px solid rgba(243, 206, 122, 0.35);
   border-radius: var(--radius-md);
   padding: 10px 18px;
   color: var(--gold-light);
@@ -1648,15 +1650,15 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   letter-spacing: -0.01em;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 8px 20px -6px rgba(223, 186, 106, 0.25), inset 0 1px 0 rgba(255, 245, 225, 0.1);
+  box-shadow: 0 8px 20px -6px rgba(243, 206, 122, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s var(--ease);
 }
 .send-brief-btn:hover {
-  background: linear-gradient(135deg, #e5c57b 0%, #d4a94e 45%, #b68733 100%);
-  color: #0c0a07;
+  background: linear-gradient(135deg, #fae29e 0%, #eac168 50%, #b88b32 100%);
+  color: #060503;
   border-color: var(--gold);
   transform: translateY(-2px);
-  box-shadow: 0 16px 36px -6px rgba(212, 169, 78, 0.55), 0 0 22px var(--gold-glow);
+  box-shadow: 0 16px 36px -6px rgba(234, 193, 104, 0.55), 0 0 24px var(--gold-glow);
 }
 .send-brief-btn .btn-arrow {
   font-size: 16px;
