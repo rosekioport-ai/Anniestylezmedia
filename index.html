@@ -852,6 +852,86 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   font-weight: 750;
 }
 
+/* CINEMATIC HERO STAGE FOR THE EXPERIENCE */
+.experience-hero {
+  position: relative;
+  text-align: center;
+  padding: 32px 20px 36px;
+  max-width: 980px;
+  margin: 0 auto 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.cinema-spotlight {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(850px, 94vw);
+  height: 420px;
+  background: radial-gradient(ellipse 65% 55% at 50% 0%, rgba(243, 206, 122, 0.18) 0%, rgba(243, 206, 122, 0.04) 50%, transparent 75%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(24px);
+}
+.hero-badge-wrap {
+  position: relative;
+  z-index: 1;
+}
+.hero-cinema-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  background: rgba(18, 18, 22, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(243, 206, 122, 0.3);
+  padding: 6px 18px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+}
+.hero-cinema-badge .badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: cinemaPulse 2s ease-in-out infinite alternate;
+}
+@keyframes cinemaPulse {
+  0% { opacity: 0.5; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 12px var(--gold); }
+}
+.hero-headline {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-serif);
+  font-size: clamp(34px, 5.2vw, 66px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: #fff;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+  max-width: 900px;
+}
+.hero-sub {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.65;
+  color: #c4c8d4;
+  max-width: 700px;
+  font-weight: 450;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+}
+
 /* SECTION 2: WHAT GETS MADE HERE (3 Core Services) */
 .section-head {
   display: flex;
@@ -1005,22 +1085,22 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .card {
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-md);
-  background: #14120f;
-  border: 1px solid var(--gold-border);
+  border-radius: 18px;
+  background: #09090c;
+  border: 1px solid rgba(255, 255, 255, 0.09);
   cursor: pointer;
   flex-shrink: 0;
   scroll-snap-align: start;
   transition: transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.32s ease;
-  box-shadow: 0 18px 42px -10px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 245, 225, 0.08);
+  box-shadow: 0 20px 48px -10px rgba(0, 0, 0, 0.95), 0 0 1px 1px rgba(255, 255, 255, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
 }
 .card:hover {
   transform: translateY(-8px) scale(1.025);
-  border-color: rgba(243, 206, 122, 0.7);
-  box-shadow: 0 32px 75px -10px rgba(0, 0, 0, 0.98), 0 0 50px rgba(243, 206, 122, 0.32), 0 0 90px rgba(229, 186, 90, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(243, 206, 122, 0.75);
+  box-shadow: 0 32px 75px -10px rgba(0, 0, 0, 0.98), 0 0 50px rgba(243, 206, 122, 0.35), 0 0 90px rgba(229, 186, 90, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 .card::after {
   content: '';
@@ -1047,14 +1127,15 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 
 .landscape .card {
-  width: 360px;
-  height: 202.5px;
+  width: clamp(330px, 30vw, 440px);
   aspect-ratio: 16 / 9;
+  height: auto;
 }
 .reel .card {
-  width: 215px;
-  height: 350px;
-  min-height: 350px;
+  width: clamp(220px, 19vw, 280px);
+  aspect-ratio: 9 / 16;
+  height: auto;
+  min-height: unset;
 }
 
 .visual {
@@ -2573,6 +2654,21 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
   <!-- 1. THE EXPERIENCE VIEW (VIDEOS SHOWCASE - DEFAULT ACTIVE) -->
   <div class="tab-view active" id="view-experience">
+    <!-- CINEMATIC HERO STATEMENT -->
+    <div class="experience-hero">
+      <div class="cinema-spotlight"></div>
+      <div class="hero-badge-wrap">
+        <span class="hero-cinema-badge"><span class="badge-dot"></span> DIRECTED BY ANNIESTYLEZ</span>
+      </div>
+      <h1 class="hero-headline">
+        <span id="heroHeadlineMain">I turn Brands</span>
+        <span class="gold-text" id="heroHeadlineGold">into Experiences.</span>
+      </h1>
+      <p class="hero-sub" id="heroWorkIntro">
+        AI Video Creator &amp; Editor crafting bold, story-led films for brands, products, and visionaries that demand to be experienced, not just watched.
+      </p>
+    </div>
+
     <section class="gallery-section" id="work">
       <div class="section-head">
         <div>
@@ -2580,9 +2676,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         </div>
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <div class="gallery-filters">
-            <button class="g-filter" data-filter="landscape">Landscape (7)</button>
-            <button class="g-filter" data-filter="reel">Reels (7)</button>
-            <button class="g-filter active" data-filter="all">All (14)</button>
+            <button class="g-filter" data-filter="landscape">Landscape (3)</button>
+            <button class="g-filter" data-filter="reel">Reels (3)</button>
+            <button class="g-filter active" data-filter="all">All (6)</button>
           </div>
           <div class="carousel-nav">
             <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
@@ -2596,20 +2692,20 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           <article class="card" data-kind="landscape" data-title="Real Estate Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Real Estate Campaign</div></div><div class="type">4K Cinema</div></div></article>
           <article class="card" data-kind="landscape" data-title="Construction Technology"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Construction Technology</div></div><div class="type">4K Cinema</div></div></article>
           <article class="card" data-kind="landscape" data-title="Academic Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Academic Campaign</div></div><div class="type">4K Cinema</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Brand Unveiling"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Brand Unveiling</div></div><div class="type">4K Cinema</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 05"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">4K Cinema</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 06"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">4K Cinema</div></div></article>
-          <article class="card" data-kind="landscape" data-title="Landscape Project 07"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">4K Cinema</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 04" style="display:none"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Landscape Project 04</div></div><div class="type">4K Cinema</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 05" style="display:none"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Landscape Project 05</div></div><div class="type">4K Cinema</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 06" style="display:none"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Landscape Project 06</div></div><div class="type">4K Cinema</div></div></article>
+          <article class="card" data-kind="landscape" data-title="Landscape Project 07" style="display:none"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">4K Cinema</div></div></article>
         </div>
 
         <div class="gallery-grid reel" id="reelGrid" style="display:flex;margin-top:16px">
           <article class="card" data-kind="reel" data-title="Chauffeur Services"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Chauffeur Services</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Bridal Makeovers"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Bridal Makeovers</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Local Market Runs"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Local Market Runs</div></div><div class="type">9:16 Vertical</div></div></article>
-          <article class="card" data-kind="reel" data-title="Reel 04"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Reel 04</div></div><div class="type">9:16 Vertical</div></div></article>
-          <article class="card" data-kind="reel" data-title="Reel 05"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Reel 05</div></div><div class="type">9:16 Vertical</div></div></article>
-          <article class="card" data-kind="reel" data-title="Reel 06"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Reel 06</div></div><div class="type">9:16 Vertical</div></div></article>
-          <article class="card" data-kind="reel" data-title="Reel 07"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Reel 07</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 04" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">04</div><div class="label">Reel 04</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 05" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Reel 05</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 06" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Reel 06</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 07" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Reel 07</div></div><div class="type">9:16 Vertical</div></div></article>
         </div>
       </div>
     </section>
@@ -3693,7 +3789,14 @@ function apply() {
     }
   }
 
-  // Update gallery cards
+  // Update Hero Statement in The Experience
+  if ($('heroHeadlineMain')) $('heroHeadlineMain').textContent = data.headline || 'I turn Brands';
+  if ($('heroHeadlineGold')) $('heroHeadlineGold').textContent = data.goldHeadline || 'into Experiences.';
+  if ($('heroWorkIntro')) $('heroWorkIntro').textContent = data.workIntro || data.statement || 'AI Video Creator & Editor crafting bold, story-led films for brands, products, and visionaries that demand to be experienced, not just watched.';
+
+  // Update gallery cards and hide empty placeholder slots
+  let activeLandscapes = 0;
+  let activeReels = 0;
   document.querySelectorAll('.card').forEach((c, i) => {
     const x = data.projects[i];
     if (!x) return;
@@ -3715,11 +3818,30 @@ function apply() {
     if (typeEl) {
       typeEl.textContent = (x.kind === 'reel' || c.closest('#reelGrid')) ? '9:16 Vertical' : '4K Cinema';
     }
+
     const sources = getDriveImageSources(x.thumbnail), thumb = sources[0];
+    const isFilled = !!(thumb && thumb.trim());
+    if (isFilled) {
+      c.style.display = '';
+      if (c.closest('#reelGrid')) activeReels++;
+      else activeLandscapes++;
+    } else {
+      c.style.display = 'none';
+    }
+
     c.querySelector('.visual').innerHTML = thumb
       ? `<img src="${esc(thumb)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" data-thumb-srcs="${esc(JSON.stringify(sources))}" data-thumb-index="0" onerror="try{const a=JSON.parse(this.dataset.thumbSrcs||'[]');let i=Number(this.dataset.thumbIndex||0)+1;if(i<a.length){this.dataset.thumbIndex=String(i);this.src=a[i];}else{this.parentElement.innerHTML='<span class=placeholder>Thumbnail unavailable</span>';}}catch(e){this.parentElement.innerHTML='<span class=placeholder>Thumbnail unavailable</span>'}">`
       : '<span class="placeholder">Drop project here</span>';
   });
+
+  // Update dynamic filter counts
+  const filterLand = document.querySelector('.g-filter[data-filter="landscape"]');
+  const filterReel = document.querySelector('.g-filter[data-filter="reel"]');
+  const filterAll = document.querySelector('.g-filter[data-filter="all"]');
+  if (filterLand) filterLand.textContent = `Landscape (${activeLandscapes})`;
+  if (filterReel) filterReel.textContent = `Reels (${activeReels})`;
+  if (filterAll) filterAll.textContent = `All (${activeLandscapes + activeReels})`;
+
   bindCards();
 }
 
