@@ -19,7 +19,7 @@
 <meta name="twitter:description" content="AI Video Creator &amp; Editor creating bold, story-led videos for brands and products.">
 <meta name="twitter:image" content="https://anniestylezmedia.pages.dev/og_preview.jpg">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
   --bg: #000000;
@@ -40,6 +40,7 @@
   --gold-border-hover: rgba(243, 206, 122, 0.75);
   --border: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.14);
+  --font-sans: 'DM Sans', 'Plus Jakarta Sans', sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
   --radius-lg: 26px;
   --radius-md: 18px;
@@ -60,8 +61,8 @@ html {
 body {
   background: #000000;
   color: var(--text);
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans);
+  letter-spacing: -0.012em;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   max-width: 100vw;
@@ -858,6 +859,195 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   letter-spacing: 0.16em;
   color: var(--gold-light);
   font-weight: 750;
+}
+
+
+/* STUDIO ROADMAP: 3-STEP PROCESS & DELIVERABLES (INSPIRATION FROM TIG AI STUDIO) */
+.studio-roadmap-section {
+  max-width: 1440px;
+  width: 100%;
+  margin: 36px auto 16px;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 40px clamp(20px, 4vw, 48px);
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.roadmap-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roadmap-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.roadmap-title {
+  font-size: clamp(26px, 3.4vw, 38px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  color: #ffffff;
+}
+
+.roadmap-sub {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 680px;
+}
+
+.roadmap-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.roadmap-step-card {
+  background: rgba(18, 18, 22, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 26px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.3s var(--ease);
+}
+
+.roadmap-step-card:hover {
+  border-color: var(--gold-border-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.9), 0 0 24px rgba(243, 206, 122, 0.15);
+}
+
+.step-card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.step-card-title {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.step-card-desc {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text-muted);
+}
+
+/* FORMATS BANNER */
+.formats-banner {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.formats-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 520px;
+}
+
+.formats-badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.formats-title {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+}
+
+.formats-sub {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.formats-tags {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.format-tag {
+  background: rgba(18, 18, 22, 0.85);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ft-ratio {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(243, 206, 122, 0.12);
+  border: 1px solid rgba(243, 206, 122, 0.3);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.ft-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ft-details strong {
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.ft-details span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+@media (max-width: 900px) {
+  .roadmap-steps-grid {
+    grid-template-columns: 1fr;
+  }
+  .formats-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 /* CINEMATIC HERO STAGE FOR THE EXPERIENCE */
@@ -2637,7 +2827,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     </nav>
     <div style="display:flex;align-items:center;gap:12px">
       <button class="edit-btn" id="openEditor">EDIT PORTFOLIO</button>
-      <a class="header-btn" id="topCtaBtn" href="https://wa.me/2349076459262" target="_blank" rel="noopener">Start a project</a>
+      <a class="header-btn" id="topCtaBtn" href="https://wa.me/2349076459262?text=Hi%20Annie%2C%20I%20watched%20your%20video%20portfolio%20and%20I%20would%20love%20to%20discuss%20an%20AI%20video%20project." target="_blank" rel="noopener">Start a project</a>
     </div>
   </header>
 
@@ -2869,6 +3059,61 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
       </div>
 
     </div>
+  
+    <!-- HOW WE WORK TOGETHER (3-STEP ROADMAP & SCREEN FORMATS) -->
+    <section class="studio-roadmap-section">
+      <div class="roadmap-header">
+        <span class="roadmap-eyebrow">HOW WE WORK TOGETHER</span>
+        <h2 class="roadmap-title">A clear brief. <span class="gold-text">A considered finish.</span></h2>
+        <p class="roadmap-sub">Creative decisions stay connected to your audience, your message, and where the video will be seen.</p>
+      </div>
+
+      <div class="roadmap-steps-grid">
+        <div class="roadmap-step-card">
+          <div class="step-card-num">01 / THE BRIEF</div>
+          <h3 class="step-card-title">Find the story worth telling.</h3>
+          <p class="step-card-desc">We define your goal, target audience, and central message. Creative references and hooks help us agree on the tone, emotion, and ambition before creating.</p>
+        </div>
+
+        <div class="roadmap-step-card">
+          <div class="step-card-num">02 / THE DIRECTION</div>
+          <h3 class="step-card-title">Make the idea visible.</h3>
+          <p class="step-card-desc">A tailored script, visual scene plan, and character continuity establish the story. We design every shot so the message connects immediately.</p>
+        </div>
+
+        <div class="roadmap-step-card">
+          <div class="step-card-num">03 / THE FINISH</div>
+          <h3 class="step-card-title">Shape it for the screen.</h3>
+          <p class="step-card-desc">AI generation, pacing, sound design, and color grading bring the piece together. Final master delivered in 9:16 vertical or 16:9 widescreen formats.</p>
+        </div>
+      </div>
+
+      <!-- ONE STORY. EVERY SCREEN FORMAT BANNER -->
+      <div class="formats-banner">
+        <div class="formats-info">
+          <span class="formats-badge">DELIVERABLES</span>
+          <h4 class="formats-title">One story. Every screen.</h4>
+          <p class="formats-sub">Every project can be delivered in portrait 9:16 for mobile reels, or landscape 16:9 for larger screens and websites.</p>
+        </div>
+        <div class="formats-tags">
+          <div class="format-tag">
+            <span class="ft-ratio">9:16</span>
+            <div class="ft-details">
+              <strong>Vertical Format</strong>
+              <span>Instagram Reels • TikTok • YouTube Shorts</span>
+            </div>
+          </div>
+          <div class="format-tag">
+            <span class="ft-ratio">16:9</span>
+            <div class="ft-details">
+              <strong>Landscape Format</strong>
+              <span>YouTube • Website Heroes • Presentations</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </div>
 
 
@@ -2925,7 +3170,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
         </div>
 
         <div class="channels-list">
-          <a class="channel-item whatsapp" id="cWhatsappCard" href="https://wa.me/2349076459262" target="_blank" rel="noopener">
+          <a class="channel-item whatsapp" id="cWhatsappCard" href="https://wa.me/2349076459262?text=Hi%20Annie%2C%20I%20watched%20your%20video%20portfolio%20and%20I%20would%20love%20to%20discuss%20an%20AI%20video%20project." target="_blank" rel="noopener">
             <div class="channel-left">
               <div class="channel-icon">💬</div>
               <div class="channel-text">
@@ -2958,7 +3203,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
           </div>
         </div>
 
-        <a class="contact-direct-btn" id="cMainBtn" href="https://wa.me/2349076459262" target="_blank" rel="noopener">
+        <a class="contact-direct-btn" id="cMainBtn" href="https://wa.me/2349076459262?text=Hi%20Annie%2C%20I%20watched%20your%20video%20portfolio%20and%20I%20would%20love%20to%20discuss%20an%20AI%20video%20project." target="_blank" rel="noopener">
           <span id="cBtnText">Start a project on WhatsApp</span>
           <span>→</span>
         </a>
@@ -3766,10 +4011,13 @@ function apply() {
   if ($('cStatement')) $('cStatement').textContent = data.statement || '';
   if ($('cAbout')) $('cAbout').textContent = data.about || '';
   const waNum = (data.whatsapp || '2349076459262').replace(/\D/g, '');
-  if ($('cWhatsappCard')) $('cWhatsappCard').href = `https://wa.me/${waNum}`;
+  const waDefaultMsg = encodeURIComponent("Hi Annie, I watched your video portfolio and I would love to discuss an AI video project.");
+  if ($('topCtaBtn')) $('topCtaBtn').href = `https://wa.me/${waNum}?text=${waDefaultMsg}`;
+  if ($('whatsappLink')) $('whatsappLink').href = `https://wa.me/${waNum}?text=${waDefaultMsg}`;
+  if ($('cWhatsappCard')) $('cWhatsappCard').href = `https://wa.me/${waNum}?text=${waDefaultMsg}`;
   if ($('cEmailCard')) $('cEmailCard').href = `mailto:${data.email || 'annieplans08@gmail.com'}`;
   if ($('cEmailAddr')) $('cEmailAddr').textContent = data.email || 'annieplans08@gmail.com';
-  if ($('cMainBtn')) $('cMainBtn').href = `https://wa.me/${waNum}`;
+  if ($('cMainBtn')) $('cMainBtn').href = `https://wa.me/${waNum}?text=${waDefaultMsg}`;
   if ($('cBtnText')) $('cBtnText').textContent = data.contactText ? `${data.contactText} on WhatsApp` : 'Start a project on WhatsApp';
 
   if (typeof updateBriefWaLink === 'function') updateBriefWaLink();
