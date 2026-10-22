@@ -1767,7 +1767,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .admin-lock-btn:hover { color: var(--gold); }
 
-/* ZOOM-FORWARD VIDEO MODAL */
+/* ZOOM-FORWARD VIDEO MODAL (SIDE-BY-SIDE VIDEO + DESCRIPTION) */
 .modal {
   position: fixed;
   inset: 0;
@@ -1778,9 +1778,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px;
   opacity: 0;
   pointer-events: none;
+  overflow: hidden;
+  overscroll-behavior: contain;
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .modal.open {
@@ -1788,13 +1790,20 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   pointer-events: auto;
 }
 .modal-box {
-  width: min(920px, 100%);
+  width: min(1140px, 96vw);
+  max-height: 88vh;
   background: linear-gradient(165deg, #161310 0%, #0d0b09 100%);
   border: 1px solid var(--gold-border);
   border-radius: 24px;
-  padding: 26px;
+  padding: 24px 28px;
   position: relative;
   z-index: 10;
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(280px, 1fr);
+  gap: 28px;
+  align-items: center;
+  overflow: hidden;
+  overscroll-behavior: contain;
   box-shadow: 0 40px 140px rgba(0, 0, 0, 0.98), 0 0 50px rgba(223, 186, 106, 0.15), inset 0 1px 0 rgba(255, 245, 225, 0.1);
   transform: scale(0.65) translateY(40px);
   opacity: 0;
@@ -1810,7 +1819,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .close {
   position: absolute;
-  right: 18px; top: 16px;
+  right: 16px; top: 16px;
   background: rgba(255, 245, 225, 0.08);
   border: 1px solid rgba(223, 186, 106, 0.25);
   color: var(--gold-light);
@@ -1833,6 +1842,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 .modal-media {
   aspect-ratio: 16/9;
+  width: 100%;
+  max-height: 76vh;
   background: #000;
   border-radius: 14px;
   overflow: hidden;
@@ -1845,11 +1856,15 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8);
 }
 .modal-box.is-reel {
-  width: min(460px, 92vw);
+  width: min(880px, 95vw);
+  grid-template-columns: minmax(240px, 340px) minmax(260px, 1fr);
 }
 .modal-box.is-reel .modal-media {
   aspect-ratio: 9/16;
-  max-height: 72vh;
+  max-height: 78vh;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
 }
 .modal-media iframe, .modal-media video {
   width: 100%;
@@ -1866,8 +1881,48 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   display: block;
   object-fit: cover;
 }
-.modal h3 { font-family: 'Sora', sans-serif; font-size: 24px; margin: 20px 0 8px; font-weight: 750; color: #fff; }
-.modal p { color: var(--text-muted); font-size: 14px; line-height: 1.7; white-space: pre-line; }
+.modal-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-height: 76vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 12px;
+  padding-top: 12px;
+}
+.modal-side::-webkit-scrollbar {
+  width: 5px;
+}
+.modal-side::-webkit-scrollbar-thumb {
+  background: rgba(243, 206, 122, 0.35);
+  border-radius: 999px;
+}
+.modal-eyebrow {
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.modal h3 {
+  font-family: 'Sora', sans-serif;
+  font-size: 24px;
+  margin: 0 0 14px;
+  padding-right: 32px;
+  font-weight: 750;
+  color: #fff;
+  line-height: 1.2;
+}
+.modal p {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  line-height: 1.72;
+  white-space: pre-line;
+  padding-bottom: 8px;
+}
 
 .video-end {
   position: absolute;
@@ -2724,18 +2779,24 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   .modal {
     padding: 12px;
   }
-  .modal-box {
+  .modal-box, .modal-box.is-reel {
+    grid-template-columns: 1fr;
+    gap: 14px;
     padding: 16px 14px;
     border-radius: 18px;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
-  }
-  .modal-box.is-reel {
-    width: 100%;
+    overscroll-behavior: contain;
   }
   .modal-box.is-reel .modal-media {
-    max-height: 52vh;
+    max-height: 48vh;
+  }
+  .modal-side {
+    max-height: none;
+    overflow-y: visible;
+    padding-top: 0;
+    padding-right: 4px;
   }
   .close {
     top: 10px;
@@ -2746,11 +2807,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   }
   .modal h3 {
     font-size: 18px;
-    margin: 12px 0 6px;
+    margin: 4px 0 8px;
   }
   .modal p {
-    font-size: 12px;
-    line-height: 1.6;
+    font-size: 12.5px;
+    line-height: 1.65;
   }
   .carousel-shelf, .gallery-section, .studio-grid, .generator-card, .prompt-box, .contact-page-grid, .who-card, .contact-action-card, .statement-3d-stage {
     max-width: 100% !important;
@@ -2808,7 +2869,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 </style>
 
-<script id="portfolio-data">window.__PORTFOLIO_DATA__={"name": "Anniestylez_Media", "mark": "STORY-LED AI VIDEO ADS", "headline": "I turn Brands", "goldHeadline": "into Experiences.", "workIntro": "Story-led AI video ads and creative direction for service brands and products. I turn real customer problems into visual stories that make your brand the only obvious choice.", "statement": "Story-Led AI Video Creator & Creative Director building commercials for service brands and businesses that want buyers to choose them with confidence.", "about": "I take an idea from the first spark to a finished piece of video. I turn real problems into creative stories that make people see themselves, understand the problem, and recognise the brand as the solution. The goal is simple: connect with both problem-aware and solution-aware viewers, then make them want what your brand offers.\n", "email": "annieplans08@gmail.com", "whatsapp": "2348104665457", "contactText": "", "footer": "LET'S GIVE YOU", "footerGold": "AN EXPERIENCE", "footerLabel": "STORY-LED AI VIDEO ADS & CREATIVE DIRECTION", "services": [["Creative Conceptualization", "Turning a brief, product or rough idea into a clear visual concept with a strong creative direction."], ["AI Video Production", "Building original visual sequences and complete videos designed around the story, audience and objective."], ["Video Editing", "Shaping footage, visuals, sound and pacing into a polished final piece that feels deliberate and engaging."], ["AI Commercials & Ads", "Short, memorable advertising videos made to communicate value quickly and leave an impression."], ["Reels & Short Form", "Fast-moving social content built around hooks, retention, clarity and a reason to keep watching."], ["Visual Storytelling", "Creating a visual language that helps ideas, brands and stories connect without overcomplicating the message."], ["Content Production", "End-to-end support for turning a content idea into something ready to publish and share."], ["Creative Direction", "Keeping the visual idea, narrative and final execution aligned from the first frame to the last."]], "projects": [{"kind": "landscape", "title": "Real Estate Campaign", "description": "NITTY HOMES.\n\nA cinematic AI-powered concept created to show how NITTY HOMES can make house hunting in Lagos simpler, more transparent, and less stressful.\n\nThe story takes the viewer through the entire journey, from searching for a home and filtering suitable properties to physical inspection, live video viewing, agreement, and finally moving into the new home.\n\nThe goal was simple: make the problem feel familiar, then position NITTY HOMES as the solution.\n\nConcept Development  AI Video Production  Storytelling  Editing  Creative Direction", "video": "https://youtu.be/ea3XJRi3XJU", "thumbnail": "https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql"}, {"kind": "landscape", "title": "Construction Technology", "description": "QENVORA PROJECTS.\n\nA cinematic AI-powered concept created to introduce Qenvora Projects and its approach to construction planning.\n\nThe story follows a homeowner from the uncertainty of traditional construction to a new way of experiencing a home before construction begins. Using full-scale holographic visualization on the actual property, the homeowner can walk through the proposed design, identify changes, and approve the final vision before committing to construction.\n\nThe goal was to communicate a simple idea: you shouldn't have to wait until your home is built to discover whether you got it right.\n\nConcept Development  AI Video Production  Storytelling  Creative Direction  Editing", "video": "https://youtu.be/Fai29Htv648", "thumbnail": "https://drive.google.com/uc?export=view&id=1YNOeZMdReFpZpA4lzeAjhRUahcYEpKcc"}, {"kind": "landscape", "title": "Academic Campaign", "description": "NORVERIA ACADEMY\n\nA cinematic AI-powered concept created for a school campaign focused on curiosity, technology, character, and future readiness.\n\nThe story begins with a simple childhood moment: a curious boy exploring his mother's phone. That curiosity becomes the foundation for a larger conversation about raising children in a world where technology is advancing rapidly, while wisdom, discernment, and character remain just as important.\n\nThe campaign positions the school as more than a place for academic success. Through twice-yearly seminars featuring professionals and thought leaders across AI, research, vocational skills, financial literacy, entrepreneurship, and technology, the school aims to expose students to the world they are preparing to enter.\n\nThe core message is simple: don't suppress a child's curiosity. Give it direction.\n\nConcept Development  AI Video Production  Storytelling  Creative Direction  Editing", "video": "https://youtu.be/Q4t5WAO68e8", "thumbnail": "https://drive.google.com/uc?export=view&id=1d-7E--JZUh8UzC5I3bUMMSHxw9t5kiQL"}, {"kind": "landscape", "title": "Brand Unveiling", "description": "BRAND UNVEILING\n\nA cinematic story-led AI campaign built to introduce a brand in a way that feels unforgettable from the very first frame.\n\nInstead of announcing a launch with a plain logo or static flyer, this piece builds anticipation, emotion, and visual identity so the audience immediately understands what the brand stands for and why it matters.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/kuLBlKpiIr8", "thumbnail": "https://drive.google.com/uc?export=view&id=1X3nL51kLYj4NMgLw8KXRYM57TdcFIbJ1"}, {"kind": "landscape", "title": "Landscape Project 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Chauffeur Services", "description": "CHAUFFEUR SERVICE\n\nA cinematic AI-powered advertising campaign created for a professional driver service.\n\nFrom concept development and visual direction to AI video production and final editing, I developed the campaign from the first idea through to the finished piece.\n\nThe project focused on creating a polished, relatable brand experience while showcasing the service in a waythat feels natural and easy to connect with.\n\nConcept Development  AI Video Production  Creative Direction  Storytelling  Editing", "video": "https://youtube.com/shorts/dmJxexfvfHc?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=1ngt2gZVPTD8l5YGabGy5Pt1kNDkWIMUX"}, {"kind": "reel", "title": "Bridal Makeovers", "description": "BRIDAL MAKEOVERS\n\nA story-led AI vertical campaign created for a luxury bridal beauty brand.\n\nEvery bride shares the same quiet worry before her wedding day: wanting to look breathtaking and timeless without feeling like a stranger in her own skin.\n\nThis campaign moves away from generic makeup transitions and tells an emotional transformation story: from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://vimeo.com/1236068443?share=copy&fl=sv&fe=ci", "thumbnail": "https://drive.google.com/uc?export=view&id=1fPa-RtGB7y3ZFzqn3jYHtqKhiFEsOtRt"}, {"kind": "reel", "title": "Local Market Runs", "description": "LOCAL MARKET RUNS\n\nA fast-paced, relatable AI commercial built for a personal grocery and market errand service.\n\nInstead of just listing delivery fees, the story highlights the chaos, heat, and hours lost in crowded market runs, and contrasts it with the relief of having fresh, hand-picked market items delivered straight to your kitchen while you focus on your day.\n\nThe goal was simple: make the viewer feel the everyday stress, then show the service as the easiest way to buy back their time.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/7PDpNIgCsm8?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=126Fi9IGTwI9kY5EbQqJN0VzV9x5vADkc"}, {"kind": "reel", "title": "Reel 04", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Reel 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Reel 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Reel 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}]};</script>
+<script id="portfolio-data">window.__PORTFOLIO_DATA__={"name": "Anniestylez_Media", "mark": "STORY-LED AI VIDEO ADS", "headline": "I turn Brands", "goldHeadline": "into Experiences.", "workIntro": "Story-led AI video ads and creative direction for service brands and products. I turn real customer problems into visual stories that make your brand the only obvious choice.", "statement": "Story-Led AI Video Creator & Creative Director building commercials for service brands and businesses that want buyers to choose them with confidence.", "about": "I take an idea from the first spark to a finished piece of video. I turn real problems into creative stories that make people see themselves, understand the problem, and recognise the brand as the solution. The goal is simple: connect with both problem-aware and solution-aware viewers, then make them want what your brand offers.\n", "email": "annieplans08@gmail.com", "whatsapp": "2348104665457", "contactText": "", "footer": "LET'S GIVE YOU", "footerGold": "AN EXPERIENCE", "footerLabel": "STORY-LED AI VIDEO ADS & CREATIVE DIRECTION", "services": [["Creative Conceptualization", "Turning a brief, product or rough idea into a clear visual concept with a strong creative direction."], ["AI Video Production", "Building original visual sequences and complete videos designed around the story, audience and objective."], ["Video Editing", "Shaping footage, visuals, sound and pacing into a polished final piece that feels deliberate and engaging."], ["AI Commercials & Ads", "Short, memorable advertising videos made to communicate value quickly and leave an impression."], ["Reels & Short Form", "Fast-moving social content built around hooks, retention, clarity and a reason to keep watching."], ["Visual Storytelling", "Creating a visual language that helps ideas, brands and stories connect without overcomplicating the message."], ["Content Production", "End-to-end support for turning a content idea into something ready to publish and share."], ["Creative Direction", "Keeping the visual idea, narrative and final execution aligned from the first frame to the last."]], "projects": [{"kind": "landscape", "title": "Real Estate Campaign", "description": "Client: NITTY HOMES\n\nThe Problem: House hunting in Lagos is often exhausting, opaque, and full of stress.\n\nThe Story: This campaign walks the viewer through the entire buyer journey, from filtering verified homes and live video viewings to physical inspection, signing a clear agreement, and finally unlocking their new front door.\n\nThe Goal: Make the buyer's frustration feel familiar, then position Nitty Homes as the trusted, stress-free solution.\n\nConcept Development • AI Video Production • Storytelling • Editing • Creative Direction", "video": "https://youtu.be/ea3XJRi3XJU", "thumbnail": "https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql"}, {"kind": "landscape", "title": "Construction Technology", "description": "Client: QENVORA PROJECTS\n\nThe Problem: Most homeowners wait months for construction to finish before finding out if their home actually feels right.\n\nThe Story: We follow a homeowner from the fear of traditional building plans to walking through a full-scale hologram of their house on the actual land before a single block is laid.\n\nThe Goal: Show buyers that they never have to gamble on their dream home before construction begins.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Fai29Htv648", "thumbnail": "https://drive.google.com/uc?export=view&id=1YNOeZMdReFpZpA4lzeAjhRUahcYEpKcc"}, {"kind": "landscape", "title": "Academic Campaign", "description": "Client: NORVERIA ACADEMY\n\nThe Problem: Parents want their children ready for a fast-moving AI and tech world without losing wisdom and strong character.\n\nThe Story: Starting with a curious boy exploring his mother's phone, the film shows how a school can channel childhood curiosity into real-world readiness through mentorship, technology, and entrepreneurship seminars.\n\nThe Goal: Show parents a school that gives their child's natural curiosity clear direction.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Q4t5WAO68e8", "thumbnail": "https://drive.google.com/uc?export=view&id=1d-7E--JZUh8UzC5I3bUMMSHxw9t5kiQL"}, {"kind": "landscape", "title": "Brand Unveiling", "description": "Campaign: BRAND UNVEILING\n\nThe Problem: Most brands announce their launch with a static logo or plain flyer that people scroll past in two seconds.\n\nThe Story: A cinematic, story-led reveal built around anticipation, mood, and visual identity so viewers immediately feel the weight and personality of the brand from frame one.\n\nThe Goal: Turn a standard brand announcement into an unforgettable visual experience.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/kuLBlKpiIr8", "thumbnail": "https://drive.google.com/uc?export=view&id=1X3nL51kLYj4NMgLw8KXRYM57TdcFIbJ1"}, {"kind": "landscape", "title": "Landscape Project 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Chauffeur Services", "description": "Campaign: EXECUTIVE CHAUFFEUR SERVICE\n\nThe Problem: Busy professionals do not just want a car ride; they want reliability, calm, and time back in their day.\n\nThe Story: This vertical campaign contrasts daily traffic stress with the quiet confidence of stepping into a professional, chauffeur-driven experience where every detail is handled.\n\nThe Goal: Position the service as an everyday luxury that gives clients back their peace of mind.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/dmJxexfvfHc?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=1ngt2gZVPTD8l5YGabGy5Pt1kNDkWIMUX"}, {"kind": "reel", "title": "Bridal Makeovers", "description": "Campaign: LUXURY BRIDAL MAKEOVERS\n\nThe Problem: Every bride shares the same quiet worry before her wedding day: wanting to look breathtaking without feeling like a stranger in her own skin.\n\nThe Story: Moving away from generic makeup transitions, this reel tells an emotional transformation story from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nThe Goal: Build deep emotional trust so brides immediately see themselves in the experience.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://vimeo.com/1236068443?share=copy&fl=sv&fe=ci", "thumbnail": "https://drive.google.com/uc?export=view&id=1fPa-RtGB7y3ZFzqn3jYHtqKhiFEsOtRt"}, {"kind": "reel", "title": "Local Market Runs", "description": "Campaign: LOCAL MARKET RUNS\n\nThe Problem: Crowded market runs take hours of heat, bargaining, and exhaustion out of a busy week.\n\nThe Story: A relatable story that starts right inside the chaos of a busy local market, then shifts to the relief of having fresh, hand-picked ingredients delivered straight to your kitchen.\n\nThe Goal: Let the viewer feel the everyday headache first, making the errand service the easiest way to buy back their weekend.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/7PDpNIgCsm8?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=126Fi9IGTwI9kY5EbQqJN0VzV9x5vADkc"}, {"kind": "reel", "title": "Reel 04", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Reel 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Reel 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Reel 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}]};</script>
 </head>
 <body>
 <canvas id="goldDustCanvas" aria-hidden="true"></canvas>
@@ -3425,8 +3486,11 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
   <div class="modal-box">
     <button class="close" id="close">×</button>
     <div class="modal-media">PROJECT PREVIEW</div>
-    <h3 id="modalTitle">Project</h3>
-    <p id="modalDesc">Replace this placeholder with your project video, case study or project description.</p>
+    <div class="modal-side">
+      <span class="modal-eyebrow" id="modalEyebrow">STORY-LED AI CAMPAIGN</span>
+      <h3 id="modalTitle">Project</h3>
+      <p id="modalDesc">Replace this placeholder with your project video, case study or project description.</p>
+    </div>
   </div>
 </div>
 
@@ -3453,7 +3517,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
 <audio id="ambientAudio" src="studio_atmosphere.mp3" preload="auto" loop playsinline></audio>
 
 <script>
-const STORAGE_KEY = 'portfolioDataV6';
+const STORAGE_KEY = 'portfolioDataV7';
 const PASS_KEY = 'portfolioAdminPass';
 const DEFAULT_PASS_HASH = '20f1bdef33f79a70390bcc8ce94573a2f7b7fbd148485dc6d761ab850a8d05ce'; // sha256 of 'kenanniezion'
 
@@ -3575,28 +3639,28 @@ window.__PORTFOLIO_DATA__ = {
     {
       "kind": "landscape",
       "title": "Real Estate Campaign",
-      "description": "NITTY HOMES.\n\nA cinematic AI-powered concept created to show how NITTY HOMES can make house hunting in Lagos simpler, more transparent, and less stressful.\n\nThe story takes the viewer through the entire journey, from searching for a home and filtering suitable properties to physical inspection, live video viewing, agreement, and finally moving into the new home.\n\nThe goal was simple: make the problem feel familiar, then position NITTY HOMES as the solution.\n\nConcept Development  AI Video Production  Storytelling  Editing  Creative Direction",
+      "description": "Client: NITTY HOMES\n\nThe Problem: House hunting in Lagos is often exhausting, opaque, and full of stress.\n\nThe Story: This campaign walks the viewer through the entire buyer journey, from filtering verified homes and live video viewings to physical inspection, signing a clear agreement, and finally unlocking their new front door.\n\nThe Goal: Make the buyer's frustration feel familiar, then position Nitty Homes as the trusted, stress-free solution.\n\nConcept Development • AI Video Production • Storytelling • Editing • Creative Direction",
       "video": "https://youtu.be/ea3XJRi3XJU",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql"
     },
     {
       "kind": "landscape",
       "title": "Construction Technology",
-      "description": "QENVORA PROJECTS.\n\nA cinematic AI-powered concept created to introduce Qenvora Projects and its approach to construction planning.\n\nThe story follows a homeowner from the uncertainty of traditional construction to a new way of experiencing a home before construction begins. Using full-scale holographic visualization on the actual property, the homeowner can walk through the proposed design, identify changes, and approve the final vision before committing to construction.\n\nThe goal was to communicate a simple idea: you shouldn't have to wait until your home is built to discover whether you got it right.\n\nConcept Development  AI Video Production  Storytelling  Creative Direction  Editing",
+      "description": "Client: QENVORA PROJECTS\n\nThe Problem: Most homeowners wait months for construction to finish before finding out if their home actually feels right.\n\nThe Story: We follow a homeowner from the fear of traditional building plans to walking through a full-scale hologram of their house on the actual land before a single block is laid.\n\nThe Goal: Show buyers that they never have to gamble on their dream home before construction begins.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing",
       "video": "https://youtu.be/Fai29Htv648",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1YNOeZMdReFpZpA4lzeAjhRUahcYEpKcc"
     },
     {
       "kind": "landscape",
       "title": "Academic Campaign",
-      "description": "NORVERIA ACADEMY\n\nA cinematic AI-powered concept created for a school campaign focused on curiosity, technology, character, and future readiness.\n\nThe story begins with a simple childhood moment: a curious boy exploring his mother's phone. That curiosity becomes the foundation for a larger conversation about raising children in a world where technology is advancing rapidly, while wisdom, discernment, and character remain just as important.\n\nThe campaign positions the school as more than a place for academic success. Through twice-yearly seminars featuring professionals and thought leaders across AI, research, vocational skills, financial literacy, entrepreneurship, and technology, the school aims to expose students to the world they are preparing to enter.\n\nThe core message is simple: don't suppress a child's curiosity. Give it direction.\n\nConcept Development  AI Video Production  Storytelling  Creative Direction  Editing",
+      "description": "Client: NORVERIA ACADEMY\n\nThe Problem: Parents want their children ready for a fast-moving AI and tech world without losing wisdom and strong character.\n\nThe Story: Starting with a curious boy exploring his mother's phone, the film shows how a school can channel childhood curiosity into real-world readiness through mentorship, technology, and entrepreneurship seminars.\n\nThe Goal: Show parents a school that gives their child's natural curiosity clear direction.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing",
       "video": "https://youtu.be/Q4t5WAO68e8",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1d-7E--JZUh8UzC5I3bUMMSHxw9t5kiQL"
     },
     {
       "kind": "landscape",
       "title": "Brand Unveiling",
-      "description": "BRAND UNVEILING\n\nA cinematic story-led AI campaign built to introduce a brand in a way that feels unforgettable from the very first frame.\n\nInstead of announcing a launch with a plain logo or static flyer, this piece builds anticipation, emotion, and visual identity so the audience immediately understands what the brand stands for and why it matters.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing",
+      "description": "Campaign: BRAND UNVEILING\n\nThe Problem: Most brands announce their launch with a static logo or plain flyer that people scroll past in two seconds.\n\nThe Story: A cinematic, story-led reveal built around anticipation, mood, and visual identity so viewers immediately feel the weight and personality of the brand from frame one.\n\nThe Goal: Turn a standard brand announcement into an unforgettable visual experience.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing",
       "video": "https://youtu.be/kuLBlKpiIr8",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1X3nL51kLYj4NMgLw8KXRYM57TdcFIbJ1"
     },
@@ -3624,21 +3688,21 @@ window.__PORTFOLIO_DATA__ = {
     {
       "kind": "reel",
       "title": "Chauffeur Services",
-      "description": "CHAUFFEUR SERVICE\n\nA cinematic AI-powered advertising campaign created for a professional driver service.\n\nFrom concept development and visual direction to AI video production and final editing, I developed the campaign from the first idea through to the finished piece.\n\nThe project focused on creating a polished, relatable brand experience while showcasing the service in a waythat feels natural and easy to connect with.\n\nConcept Development  AI Video Production  Creative Direction  Storytelling  Editing",
+      "description": "Campaign: EXECUTIVE CHAUFFEUR SERVICE\n\nThe Problem: Busy professionals do not just want a car ride; they want reliability, calm, and time back in their day.\n\nThe Story: This vertical campaign contrasts daily traffic stress with the quiet confidence of stepping into a professional, chauffeur-driven experience where every detail is handled.\n\nThe Goal: Position the service as an everyday luxury that gives clients back their peace of mind.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing",
       "video": "https://youtube.com/shorts/dmJxexfvfHc?feature=share",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1ngt2gZVPTD8l5YGabGy5Pt1kNDkWIMUX"
     },
     {
       "kind": "reel",
       "title": "Bridal Makeovers",
-      "description": "BRIDAL MAKEOVERS\n\nA story-led AI vertical campaign created for a luxury bridal beauty brand.\n\nEvery bride shares the same quiet worry before her wedding day: wanting to look breathtaking and timeless without feeling like a stranger in her own skin.\n\nThis campaign moves away from generic makeup transitions and tells an emotional transformation story: from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing",
+      "description": "Campaign: LUXURY BRIDAL MAKEOVERS\n\nThe Problem: Every bride shares the same quiet worry before her wedding day: wanting to look breathtaking without feeling like a stranger in her own skin.\n\nThe Story: Moving away from generic makeup transitions, this reel tells an emotional transformation story from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nThe Goal: Build deep emotional trust so brides immediately see themselves in the experience.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing",
       "video": "https://vimeo.com/1236068443?share=copy&fl=sv&fe=ci",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1fPa-RtGB7y3ZFzqn3jYHtqKhiFEsOtRt"
     },
     {
       "kind": "reel",
       "title": "Local Market Runs",
-      "description": "LOCAL MARKET RUNS\n\nA fast-paced, relatable AI commercial built for a personal grocery and market errand service.\n\nInstead of just listing delivery fees, the story highlights the chaos, heat, and hours lost in crowded market runs, and contrasts it with the relief of having fresh, hand-picked market items delivered straight to your kitchen while you focus on your day.\n\nThe goal was simple: make the viewer feel the everyday stress, then show the service as the easiest way to buy back their time.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing",
+      "description": "Campaign: LOCAL MARKET RUNS\n\nThe Problem: Crowded market runs take hours of heat, bargaining, and exhaustion out of a busy week.\n\nThe Story: A relatable story that starts right inside the chaos of a busy local market, then shifts to the relief of having fresh, hand-picked ingredients delivered straight to your kitchen.\n\nThe Goal: Let the viewer feel the everyday headache first, making the errand service the easiest way to buy back their weekend.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing",
       "video": "https://youtube.com/shorts/7PDpNIgCsm8?feature=share",
       "thumbnail": "https://drive.google.com/uc?export=view&id=126Fi9IGTwI9kY5EbQqJN0VzV9x5vADkc"
     },
@@ -3686,7 +3750,7 @@ if (savedLocal && Array.isArray(savedLocal.projects)) {
       if (sp.video && sp.video.trim()) data.projects[idx].video = sp.video.trim();
       if (sp.thumbnail && sp.thumbnail.trim()) data.projects[idx].thumbnail = sp.thumbnail.trim();
       if (sp.title && sp.title.trim()) data.projects[idx].title = sp.title.trim();
-      if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.') data.projects[idx].description = sp.description.trim();
+      if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.' && (!data.projects[idx].description || data.projects[idx].description === 'Add your project description here.')) data.projects[idx].description = sp.description.trim();
     }
   });
   ['name', 'mark', 'headline', 'goldHeadline', 'workIntro', 'statement', 'about', 'email', 'whatsapp', 'contactText', 'footer', 'footerGold', 'footerLabel'].forEach(k => {
