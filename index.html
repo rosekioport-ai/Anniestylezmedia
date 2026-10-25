@@ -694,6 +694,159 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   gap: 16px;
 }
 
+
+/* CREATIVE DIRECTION & CAMPAIGN ANATOMY CARD (REPLACES WORKING LOOP CARD) */
+.campaign-anatomy-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  flex: 1;
+  position: relative;
+  transition: all 0.35s var(--ease);
+  box-shadow: var(--glass-shadow);
+}
+
+.campaign-anatomy-card:hover {
+  border-color: var(--gold-border-hover);
+  box-shadow: var(--glass-shadow-hover);
+  transform: translateY(-2px);
+}
+
+.anatomy-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.anatomy-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 14px;
+  background: rgba(18, 16, 12, 0.85);
+  border: 1px solid rgba(243, 206, 122, 0.35);
+  border-radius: 999px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+}
+
+.anatomy-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+}
+
+.anatomy-title {
+  font-size: clamp(20px, 2.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.anatomy-sub {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.anatomy-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.anatomy-layer {
+  background: rgba(18, 18, 22, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: all 0.25s var(--ease);
+}
+
+.anatomy-layer:hover {
+  border-color: var(--gold-border);
+  background: rgba(22, 22, 28, 0.9);
+  transform: translateX(3px);
+}
+
+.layer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.layer-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--gold);
+}
+
+.layer-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(243, 206, 122, 0.1);
+  color: var(--gold-light);
+  border: 1px solid rgba(243, 206, 122, 0.2);
+}
+
+.layer-heading {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.layer-desc {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.anatomy-foot {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--gold-light);
+  letter-spacing: 0.02em;
+}
+
+.anatomy-foot-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+}
+
 /* WORKING VIDEO LOOP CONTAINER */
 .working-loop-card {
   background: var(--bg-card);
@@ -3138,28 +3291,50 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
       <!-- RIGHT: PREVIEWS -->
       <div class="previews-col">
-        <!-- WORKING VIDEO LOOP CONTAINER -->
-        <div class="working-loop-card" id="workingLoopCard">
-          <div class="working-screen">
-            <video id="workingVideo" autoplay loop muted playsinline poster="avatar.jpg">
-              <source src="working_loop.mp4" type="video/mp4">
-              <source src="https://drive.usercontent.google.com/download?id=1rtCSlh_yRcroucsHU_T-fmtHM49DEz3N&export=download" type="video/mp4">
-            </video>
-            <div class="working-overlay">
-              <div class="working-live-badge">
-                <span class="live-dot"></span>
-                <span>Annie in Studio • Live</span>
+        <div class="campaign-anatomy-card" id="campaignAnatomyCard">
+          <div class="anatomy-header">
+            <div class="anatomy-badge">
+              <span class="anatomy-dot"></span>
+              <span>CREATIVE DIRECTION &bull; BUILT FOR RESULTS</span>
+            </div>
+            <h2 class="anatomy-title">The Anatomy of a <span class="gold-text">High-Converting Ad</span></h2>
+            <p class="anatomy-sub">Great campaigns are not made by software. They are built on human psychology, emotional tension, and deliberate visual storytelling.</p>
+          </div>
+
+          <div class="anatomy-layers">
+            <div class="anatomy-layer">
+              <div class="layer-top">
+                <span class="layer-num">LAYER 01</span>
+                <span class="layer-tag">RETENTION</span>
               </div>
-              <div class="working-caption">
-                <span class="working-title">Workflow In Progress</span>
-                <span class="working-sub">Crafting high-retention AI cinematic experiences</span>
+              <h3 class="layer-heading">The 2-Second Psychological Hook</h3>
+              <p class="layer-desc">Before anyone buys, they have to stop scrolling. We design the opening frame with curiosity and suspense so viewers immediately pause and watch.</p>
+            </div>
+
+            <div class="anatomy-layer">
+              <div class="layer-top">
+                <span class="layer-num">LAYER 02</span>
+                <span class="layer-tag">IMMERSION</span>
               </div>
+              <h3 class="layer-heading">Cinematic World-Building &amp; Lighting</h3>
+              <p class="layer-desc">Photorealistic AI visual sequences, consistent character continuity, and bespoke color palettes that elevate your product into a luxury brand experience.</p>
+            </div>
+
+            <div class="anatomy-layer">
+              <div class="layer-top">
+                <span class="layer-num">LAYER 03</span>
+                <span class="layer-tag">CONVERSION</span>
+              </div>
+              <h3 class="layer-heading">The Solution-Aware Transition</h3>
+              <p class="layer-desc">Guiding the audience from recognizing their everyday problem to seeing your brand as the only natural solution. Built to convert attention into action.</p>
             </div>
           </div>
+
+          <div class="anatomy-foot">
+            <span>&#10022; 100% Original Direction</span>
+            <span class="anatomy-foot-badge">4K Master &bull; Full Sound Design</span>
+          </div>
         </div>
-
-
-
       </div>
 
     </div>
