@@ -122,48 +122,69 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
 .brand {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
   text-decoration: none;
   cursor: pointer;
   padding: 2px 0;
 }
 
 .brand-logo-img {
-  height: 48px;
+  height: 44px;
   width: auto;
-  max-width: 200px;
+  max-width: 180px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 14px rgba(223, 186, 106, 0.45));
+  filter: drop-shadow(0 2px 14px rgba(223, 186, 106, 0.4));
   transition: transform 0.28s var(--ease), filter 0.28s var(--ease);
 }
 
 .brand:hover .brand-logo-img {
-  transform: translateY(-1.5px) scale(1.025);
-  filter: drop-shadow(0 4px 22px rgba(223, 186, 106, 0.75));
+  transform: translateY(-1px) scale(1.02);
+  filter: drop-shadow(0 4px 20px rgba(223, 186, 106, 0.7));
+}
+
+.brand-divider {
+  width: 1px;
+  height: 28px;
+  background: linear-gradient(180deg, transparent, rgba(243, 206, 122, 0.45), transparent);
+  flex-shrink: 0;
+}
+
+.brand-text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
 }
 
 .brand-tagline {
-  font-family: 'Sora', sans-serif;
-  font-size: 12.5px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, #ffffff 10%, #faecc7 55%, var(--gold) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  line-height: 1.15;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.25;
   white-space: nowrap;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(223, 186, 106, 0.45));
-  transition: filter 0.28s var(--ease);
+  transition: color 0.25s var(--ease);
 }
 
 .brand:hover .brand-tagline {
-  filter: drop-shadow(0 2px 16px rgba(223, 186, 106, 0.85));
+  color: var(--gold-light);
+}
+
+.brand-subtext {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  white-space: nowrap;
+  display: block;
+  opacity: 0.92;
 }
 
 .nav {
@@ -2462,13 +2483,23 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   }
   .brand {
     grid-column: 1;
+    gap: 10px;
   }
   .brand-logo-img {
     height: 36px;
   }
+  .brand-divider {
+    height: 22px;
+  }
   .brand-tagline {
-    font-size: 10px;
-    letter-spacing: 0.02em;
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+  .brand-subtext {
+    font-size: 9.5px;
+  }
+  @media (max-width: 420px) {
+    .brand-subtext { display: none; }
   }
   .header > div {
     grid-column: 2;
@@ -2885,7 +2916,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   <header class="header">
     <a class="brand" href="#experience" onclick="switchTab('experience'); return false;" aria-label="Anniestylez Media">
       <img src="logo.png" alt="Anniestylez Media" class="brand-logo-img">
-      <span class="brand-tagline">Story-Led AI Video Ads &amp; Creative Direction</span>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <div class="brand-text-block">
+        <span class="brand-tagline">Story-Led AI Video Ads</span>
+        <span class="brand-subtext">Crafted to connect &amp; convert</span>
+      </div>
     </a>
     <nav class="nav">
       <button class="nav-tab active" data-tab="experience">The Experience</button>
