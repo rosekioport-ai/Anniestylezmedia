@@ -2527,6 +2527,33 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   font-size: 12px;
   color: var(--text-muted);
 }
+
+.stat-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+.stat-row-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+.stat-mini-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+.stat-mini-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+  transition: width 0.6s ease;
+}
+
 .action-stat-row b {
   color: var(--gold-light);
   font-family: 'Sora', sans-serif;
@@ -3648,6 +3675,36 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
           </div>
         </div>
       </div>
+<!-- VISITOR COUNTRIES & TRAFFIC PLATFORMS -->
+      <div class="stats-split-grid" style="margin-top:14px">
+        <div class="stats-detail-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
+            <h4 style="font-size:13px;color:#fff;margin:0;font-family:'Sora',sans-serif">Visitor Locations by Country</h4>
+            <span style="font-size:11px;color:var(--gold-light)" id="statTopCountryLabel">Live Geolocation</span>
+          </div>
+          <div class="action-stats-list" id="countryStatsList">
+            <div class="action-stat-row"><span>Loading country data...</span><b>...</b></div>
+          </div>
+        </div>
+
+        <div class="stats-detail-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
+            <h4 style="font-size:13px;color:#fff;margin:0;font-family:'Sora',sans-serif">Platforms &amp; Referral Sources</h4>
+            <span style="font-size:11px;color:var(--gold-light)" id="statTopSourceLabel">Where They Clicked</span>
+          </div>
+          <div class="action-stats-list" id="sourceStatsList">
+            <div class="action-stat-row"><span>Loading platform data...</span><b>...</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRACKING TIP BOX -->
+      <div style="margin-top:12px;background:rgba(243,206,122,0.06);border:1px solid rgba(243,206,122,0.22);border-radius:12px;padding:12px 16px;font-size:11.5px;color:var(--text-muted);line-height:1.6">
+        <strong style="color:var(--gold-light)">💡 Share Link Pro-Tip:</strong> When posting your link on social media, you can add 
+        <code style="background:rgba(0,0,0,0.4);padding:2px 6px;border-radius:4px;color:var(--gold)">?ref=linkedin</code> or 
+        <code style="background:rgba(0,0,0,0.4);padding:2px 6px;border-radius:4px;color:var(--gold)">?ref=whatsapp</code> or 
+        <code style="background:rgba(0,0,0,0.4);padding:2px 6px;border-radius:4px;color:var(--gold)">?ref=x</code> to your link to see exactly which post brings the most clients!
+      </div>
     </section>
 
     <section class="editor-section">
@@ -4541,8 +4598,57 @@ function getStatsDate(offsetDays = 0) {
   return `${y}-${m}-${day}`;
 }
 
-// 1. Record daily unique visitor session
-function trackVisitorSession() {
+function detectPlatformSource() {
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refParam = (urlParams.get('ref') || urlParams.get('source') || urlParams.get('utm_source') || '').toLowerCase();
+    const docRef = (document.referrer || '').toLowerCase();
+
+    if (refParam.includes('linkedin') || refParam === 'li' || docRef.includes('linkedin.com') || docRef.includes('lnkd.in')) return 'linkedin';
+    if (refParam.includes('whatsapp') || refParam === 'wa' || docRef.includes('whatsapp') || docRef.includes('wa.me')) return 'whatsapp';
+    if (refParam.includes('twitter') || refParam === 'x' || docRef.includes('t.co') || docRef.includes('twitter.com') || docRef.includes('x.com')) return 'twitter';
+    if (refParam.includes('instagram') || refParam === 'ig' || docRef.includes('instagram.com')) return 'instagram';
+    if (docRef.includes('google.')) return 'google';
+    if (docRef.includes('youtube.') || docRef.includes('youtu.be')) return 'youtube';
+    if (docRef && !docRef.includes(window.location.hostname)) return 'other';
+  } catch (e) {}
+  return 'direct';
+}
+
+function inferCountryFromTimezone() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    if (tz.includes('London')) return 'GB';
+    if (tz.includes('Bucharest') || tz.includes('Romania')) return 'RO';
+    if (tz.includes('Lagos')) return 'NG';
+    if (tz.includes('New_York') || tz.includes('Chicago') || tz.includes('Los_Angeles') || tz.includes('Denver') || tz.includes('Phoenix')) return 'US';
+    if (tz.includes('Toronto') || tz.includes('Vancouver') || tz.includes('Montreal') || tz.includes('Edmonton')) return 'CA';
+    if (tz.includes('Berlin') || tz.includes('Frankfurt')) return 'DE';
+    if (tz.includes('Paris')) return 'FR';
+    if (tz.includes('Dubai')) return 'AE';
+    if (tz.includes('Johannesburg')) return 'ZA';
+    if (tz.includes('Nairobi')) return 'KE';
+    if (tz.includes('Accra')) return 'GH';
+    if (tz.includes('Amsterdam')) return 'NL';
+    if (tz.includes('Dublin')) return 'IE';
+    if (tz.includes('Sydney') || tz.includes('Melbourne')) return 'AU';
+  } catch (e) {}
+  return 'OTHER';
+}
+
+async function detectCountryCode() {
+  try {
+    const res = await fetch('https://api.country.is/', { mode: 'cors' });
+    if (res.ok) {
+      const json = await res.json();
+      if (json && json.country) return json.country.toUpperCase();
+    }
+  } catch (e) {}
+  return inferCountryFromTimezone();
+}
+
+// 1. Record daily unique visitor session with country and platform tracking
+async function trackVisitorSession() {
   try {
     const today = getStatsDate(0);
     const key = 'as_session_visit_' + today;
@@ -4550,6 +4656,15 @@ function trackVisitorSession() {
       sessionStorage.setItem(key, '1');
       fetch(`${STATS_API}/hit/${STATS_NS}/visits-${today}`, { mode: 'cors' }).catch(() => {});
       fetch(`${STATS_API}/hit/${STATS_NS}/total-visits`, { mode: 'cors' }).catch(() => {});
+
+      // Record platform source
+      const platform = detectPlatformSource();
+      fetch(`${STATS_API}/hit/${STATS_NS}/src-${platform}`, { mode: 'cors' }).catch(() => {});
+
+      // Record country location
+      const country = await detectCountryCode();
+      const cKey = country ? country.toLowerCase() : 'other';
+      fetch(`${STATS_API}/hit/${STATS_NS}/geo-${cKey}`, { mode: 'cors' }).catch(() => {});
     }
   } catch (e) {}
 }
@@ -4720,6 +4835,106 @@ async function loadAdminStats() {
           <b>${p.count} views</b>
         </div>
       `).join('');
+    }
+
+    // PLATFORMS & REFERRALS DATA
+    const sourceDefs = [
+      { key: 'src-linkedin', label: 'LinkedIn', icon: '💼', sub: 'Posts, Profile & DMs' },
+      { key: 'src-whatsapp', label: 'WhatsApp', icon: '💬', sub: 'Direct chats & Status' },
+      { key: 'src-twitter', label: 'X (Twitter)', icon: '𝕏', sub: 'Tweets & Bio link' },
+      { key: 'src-instagram', label: 'Instagram', icon: '📸', sub: 'Bio link & Stories' },
+      { key: 'src-google', label: 'Google Search', icon: '🔍', sub: 'Organic search' },
+      { key: 'src-direct', label: 'Direct / Private Link', icon: '🔗', sub: 'Direct & Private shares' }
+    ];
+
+    // COUNTRIES DATA
+    const countryDefs = [
+      { key: 'geo-gb', label: 'United Kingdom', flag: '🇬🇧' },
+      { key: 'geo-ro', label: 'Romania', flag: '🇷🇴' },
+      { key: 'geo-ng', label: 'Nigeria', flag: '🇳🇬' },
+      { key: 'geo-us', label: 'United States', flag: '🇺🇸' },
+      { key: 'geo-ca', label: 'Canada', flag: '🇨🇦' },
+      { key: 'geo-de', label: 'Germany', flag: '🇩🇪' },
+      { key: 'geo-fr', label: 'France', flag: '🇫🇷' },
+      { key: 'geo-ae', label: 'United Arab Emirates', flag: '🇦🇪' },
+      { key: 'geo-other', label: 'Other Countries', flag: '🌍' }
+    ];
+
+    const [sourceCounts, countryCounts] = await Promise.all([
+      Promise.all(sourceDefs.map(s => fetchVal(s.key))),
+      Promise.all(countryDefs.map(c => fetchVal(c.key)))
+    ]);
+
+    const sources = sourceDefs.map((s, idx) => ({ ...s, count: sourceCounts[idx] }));
+    const countries = countryDefs.map((c, idx) => ({ ...c, count: countryCounts[idx] }));
+
+    const totalSources = sources.reduce((sum, s) => sum + s.count, 0);
+    const totalCountries = countries.reduce((sum, c) => sum + c.count, 0);
+
+    sources.sort((a, b) => b.count - a.count);
+    countries.sort((a, b) => b.count - a.count);
+
+    const countryBox = $('countryStatsList');
+    if (countryBox) {
+      if (totalCountries === 0) {
+        countryBox.innerHTML = `
+          <div class="action-stat-row">
+            <span>🌍 Live country detection active</span>
+            <b style="color:var(--gold)">Ready for next visit</b>
+          </div>
+        `;
+      } else {
+        countryBox.innerHTML = countries.filter(c => c.count > 0 || c.key === 'geo-gb' || c.key === 'geo-ro' || c.key === 'geo-ng' || c.key === 'geo-us').map(c => {
+          const pct = totalCountries > 0 ? Math.round((c.count / totalCountries) * 100) : 0;
+          return `
+            <div class="action-stat-row" style="flex-direction:column;align-items:stretch;gap:6px">
+              <div class="stat-row-content">
+                <span>${c.flag} <strong>${c.label}</strong></span>
+                <b>${c.count} ${c.count === 1 ? 'visitor' : 'visitors'} <span style="font-size:11px;color:var(--text-muted);font-weight:normal">(${pct}%)</span></b>
+              </div>
+              <div class="stat-mini-track">
+                <div class="stat-mini-fill" style="width:${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    const sourceBox = $('sourceStatsList');
+    if (sourceBox) {
+      if (totalSources === 0) {
+        sourceBox.innerHTML = `
+          <div class="action-stat-row">
+            <span>🔗 Referral tracking active</span>
+            <b style="color:var(--gold)">Ready for next click</b>
+          </div>
+        `;
+      } else {
+        sourceBox.innerHTML = sources.filter(s => s.count > 0 || s.key === 'src-linkedin' || s.key === 'src-whatsapp').map(s => {
+          const pct = totalSources > 0 ? Math.round((s.count / totalSources) * 100) : 0;
+          return `
+            <div class="action-stat-row" style="flex-direction:column;align-items:stretch;gap:6px">
+              <div class="stat-row-content">
+                <span>${s.icon} <strong>${s.label}</strong> <span style="font-size:10px;color:var(--text-muted)">• ${s.sub}</span></span>
+                <b>${s.count} ${s.count === 1 ? 'click' : 'clicks'} <span style="font-size:11px;color:var(--text-muted);font-weight:normal">(${pct}%)</span></b>
+              </div>
+              <div class="stat-mini-track">
+                <div class="stat-mini-fill" style="width:${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    if ($('statTopCountryLabel')) {
+      const topC = countries.find(c => c.count > 0);
+      $('statTopCountryLabel').textContent = topC ? `Top: ${topC.flag} ${topC.label}` : 'Live Geolocation';
+    }
+    if ($('statTopSourceLabel')) {
+      const topS = sources.find(s => s.count > 0);
+      $('statTopSourceLabel').textContent = topS ? `Top: ${topS.icon} ${topS.label}` : 'Where They Clicked';
     }
 
   } catch (err) {
