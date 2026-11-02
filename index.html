@@ -3893,29 +3893,56 @@ function isSecondReelSlot(p, index) {
 const isBridalMakeoverSlot = isSecondReelSlot;
 
 function getSavedData() {
-  const keys = [STORAGE_KEY];
-  for (const k of keys) {
+  // Check all storage versions so user-entered projects from any version are NEVER lost on refresh
+  const allKeys = ['portfolioDataV9', 'portfolioDataV8', 'portfolioDataV7', 'portfolioDataV6', 'portfolioDataV5', 'portfolioDataV4', 'portfolioDataV3', 'portfolioDataV2', 'portfolioData'];
+  let mergedData = null;
+
+  for (const k of allKeys) {
     try {
       const raw = localStorage.getItem(k);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed && Array.isArray(parsed.projects) && parsed.projects.length) {
-          parsed.projects.forEach((p, idx) => {
-            const isSecondReel = isSecondReelSlot(p, idx);
-            if (isSecondReel) {
-              // Second Reel slot (Reel 02): ONLY Vimeo is allowed! Reject any non-Vimeo link
-              if (p.video && !p.video.toLowerCase().includes('vimeo')) p.video = '';
-            } else {
-              // All other slots: Vimeo is strictly rejected!
-              if (p.video && p.video.toLowerCase().includes('vimeo')) p.video = '';
+      if (!raw) continue;
+      const parsed = JSON.parse(raw);
+      if (!parsed || !Array.isArray(parsed.projects) || !parsed.projects.length) continue;
+
+      if (!mergedData) {
+        mergedData = structuredClone(parsed);
+      } else {
+        // Merge in any custom projects or links present in older/other versions
+        parsed.projects.forEach((sp, idx) => {
+          if (!mergedData.projects[idx]) {
+            mergedData.projects[idx] = structuredClone(sp);
+          } else {
+            const cur = mergedData.projects[idx];
+            // If current slot has no video/thumbnail but this storage version has one, recover it!
+            if ((!cur.video || !cur.video.trim()) && sp.video && sp.video.trim()) {
+              cur.video = sp.video.trim();
             }
-          });
-          return parsed;
-        }
+            if ((!cur.thumbnail || !cur.thumbnail.trim()) && sp.thumbnail && sp.thumbnail.trim()) {
+              cur.thumbnail = sp.thumbnail.trim();
+            }
+            if ((!cur.title || cur.title.startsWith('Reel 0') || cur.title.startsWith('Landscape Project 0')) && sp.title && sp.title.trim()) {
+              cur.title = sp.title.trim();
+            }
+            if ((!cur.description || cur.description === 'Add your project description here.') && sp.description && sp.description.trim()) {
+              cur.description = sp.description.trim();
+            }
+          }
+        });
       }
     } catch (e) {}
   }
-  return null;
+
+  if (mergedData && Array.isArray(mergedData.projects)) {
+    mergedData.projects.forEach((p, idx) => {
+      const isSecondReel = isSecondReelSlot(p, idx);
+      if (isSecondReel) {
+        if (p.video && !p.video.toLowerCase().includes('vimeo')) p.video = '';
+      } else {
+        if (p.video && p.video.toLowerCase().includes('vimeo')) p.video = '';
+      }
+    });
+  }
+  return mergedData;
 }
 
 const savedLocal = getSavedData();
@@ -4082,7 +4109,9 @@ if (savedLocal && Array.isArray(savedLocal.projects)) {
       if (sp.video && sp.video.trim()) data.projects[idx].video = sp.video.trim();
       if (sp.thumbnail && sp.thumbnail.trim()) data.projects[idx].thumbnail = sp.thumbnail.trim();
       if (sp.title && sp.title.trim()) data.projects[idx].title = sp.title.trim();
-      if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.' && (!data.projects[idx].description || data.projects[idx].description === 'Add your project description here.')) data.projects[idx].description = sp.description.trim();
+      if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.') {
+        data.projects[idx].description = sp.description.trim();
+      }
     }
   });
   ['name', 'mark', 'headline', 'goldHeadline', 'workIntro', 'statement', 'about', 'email', 'whatsapp', 'contactText', 'footer', 'footerGold', 'footerLabel'].forEach(k => {
