@@ -3732,6 +3732,37 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
           </div>
         </div>
       </div>
+
+      <!-- AD WATCH TIME & AUDIENCE RETENTION TRACKER -->
+      <div class="stats-detail-box" style="margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+          <div>
+            <h4 style="font-size:14px;color:#fff;margin:0;font-family:'Sora',sans-serif;display:flex;align-items:center;gap:8px">
+              <span style="color:var(--gold)">&#9201;</span> Video Watch Time &amp; Attention Tracker
+            </h4>
+            <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px">See exactly which ad was clicked and how many seconds each visitor stayed watching</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-size:11px;color:var(--gold-light);background:rgba(215,177,90,0.1);padding:4px 10px;border-radius:999px;border:1px solid rgba(215,177,90,0.25)" id="totalAdWatchBadge">0s Total Watch Time</span>
+          </div>
+        </div>
+
+        <!-- PER-AD WATCH STATS LIST -->
+        <div class="action-stats-list" id="adWatchList" style="display:flex;flex-direction:column;gap:10px">
+          <div class="action-stat-row"><span>Loading video watch times...</span><b>...</b></div>
+        </div>
+
+        <!-- RECENT WATCH SESSIONS HISTORY -->
+        <div style="margin-top:16px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+            <span style="font-size:12px;font-weight:600;color:#fff;letter-spacing:0.5px">Recent Watch Sessions (Second-by-Second Log)</span>
+            <span style="font-size:10.5px;color:var(--text-muted)">Latest plays</span>
+          </div>
+          <div class="action-stats-list" id="adWatchSessionsList" style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px">
+            <div class="action-stat-row" style="font-size:11.5px"><span>No watch sessions recorded yet. Watch any video on Page 1 to see live seconds appear here!</span></div>
+          </div>
+        </div>
+      </div>
 <!-- VISITOR COUNTRIES & TRAFFIC PLATFORMS -->
       <div class="stats-split-grid" style="margin-top:14px">
         <div class="stats-detail-box">
@@ -4570,6 +4601,9 @@ function openProjectModal(x) {
   resetActivePlayer();
   stopAmbientSound(true);
 
+  // Start precision watch timer and tracking for this ad
+  if (typeof startAdWatchTracking === 'function') startAdWatchTracking(x);
+
   const box = document.querySelector('.modal-box');
   if (box) {
     if (x.kind === 'reel') box.classList.add('is-reel');
@@ -4608,6 +4642,7 @@ function openProjectModal(x) {
 function closeProjectModal() {
   const m = $('modal');
   if (!m || !m.classList.contains('open')) return;
+  if (typeof finishCurrentAdWatch === 'function') finishCurrentAdWatch();
   m.classList.add('closing');
   setTimeout(() => {
     resetActivePlayer();
@@ -4780,6 +4815,129 @@ function recordTabSwitch(newTab) {
 }
 
 // 3. Record project click
+// ==========================================
+// AD WATCH TIME & RETENTION TRACKER ENGINE
+// ==========================================
+let activeWatchAd = null;
+let activeWatchSecondInterval = null;
+let activeWatchPulseInterval = null;
+
+function formatWatchSeconds(totalSecs) {
+  if (!totalSecs || totalSecs <= 0) return '0 secs';
+  if (totalSecs < 60) return totalSecs + ' secs';
+  const mins = Math.floor(totalSecs / 60);
+  const remSecs = totalSecs % 60;
+  return remSecs > 0 ? `${mins}m ${remSecs}s` : `${mins}m`;
+}
+
+function startAdWatchTracking(ad) {
+  finishCurrentAdWatch();
+
+  const title = (ad && ad.title) ? String(ad.title).trim() : 'Featured Campaign';
+  const kind = (ad && ad.kind) ? ad.kind : (ad && (ad.isSecondReel || isSecondReelSlot(ad)) ? 'reel' : 'landscape');
+  const cleanKey = title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 22);
+
+  activeWatchAd = {
+    title: title,
+    kind: kind,
+    clean: cleanKey,
+    startTime: Date.now(),
+    elapsedSeconds: 0
+  };
+
+  // Record open event in cloud
+  fetch(`${STATS_API}/hit/${STATS_NS}/wopen-${cleanKey}`, { mode: 'cors' }).catch(() => {});
+
+  // Tick every second if the document is visible
+  if (activeWatchSecondInterval) clearInterval(activeWatchSecondInterval);
+  activeWatchSecondInterval = setInterval(() => {
+    if (activeWatchAd && !document.hidden) {
+      activeWatchAd.elapsedSeconds++;
+    }
+  }, 1000);
+
+  // Pulse to the cloud every 2 seconds of active watch time
+  if (activeWatchPulseInterval) clearInterval(activeWatchPulseInterval);
+  activeWatchPulseInterval = setInterval(() => {
+    if (activeWatchAd && !document.hidden && activeWatchAd.elapsedSeconds >= 2) {
+      fetch(`${STATS_API}/hit/${STATS_NS}/wsec2-${activeWatchAd.clean}`, { mode: 'cors' }).catch(() => {});
+    }
+  }, 2000);
+}
+
+function finishCurrentAdWatch() {
+  if (!activeWatchAd) return;
+
+  if (activeWatchSecondInterval) clearInterval(activeWatchSecondInterval);
+  if (activeWatchPulseInterval) clearInterval(activeWatchPulseInterval);
+  activeWatchSecondInterval = null;
+  activeWatchPulseInterval = null;
+
+  const totalSecs = activeWatchAd.elapsedSeconds || Math.max(1, Math.round((Date.now() - activeWatchAd.startTime) / 1000));
+  const title = activeWatchAd.title;
+  const kind = activeWatchAd.kind;
+  const cleanKey = activeWatchAd.clean;
+  activeWatchAd = null;
+
+  if (totalSecs < 1) return;
+
+  // 1. Save session to local watch logs
+  try {
+    const rawLogs = localStorage.getItem('portfolio_ad_watch_log');
+    const logs = rawLogs ? JSON.parse(rawLogs) : [];
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const dateStr = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+    logs.unshift({
+      title: title,
+      seconds: totalSecs,
+      kind: kind,
+      time: `${dateStr}, ${timeStr}`,
+      timestamp: Date.now()
+    });
+
+    if (logs.length > 50) logs.length = 50;
+    localStorage.setItem('portfolio_ad_watch_log', JSON.stringify(logs));
+
+    // 2. Update local summary
+    const rawSummary = localStorage.getItem('portfolio_ad_watch_summary');
+    const summary = rawSummary ? JSON.parse(rawSummary) : {};
+    if (!summary[title]) {
+      summary[title] = {
+        title: title,
+        kind: kind,
+        totalSeconds: 0,
+        views: 0,
+        maxSeconds: 0,
+        lastSeconds: 0,
+        lastWatched: `${dateStr}, ${timeStr}`
+      };
+    }
+    summary[title].totalSeconds += totalSecs;
+    summary[title].views += 1;
+    summary[title].lastSeconds = totalSecs;
+    summary[title].lastWatched = `${dateStr}, ${timeStr}`;
+    if (totalSecs > summary[title].maxSeconds) summary[title].maxSeconds = totalSecs;
+    summary[title].avgSeconds = Math.round(summary[title].totalSeconds / summary[title].views);
+
+    localStorage.setItem('portfolio_ad_watch_summary', JSON.stringify(summary));
+  } catch (e) {}
+
+  // 3. Cloud milestone pings
+  fetch(`${STATS_API}/hit/${STATS_NS}/wdone-${cleanKey}`, { mode: 'cors' }).catch(() => {});
+  if (totalSecs >= 10) fetch(`${STATS_API}/hit/${STATS_NS}/w10s-${cleanKey}`, { mode: 'cors' }).catch(() => {});
+  if (totalSecs >= 25) fetch(`${STATS_API}/hit/${STATS_NS}/w25s-${cleanKey}`, { mode: 'cors' }).catch(() => {});
+}
+
+// Safely finish watch on tab hide or page close
+window.addEventListener('beforeunload', finishCurrentAdWatch);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && activeWatchAd) {
+    finishCurrentAdWatch();
+  }
+});
+
 function recordProjectClick(title) {
   try {
     if (!title) return;
@@ -4905,22 +5063,131 @@ async function loadAdminStats() {
     if ($('statBriefClicks')) $('statBriefClicks').textContent = briefClicks;
     if ($('statStartClicks')) $('statStartClicks').textContent = startClicks;
 
-    const topProjects = (data.projects || []).slice(0, 6);
-    const projPromises = topProjects.map(p => {
-      const clean = (p.title || '').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 22);
-      return fetchVal('proj-' + clean).then(v => ({ title: p.title, count: v }));
-    });
-    const projResults = await Promise.all(projPromises);
-    projResults.sort((a, b) => b.count - a.count);
+    // Get all filled active projects (both 4K Cinema landscapes and 9:16 Vertical Reels)
+    const activeProjects = (data.projects || []).filter(p => p && p.title && ((p.video && p.video.trim()) || (p.thumbnail && p.thumbnail.trim())));
 
+    // Read local watch summary and session logs
+    let localSummary = {};
+    let localLogs = [];
+    try {
+      const rawS = localStorage.getItem('portfolio_ad_watch_summary');
+      if (rawS) localSummary = JSON.parse(rawS);
+      const rawL = localStorage.getItem('portfolio_ad_watch_log');
+      if (rawL) localLogs = JSON.parse(rawL);
+    } catch (e) {}
+
+    const projPromises = activeProjects.map(async (p) => {
+      const clean = (p.title || '').toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 22);
+      const [clickCount, sec2Count] = await Promise.all([
+        fetchVal('proj-' + clean),
+        fetchVal('wsec2-' + clean)
+      ]);
+      const cloudSecs = (sec2Count || 0) * 2;
+      const localP = localSummary[p.title] || {};
+      const localSecs = localP.totalSeconds || 0;
+      const totalSecs = Math.max(cloudSecs, localSecs);
+      const views = Math.max(clickCount || 0, localP.views || 0, totalSecs > 0 ? 1 : 0);
+      const avgSecs = views > 0 ? Math.round(totalSecs / views) : 0;
+      const isReel = p.kind === 'reel' || isSecondReelSlot(p);
+
+      return {
+        title: p.title,
+        kind: isReel ? 'reel' : 'landscape',
+        kindLabel: isReel ? '9:16 Vertical Reel' : '4K Cinema',
+        views: views,
+        totalSeconds: totalSecs,
+        avgSeconds: avgSecs,
+        formattedWatch: formatWatchSeconds(totalSecs),
+        lastWatched: localP.lastWatched || ''
+      };
+    });
+
+    const projResults = await Promise.all(projPromises);
+
+    // Sort by total seconds watched (highest first), then views
+    projResults.sort((a, b) => b.totalSeconds !== a.totalSeconds ? b.totalSeconds - a.totalSeconds : b.views - a.views);
+
+    // Calculate overall watch time
+    const overallWatchSecs = projResults.reduce((acc, p) => acc + p.totalSeconds, 0);
+    const overallViews = projResults.reduce((acc, p) => acc + p.views, 0);
+
+    if ($('totalAdWatchBadge')) {
+      $('totalAdWatchBadge').textContent = overallWatchSecs > 0 ? `${formatWatchSeconds(overallWatchSecs)} Total Watch Time` : '0s Total Watch Time';
+    }
+
+    // Render Most Clicked Campaigns list (updated with seconds)
     const campList = $('topCampaignsList');
     if (campList) {
-      campList.innerHTML = projResults.map(p => `
-        <div class="action-stat-row">
-          <span>${esc(p.title)}</span>
-          <b>${p.count} views</b>
-        </div>
-      `).join('');
+      if (projResults.length === 0 || overallViews === 0) {
+        campList.innerHTML = '<div class="action-stat-row"><span>Projects clicked will show here</span><b>0 views</b></div>';
+      } else {
+        campList.innerHTML = projResults.map(p => `
+          <div class="action-stat-row">
+            <div style="display:flex;align-items:center;gap:6px">
+              <span>${esc(p.title)}</span>
+              <span style="font-size:9.5px;color:var(--text-muted);border:1px solid rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">${p.kind === 'reel' ? 'Reel' : '4K'}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="color:var(--gold);font-weight:700">${p.totalSeconds}s watched</span>
+              <b style="color:var(--text-muted)">${p.views} ${p.views === 1 ? 'play' : 'plays'}</b>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Render Dedicated Ad Watch Time & Retention Cards
+    const adWatchListEl = $('adWatchList');
+    if (adWatchListEl) {
+      const maxAdSecs = Math.max(...projResults.map(p => p.totalSeconds), 30);
+      adWatchListEl.innerHTML = projResults.map(ad => {
+        const pct = maxAdSecs > 0 ? Math.min(100, Math.round((ad.totalSeconds / maxAdSecs) * 100)) : 0;
+        const isReel = ad.kind === 'reel';
+        return `
+          <div class="ad-watch-card" style="background:rgba(255,255,255,0.02);border:1px solid rgba(223,186,106,0.14);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:13px;font-weight:600;color:#fff">${esc(ad.title)}</span>
+                <span style="font-size:9.5px;font-family:'JetBrains Mono',monospace;padding:2px 8px;border-radius:999px;background:${isReel ? 'rgba(243,206,122,0.12)' : 'rgba(255,255,255,0.08)'};color:${isReel ? 'var(--gold-light)' : 'var(--text-muted)'};border:1px solid ${isReel ? 'rgba(243,206,122,0.25)' : 'rgba(255,255,255,0.1)'}">${ad.kindLabel}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px">
+                <span style="font-size:11px;color:var(--text-muted)">${ad.views} ${ad.views === 1 ? 'play' : 'plays'}</span>
+                <span style="font-size:13.5px;font-weight:700;color:var(--gold);font-family:'JetBrains Mono',monospace">${ad.totalSeconds} secs</span>
+                <span style="font-size:11px;color:var(--gold-light);background:rgba(215,177,90,0.1);padding:2px 7px;border-radius:6px;border:1px solid rgba(215,177,90,0.2)">Avg: ${ad.avgSeconds}s</span>
+              </div>
+            </div>
+            <!-- Retention Progress Bar -->
+            <div style="width:100%;height:6px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden">
+              <div style="width:${Math.max(4, pct)}%;height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-light));border-radius:999px"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render Recent Watch Sessions Log
+    const sessionsListEl = $('adWatchSessionsList');
+    if (sessionsListEl) {
+      if (localLogs && localLogs.length > 0) {
+        sessionsListEl.innerHTML = localLogs.map(s => `
+          <div class="action-stat-row" style="padding:8px 12px;font-size:11.5px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="color:#fff;font-weight:600">${esc(s.title)}</span>
+              <span style="color:var(--text-muted);font-size:10px">(${s.kind === 'reel' ? 'Vertical Reel' : '4K Cinema'})</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px">
+              <span style="color:var(--text-muted);font-size:10.5px">${s.time}</span>
+              <b style="color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:11px;background:rgba(215,177,90,0.12);padding:2px 8px;border-radius:6px;border:1px solid rgba(215,177,90,0.25)">Watched for ${s.seconds} secs</b>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        sessionsListEl.innerHTML = `
+          <div class="action-stat-row" style="font-size:11.5px">
+            <span>No watch sessions recorded yet. Watch any video on Page 1 to see live watch seconds appear here!</span>
+          </div>
+        `;
+      }
     }
 
     // PLATFORMS & REFERRALS DATA
