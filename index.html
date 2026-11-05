@@ -3572,8 +3572,9 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
         <div class="hint">Make any changes you like. Click <b>Save Changes</b> to instantly update what visitors see on your live website.</div>
       </div>
       <div class="editor-actions">
-        <span class="saved" id="savedMsg">✓ Changes Saved Live!</span>
+        <span class="saved" id="savedMsg">✓ Saved to this computer!</span>
         <button class="editor-btn primary" id="saveLiveBtn">Save Changes</button>
+        <button class="editor-btn" id="exportDataBtn" style="border:1px solid rgba(215,177,90,0.45);color:var(--gold-light);background:rgba(215,177,90,0.1)">📋 Copy Setup to Publish</button>
         <button class="editor-btn" id="closeEditor">Close</button>
         <button class="editor-btn danger" id="logoutBtn">Lock / Log out</button>
       </div>
@@ -5269,6 +5270,21 @@ if ($('refreshStatsBtn')) $('refreshStatsBtn').onclick = loadAdminStats;
 $('openEditor').onclick = openEditorPanel;
 $('closeEditor').onclick = () => $('editor').classList.remove('open');
 $('saveLiveBtn').onclick = saveLive;
+if ($('exportDataBtn')) {
+  $('exportDataBtn').onclick = () => {
+    collect();
+    const payload = JSON.stringify(data, null, 2);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(payload).then(() => {
+        alert("Copied all project links to your clipboard! Paste it into our chat right now so I can publish it permanently to your phone and all devices.");
+      }).catch(() => {
+        prompt("Copy this text and paste into our chat to publish permanently to your phone:", payload);
+      });
+    } else {
+      prompt("Copy this text and paste into our chat to publish permanently to your phone:", payload);
+    }
+  };
+}
 $('logoutBtn').onclick = () => {
   isAdmin = false;
   sessionStorage.removeItem('portfolio_is_admin');
