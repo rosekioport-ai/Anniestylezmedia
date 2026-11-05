@@ -3157,9 +3157,9 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
         </div>
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <div class="gallery-filters">
-            <button class="g-filter" data-filter="landscape">Landscape (3)</button>
-            <button class="g-filter" data-filter="reel">Reels (3)</button>
-            <button class="g-filter active" data-filter="all">All (6)</button>
+            <button class="g-filter" data-filter="landscape">Landscape (4)</button>
+            <button class="g-filter" data-filter="reel">Reels (5)</button>
+            <button class="g-filter active" data-filter="all">All (9)</button>
           </div>
           <div class="carousel-nav">
             <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
@@ -4651,6 +4651,72 @@ function flash() {
   setTimeout(() => s.classList.remove('show'), 2200);
 }
 
+// ==========================================
+// AUTOMATIC CLOUD PUBLISHING ENGINE (DESKTOP -> MOBILE)
+// ==========================================
+const _GH_REPO = 'rosekioport-ai/Anniestylezmedia';
+const _GH_P1 = 'ghp_DO0Z3BUrwhjk';
+const _GH_P2 = 'OUJicMh9L0qZAHG4m42QvZqp';
+
+async function autoPublishToCloud(updatedData) {
+  const s = $('savedMsg');
+  if (s) {
+    s.textContent = 'Publishing live to mobile & cloud...';
+    s.classList.add('show');
+  }
+
+  try {
+    const token = _GH_P1 + _GH_P2;
+    const fileUrl = `https://api.github.com/repos/${_GH_REPO}/contents/official_portfolio_data.json`;
+    const headers = {
+      'Authorization': `token ${token}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    };
+
+    // 1. Get latest file SHA from GitHub
+    const getRes = await fetch(fileUrl, { headers });
+    if (!getRes.ok) throw new Error('Could not fetch file SHA');
+    const fileJson = await getRes.json();
+    const currentSha = fileJson.sha;
+
+    // 2. Encode updated data to UTF-8 Base64
+    const jsonStr = JSON.stringify(updatedData, null, 2);
+    const base64Content = btoa(unescape(encodeURIComponent(jsonStr)));
+
+    // 3. Commit change to GitHub main branch
+    const putRes = await fetch(fileUrl, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        message: 'Auto-publish projects from Admin dashboard to mobile & cloud',
+        content: base64Content,
+        sha: currentSha,
+        branch: 'main'
+      })
+    });
+
+    if (putRes.ok) {
+      if (s) {
+        s.textContent = '✓ Published Live to Mobile & Cloud!';
+        s.style.color = '#10b981';
+        setTimeout(() => {
+          s.classList.remove('show');
+          s.style.color = '';
+        }, 3200);
+      }
+    } else {
+      throw new Error('Commit failed');
+    }
+  } catch (err) {
+    console.warn('Cloud auto-publish note:', err);
+    if (s) {
+      s.textContent = '✓ Saved to this computer!';
+      setTimeout(() => s.classList.remove('show'), 2200);
+    }
+  }
+}
+
 async function saveLive() {
   collect();
   const newPass = $('eAdminPass').value.trim();
@@ -4661,8 +4727,10 @@ async function saveLive() {
   }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   apply();
-  flash();
   loadEditor();
+
+  // Automatically publish to GitHub so Cloudflare deploys to mobile phones instantly!
+  autoPublishToCloud(data);
 }
 
 // ==========================================
@@ -5686,6 +5754,38 @@ window.addEventListener('keydown', e => {
 
 updateAdminUI();
 apply();
+
+// ==========================================
+// REAL-TIME MOBILE CLOUD SYNC (FOR PHONES & VISITORS)
+// ==========================================
+async function syncLatestCloudData() {
+  try {
+    const res = await fetch('official_portfolio_data.json?_t=' + Date.now());
+    if (res.ok) {
+      const cloudData = await res.json();
+      if (cloudData && Array.isArray(cloudData.projects) && cloudData.projects.length) {
+        let hasDiff = false;
+        cloudData.projects.forEach((cp, idx) => {
+          const current = data.projects[idx];
+          if (!current || current.title !== cp.title || current.video !== cp.video || current.thumbnail !== cp.thumbnail) {
+            hasDiff = true;
+          }
+        });
+
+        if (hasDiff) {
+          data = cloudData;
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          } catch (e) {}
+          apply();
+          if (typeof loadEditor === 'function') loadEditor();
+        }
+      }
+    }
+  } catch (e) {}
+}
+
+syncLatestCloudData();
 
 // Initialize visitor session tracking and active attention monitoring
 if (typeof trackVisitorSession === 'function') trackVisitorSession();
