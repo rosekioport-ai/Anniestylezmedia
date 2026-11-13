@@ -3824,7 +3824,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
 <audio id="ambientAudio" src="studio_atmosphere.mp3" preload="auto" loop playsinline></audio>
 
 <script>
-const STORAGE_KEY = 'portfolioDataV11';
+const STORAGE_KEY = 'portfolioDataV12';
 const PASS_KEY = 'portfolioAdminPass';
 const DEFAULT_PASS_HASH = '20f1bdef33f79a70390bcc8ce94573a2f7b7fbd148485dc6d761ab850a8d05ce'; // sha256 of 'kenanniezion'
 
@@ -3869,7 +3869,7 @@ const isBridalMakeoverSlot = isSecondReelSlot;
 
 function getSavedData() {
   // Check all storage versions so user-entered projects from any version are NEVER lost on refresh
-  const allKeys = ['portfolioDataV11', 'portfolioDataV10', 'portfolioDataV9', 'portfolioDataV8', 'portfolioDataV7', 'portfolioDataV6', 'portfolioDataV5', 'portfolioDataV4', 'portfolioDataV3', 'portfolioDataV2', 'portfolioData'];
+  const allKeys = ['portfolioDataV12', 'portfolioDataV11', 'portfolioDataV10', 'portfolioDataV9', 'portfolioDataV8', 'portfolioDataV7', 'portfolioDataV6', 'portfolioDataV5', 'portfolioDataV4', 'portfolioDataV3', 'portfolioDataV2', 'portfolioData'];
   let mergedData = null;
 
   for (const k of allKeys) {
@@ -4080,12 +4080,23 @@ let data = structuredClone(embedded || defaultData);
 if (savedLocal && Array.isArray(savedLocal.projects)) {
   savedLocal.projects.forEach((sp, idx) => {
     if (data.projects[idx]) {
-      // Only merge if the saved value is an actual non-empty string!
-      if (sp.video && sp.video.trim()) data.projects[idx].video = sp.video.trim();
-      if (sp.thumbnail && sp.thumbnail.trim()) data.projects[idx].thumbnail = sp.thumbnail.trim();
-      if (sp.title && sp.title.trim()) data.projects[idx].title = sp.title.trim();
-      if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.') {
-        data.projects[idx].description = sp.description.trim();
+      const isOfficialFilled = !!(embedded && embedded.projects && embedded.projects[idx] && embedded.projects[idx].video && embedded.projects[idx].video.trim());
+      // If the official embedded project is already filled with a real video, NEVER let empty or generic placeholder titles wipe it out!
+      if (!isOfficialFilled) {
+        if (sp.video && sp.video.trim()) data.projects[idx].video = sp.video.trim();
+        if (sp.thumbnail && sp.thumbnail.trim()) data.projects[idx].thumbnail = sp.thumbnail.trim();
+        if (sp.title && sp.title.trim() && !sp.title.startsWith('Reel 0') && !sp.title.startsWith('Landscape Project 0')) data.projects[idx].title = sp.title.trim();
+        if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.') {
+          data.projects[idx].description = sp.description.trim();
+        }
+      } else {
+        // If official is filled, only accept user override if user entered a custom video URL different from empty
+        if (sp.video && sp.video.trim()) data.projects[idx].video = sp.video.trim();
+        if (sp.thumbnail && sp.thumbnail.trim()) data.projects[idx].thumbnail = sp.thumbnail.trim();
+        if (sp.title && sp.title.trim() && !sp.title.startsWith('Reel 0') && !sp.title.startsWith('Landscape Project 0')) data.projects[idx].title = sp.title.trim();
+        if (sp.description && sp.description.trim() && sp.description.trim() !== 'Add your project description here.') {
+          data.projects[idx].description = sp.description.trim();
+        }
       }
     }
   });
