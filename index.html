@@ -5779,7 +5779,13 @@ apply();
 // ==========================================
 async function syncLatestCloudData() {
   try {
-    const res = await fetch('official_portfolio_data.json?_t=' + Date.now());
+    let res = null;
+    try {
+      res = await fetch('https://raw.githubusercontent.com/rosekioport-ai/Anniestylezmedia/main/official_portfolio_data.json?_t=' + Date.now(), { cache: 'no-store' });
+    } catch(e) {}
+    if (!res || !res.ok) {
+      res = await fetch('official_portfolio_data.json?_t=' + Date.now(), { cache: 'no-store' });
+    }
     if (res.ok) {
       const cloudData = await res.json();
       if (cloudData && Array.isArray(cloudData.projects) && cloudData.projects.length) {
