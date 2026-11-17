@@ -5774,6 +5774,36 @@ window.addEventListener('keydown', e => {
 updateAdminUI();
 apply();
 
+// Direct Deep Linking for Projects (e.g. ?project=opay or ?project=13)
+function checkDeepLink() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const projQuery = params.get('project');
+    if (projQuery && data && data.projects) {
+      let targetProj = null;
+      if (!isNaN(projQuery)) {
+        const idx = parseInt(projQuery, 10);
+        if (data.projects[idx]) targetProj = data.projects[idx];
+      } else {
+        const q = projQuery.toLowerCase();
+        targetProj = data.projects.find(p => {
+          const t = (p.title || '').toLowerCase();
+          const d = (p.description || '').toLowerCase();
+          return t.includes(q) || d.includes(q);
+        });
+      }
+      if (targetProj) {
+        setTimeout(() => {
+          openProjectModal(targetProj);
+        }, 300);
+      }
+    }
+  } catch (e) {
+    console.error('Deep link error:', e);
+  }
+}
+checkDeepLink();
+
 // ==========================================
 // REAL-TIME MOBILE CLOUD SYNC (FOR PHONES & VISITORS)
 // ==========================================
