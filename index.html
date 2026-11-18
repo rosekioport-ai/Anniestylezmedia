@@ -3688,6 +3688,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
           </div>
           <div style="display:flex;align-items:center;gap:12px">
             <span style="font-size:11px;color:var(--gold-light);background:rgba(215,177,90,0.1);padding:4px 10px;border-radius:999px;border:1px solid rgba(215,177,90,0.25)" id="totalAdWatchBadge">0s Total Watch Time</span>
+            <button type="button" onclick="clearOwnerTestWatchLogs()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);color:#ddd;padding:4px 10px;border-radius:999px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif" title="Remove local test watches from this computer">Clear My Test Plays</button>
           </div>
         </div>
 
@@ -4201,6 +4202,9 @@ async function verifyPassword() {
   if (pass === 'kenanniezion' || pass === 'admin123' || hash === storedHash) {
     isAdmin = true;
     sessionStorage.setItem('portfolio_is_admin', 'true');
+    try {
+      localStorage.setItem('as_ignore_owner_device', 'true');
+    } catch (e) {}
     closeLoginModal();
     updateAdminUI();
     openEditorPanel();
@@ -4816,8 +4820,36 @@ async function detectCountryCode() {
   return inferCountryFromTimezone();
 }
 
+// Owner / Admin Device Exclusion Filter
+function isOwnerDevice() {
+  try {
+    const host = window.location.hostname || '';
+    if (host === 'localhost' || host === '127.0.0.1' || host === '0.0.0.0' || host.startsWith('192.168.') || host.startsWith('10.')) {
+      return true;
+    }
+    if (localStorage.getItem('as_ignore_owner_device') === 'true') {
+      return true;
+    }
+    if (sessionStorage.getItem('portfolio_is_admin') === 'true') {
+      return true;
+    }
+  } catch (e) {}
+  return false;
+}
+
+function clearOwnerTestWatchLogs() {
+  try {
+    localStorage.removeItem('portfolio_ad_watch_log');
+    localStorage.removeItem('portfolio_ad_watch_summary');
+    localStorage.setItem('as_ignore_owner_device', 'true');
+  } catch (e) {}
+  alert('Your computer has been marked as owner device. Test plays have been cleared, and your visits will not be counted.');
+  if (typeof loadAdminStats === 'function') loadAdminStats();
+}
+
 // 1. Record daily unique visitor session with country and platform tracking
 async function trackVisitorSession() {
+  if (isOwnerDevice()) return;
   try {
     const today = getStatsDate(0);
     const key = 'as_session_visit_' + today;
@@ -4843,6 +4875,7 @@ let currentTrackedTab = 'experience';
 let tabAttentionInterval = null;
 
 function recordTabAttentionPulse() {
+  if (isOwnerDevice()) return;
   try {
     if (document.hidden) return;
     const tabKey = 'tab-' + (currentTrackedTab || 'experience');
@@ -4879,6 +4912,7 @@ function formatWatchSeconds(totalSecs) {
 }
 
 function startAdWatchTracking(ad) {
+  if (isOwnerDevice()) return;
   finishCurrentAdWatch();
 
   const title = (ad && ad.title) ? String(ad.title).trim() : 'Featured Campaign';
@@ -4914,6 +4948,10 @@ function startAdWatchTracking(ad) {
 }
 
 function finishCurrentAdWatch() {
+  if (isOwnerDevice()) {
+    activeWatchAd = null;
+    return;
+  }
   if (!activeWatchAd) return;
 
   if (activeWatchSecondInterval) clearInterval(activeWatchSecondInterval);
@@ -4987,6 +5025,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 function recordProjectClick(title) {
+  if (isOwnerDevice()) return;
   try {
     if (!title) return;
     const clean = title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 22);
@@ -4996,6 +5035,7 @@ function recordProjectClick(title) {
 
 // 4. Record client inquiry actions
 function recordActionClick(type) {
+  if (isOwnerDevice()) return;
   try {
     fetch(`${STATS_API}/hit/${STATS_NS}/action-${type}`, { mode: 'cors' }).catch(() => {});
   } catch (e) {}
@@ -5132,9 +5172,9 @@ async function loadAdminStats() {
       ]);
       const cloudSecs = (sec2Count || 0) * 2;
       const localP = localSummary[p.title] || {};
-      const localSecs = localP.totalSeconds || 0;
-      const totalSecs = Math.max(cloudSecs, localSecs);
-      const views = Math.max(clickCount || 0, localP.views || 0, totalSecs > 0 ? 1 : 0);
+      // Use cloud metrics directly for genuine external visitors
+      const totalSecs = cloudSecs;
+      const views = Math.max(clickCount || 0, totalSecs > 0 ? 1 : 0);
       const avgSecs = views > 0 ? Math.round(totalSecs / views) : 0;
       const isReel = p.kind === 'reel' || isSecondReelSlot(p);
 
