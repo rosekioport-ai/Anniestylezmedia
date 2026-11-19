@@ -19,7 +19,7 @@
 <meta name="twitter:description" content="Anyone can make an ad look polished. We give your buyers a genuine reason to choose you and take action.">
 <meta name="twitter:image" content="https://anniestylezmedia.pages.dev/og_preview.jpg?v=20261021d">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Sora:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
   --bg: #000000;
@@ -40,8 +40,8 @@
   --gold-border-hover: rgba(243, 206, 122, 0.75);
   --border: rgba(255, 255, 255, 0.08);
   --border-light: rgba(255, 255, 255, 0.14);
-  --font-sans: 'DM Sans', 'Plus Jakarta Sans', sans-serif;
-  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Poppins', sans-serif;
+  --font-serif: 'Poppins', sans-serif;
   --radius-lg: 26px;
   --radius-md: 18px;
   --radius-sm: 12px;
@@ -50,25 +50,28 @@
   --glass-shadow-hover: 0 34px 80px -8px rgba(0, 0, 0, 1), 0 0 45px rgba(243, 206, 122, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html {
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  max-width: 100vw;
-  width: 100%;
-  background: #000000;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif !important;
 }
-body {
-  background: #000000;
+html, body {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #000000 !important;
   color: var(--text);
-  font-family: var(--font-sans);
-  letter-spacing: -0.012em;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400 !important;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  max-width: 100vw;
-  width: 100%;
-  position: relative;
-  min-height: 100vh;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
 }
 
 ::selection { background: var(--gold); color: #050505; }
@@ -91,16 +94,18 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 
 .page {
-  min-height: 100vh;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
   position: relative;
   z-index: 1;
   width: 100%;
   max-width: 100vw;
-  overflow-x: hidden;
-  padding: 16px 2.5vw 20px;
+  padding: 8px 24px 6px !important;
   margin: 0;
-  display: flex;
-  flex-direction: column;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
 }
 
 /* TOP HEADER */
@@ -219,13 +224,19 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 }
 
 .tab-view {
-  display: none;
+  display: none !important;
+  height: calc(100vh - 48px - 24px - 22px) !important;
+  max-height: calc(100vh - 48px - 24px - 22px) !important;
+  overflow: hidden !important;
 }
 .tab-view.active {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  animation: silkyCurtain 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+  height: calc(100vh - 48px - 24px - 22px) !important;
+  max-height: calc(100vh - 48px - 24px - 22px) !important;
+  overflow: hidden !important;
+  animation: silkyCurtain 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes silkyCurtain {
@@ -3084,6 +3095,214 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     width: 92vw;
   }
 }
+
+/* ZERO VERTICAL SCROLL LAYOUT */
+.experience-command-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 50px;
+  flex-shrink: 0;
+  padding: 2px 4px;
+  margin-bottom: 6px;
+}
+.ecs-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ecs-headline {
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+.ecs-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.ecs-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.statement-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  background: rgba(22, 19, 16, 0.75);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(223, 186, 106, 0.25);
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--gold-light);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 245, 225, 0.1);
+  white-space: nowrap;
+}
+.statement-pill-quote {
+  font-size: 15px;
+  color: var(--gold);
+  line-height: 1;
+}
+.statement-pill-author {
+  font-size: 9.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-left: 1px solid rgba(223, 186, 106, 0.3);
+  padding-left: 8px;
+}
+.ecs-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.experience-stage {
+  flex: 1;
+  height: calc(100% - 56px);
+  max-height: calc(100% - 56px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+.carousel-shelf {
+  flex: 1;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  overflow: hidden;
+}
+.gallery-grid {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding: 4px 2px 8px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  align-items: stretch;
+  height: 100% !important;
+}
+.gallery-grid::-webkit-scrollbar {
+  display: none;
+}
+.carousel-shelf.show-both .gallery-grid {
+  height: calc(50% - 5px) !important;
+}
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #09090c;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  cursor: pointer;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card[data-kind="landscape"], .gallery-grid.landscape .card {
+  aspect-ratio: 16 / 9;
+}
+.card[data-kind="reel"], .gallery-grid.reel .card {
+  aspect-ratio: 9 / 16;
+}
+.studio-subtabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: rgba(18, 15, 12, 0.7);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(223, 186, 106, 0.2);
+  border-radius: 999px;
+  margin-bottom: 6px;
+  width: max-content;
+}
+.s-subtab {
+  background: transparent;
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s var(--ease);
+}
+.s-subtab.active {
+  background: linear-gradient(135deg, #e5c57b 0%, #d4a94e 45%, #b68733 100%);
+  color: #0c0a07;
+  font-weight: 600;
+}
+.studio-grid {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 16px;
+}
+.generator-card {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  padding: 18px 22px !important;
+  gap: 10px !important;
+}
+.previews-col {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.campaign-anatomy-card {
+  height: 100% !important;
+  max-height: 100% !important;
+  padding: 20px 22px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+}
+.contact-page-grid {
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  min-height: 0 !important;
+  display: grid !important;
+  grid-template-columns: 1.25fr 0.85fr !important;
+  gap: 18px !important;
+}
+.who-card, .contact-action-card {
+  height: 100% !important;
+  max-height: 100% !important;
+  padding: 20px 24px !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+}
+
 </style>
 
 <script id="portfolio-data">window.__PORTFOLIO_DATA__={"name": "Anniestylez_Media", "mark": "STORY-LED AI VIDEO ADS", "headline": "I turn Brands", "goldHeadline": "", "workIntro": "", "statement": "Story-Led AI Video Creator & Creative Director building commercials for brands and businesses that want buyers to choose them with confidence.", "about": "I take an idea from the first spark to a finished piece of video. I turn real problems into creative stories that make people see themselves, understand the problem, and recognise the brand as the solution. The goal is simple: connect with both problem-aware and solution-aware viewers, then make them want what your brand offers.\n", "email": "annieplans08@gmail.com", "whatsapp": "2348104665457", "contactText": "", "footer": "LET'S GIVE YOU", "footerGold": "AN EXPERIENCE", "footerLabel": "STORY-LED AI VIDEO ADS & CREATIVE DIRECTION", "services": [["Creative Conceptualization", "Turning a brief, product or rough idea into a clear visual concept with a strong creative direction."], ["AI Video Production", "Building original visual sequences and complete videos designed around the story, audience and objective."], ["Video Editing", "Shaping footage, visuals, sound and pacing into a polished final piece that feels deliberate and engaging."], ["AI Commercials & Ads", "Short, memorable advertising videos made to communicate value quickly and leave an impression."], ["Reels & Short Form", "Fast-moving social content built around hooks, retention, clarity and a reason to keep watching."], ["Visual Storytelling", "Creating a visual language that helps ideas, brands and stories connect without overcomplicating the message."], ["Content Production", "End-to-end support for turning a content idea into something ready to publish and share."], ["Creative Direction", "Keeping the visual idea, narrative and final execution aligned from the first frame to the last."]], "projects": [{"kind": "landscape", "title": "Real Estate Campaign", "description": "Spec Ad: NITTY HOMES\n\nThe Problem: House hunting in Lagos is often exhausting, opaque, and full of stress.\n\nThe Story: This campaign walks the viewer through the entire buyer journey, from filtering verified homes and live video viewings to physical inspection, signing a clear agreement, and finally unlocking their new front door.\n\nThe Goal: Make the buyer's frustration feel familiar, then position Nitty Homes as the trusted, stress-free solution.\n\nConcept Development • AI Video Production • Storytelling • Editing • Creative Direction", "video": "https://youtu.be/ea3XJRi3XJU", "thumbnail": "https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql"}, {"kind": "landscape", "title": "Construction Technology", "description": "Spec Ad: QENVORA PROJECTS\n\nThe Problem: Most homeowners wait months for construction to finish before finding out if their home actually feels right.\n\nThe Story: We follow a homeowner from the fear of traditional building plans to walking through a full-scale hologram of their house on the actual land before a single block is laid.\n\nThe Goal: Show buyers that they never have to gamble on their dream home before construction begins.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Fai29Htv648", "thumbnail": "https://drive.google.com/uc?export=view&id=1YNOeZMdReFpZpA4lzeAjhRUahcYEpKcc"}, {"kind": "landscape", "title": "Academic Campaign", "description": "Spec Ad: NORVERIA ACADEMY\n\nThe Problem: Parents want their children ready for a fast-moving AI and tech world without losing wisdom and strong character.\n\nThe Story: Starting with a curious boy exploring his mother's phone, the film shows how a school can channel childhood curiosity into real-world readiness through mentorship, technology, and entrepreneurship seminars.\n\nThe Goal: Show parents a school that gives their child's natural curiosity clear direction.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Q4t5WAO68e8", "thumbnail": "https://drive.google.com/uc?export=view&id=1d-7E--JZUh8UzC5I3bUMMSHxw9t5kiQL"}, {"kind": "landscape", "title": "Brand Unveiling", "description": "Campaign: BRAND UNVEILING\n\nThe Problem: Most brands announce their launch with a static logo or plain flyer that people scroll past in two seconds.\n\nThe Story: A cinematic, story-led reveal built around anticipation, mood, and visual identity so viewers immediately feel the weight and personality of the brand from frame one.\n\nThe Goal: Turn a standard brand announcement into an unforgettable visual experience.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/kuLBlKpiIr8", "thumbnail": "https://drive.google.com/uc?export=view&id=1X3nL51kLYj4NMgLw8KXRYM57TdcFIbJ1"}, {"kind": "landscape", "title": "Landscape Project 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Chauffeur Services", "description": "Spec Ad: EXECUTIVE CHAUFFEUR SERVICE\n\nThe Problem: Busy professionals do not just want a car ride; they want reliability, calm, and time back in their day.\n\nThe Story: This vertical campaign contrasts daily traffic stress with the quiet confidence of stepping into a professional, chauffeur-driven experience where every detail is handled.\n\nThe Goal: Position the service as an everyday luxury that gives clients back their peace of mind.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/dmJxexfvfHc?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=1ngt2gZVPTD8l5YGabGy5Pt1kNDkWIMUX"}, {"kind": "reel", "title": "Bridal Makeovers", "description": "Spec Ad: LUXURY BRIDAL MAKEOVERS\n\nThe Problem: Every bride shares the same quiet worry before her wedding day: wanting to look breathtaking without feeling like a stranger in her own skin.\n\nThe Story: Moving away from generic makeup transitions, this reel tells an emotional transformation story from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nThe Goal: Build deep emotional trust so brides immediately see themselves in the experience.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://vimeo.com/1242518139?share=copy&fl=sv&fe=ci", "thumbnail": "https://drive.google.com/uc?export=view&id=1fPa-RtGB7y3ZFzqn3jYHtqKhiFEsOtRt"}, {"kind": "reel", "title": "Wholesale Market Vendor", "description": "Spec Ad: WHOLESALE MARKET VENDOR\n\nThe Problem: Walking through a crowded open-air market under the heat, only to realize prices at stall after stall are inflated and unpredictable.\n\nThe Story: The video opens with the sensory exhaustion of market bargaining: the heat, the noise, the walking, and the frustration of prices doubling between stalls. Just as fatigue sets in, the shopper turns the corner and discovers the one verified wholesale vendor offering direct, transparent pricing on fresh essentials.\n\nThe Goal: Validate the shopper's real frustration first. Instead of generic market shouting, we show buyers that skipping the crowd and heading straight to this vendor is the smartest way to save both time and money.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/7PDpNIgCsm8?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=126Fi9IGTwI9kY5EbQqJN0VzV9x5vADkc"}, {"kind": "reel", "title": "Book Promo", "description": "Campaign: THE C.A.R.E. METHOD\n\nThe Problem: Many businesses focus on closing sales while leaving customers with unanswered questions and costly mistakes.\n\nThe Story: Through Tunde’s gaming PC experience, this cinematic ad reveals the cost of missed conversations and the power of educating customers.\n\nThe Goal: Promote The C.A.R.E. Method: A Customer Service & Sales Playbook* by Ademulegun Opeoluwa, a practical guide explaining how to apply the C.A.R.E. Method and answering key questions about delivering better customer service and building lasting trust.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Cinematic Editing", "video": "https://youtube.com/shorts/Iqxf8Ev2RMk", "thumbnail": "https://drive.google.com/uc?export=view&id=1kxIAYc-uJkr8OhA8mBCpt9Y66_0oR7Ot"}, {"kind": "reel", "title": "Nike Concept Heels", "description": "Spec Ad: NIKE AIR STILETTO (SPEC CONCEPT)\n\nThe Problem: Women in professional settings are forced to choose between looking sharp in formal high heels and enduring painful, rigid footwear for eight hours straight.\n\nThe Story: Sitting casually at home surrounded by her favorite Nike running shoes, a young professional candidly vents about the dreaded Monday morning boardroom walk, sparking a humorous, heartfelt plea for marathon-level cushioning inside formal stilettos.\n\nThe Goal: Demonstrate Anniestylez Media's ability to turn everyday consumer friction into viral, authentic UGC storytelling, proving that powerful advertising wins when it validates the customer's real pain before introducing a concept.\n\nConcept Development • Creative Direction • Copywriting • AI Video Production • Social Storytelling\n\n(Independent speculative concept by Anniestylez Media. Not an official Nike release.)", "video": "https://youtube.com/shorts/9NCw72sEPX8?si=0IMuHMdb2k1seVJ2", "thumbnail": "https://drive.google.com/uc?export=view&id=1UcJ7p_3GBg2VHpglXWHwhbxFKYNDWROO"}, {"kind": "reel", "title": "Beauty, Hair & Personal Care", "description": "PRIVATE BRAIDING & BEAUTY SERVICE (SIMPLY IFEOLUWA ROYALE)\n\nThe Problem: Women with sensitive scalps face an exhausting compromise: endure tight braiders and week-long headaches, or settle for gentle hands whose styles unravel within forty-eight hours.\n\nThe Story: A candid, sister-to-sister narrative where a relatable client travels to an unassuming neighborhood salon in Ikorodu, discovers elite craftsmanship with zero pain, rigorously tests the results over seven days, and upgrades to effortless private home service.\n\nThe Goal: Position the brand not just as a local hairdresser, but as a premium, pain-free beauty partner who brings luxury hair care and peace of mind straight to your doorstep.\n\nConcept Development • AI Video Production • Creative Direction • Scriptwriting • Storytelling • Video Editing.", "video": "https://youtube.com/shorts/h7JGa6iF79s", "thumbnail": "https://drive.google.com/uc?export=view&id=1H24diNr3u-sfwJcqnno7LaVuiB94NFCB"}, {"kind": "reel", "title": "Fintech & Digital Banking", "description": "Spec Ad: FINTECH & INSTANT PAYMENTS (OPAY NIGERIA)\n\nThe Problem: Professionals suffer endless spinning bank apps and delayed alerts, holding on to traditional banks while believing street rumors about modern digital apps.\n\nThe Story: An office skeptic mocks OPay and brings up the rumors, confident in his traditional bank until his own transfer delays for hours. When a coworker breezes through with hot akara paid for in seconds, the skeptic sneaks into the corner to install OPay on the App Store and gets caught in 4K by his laughing friends.\n\nThe Goal: Disarm banking snobbery with authentic workplace humor and prove that OPay is the reliable everyday payment tool that works without excuses.\n\nConcept Development • Creative Direction • Scriptwriting • AI Video Production • Storytelling • Video Editing.", "video": "https://youtube.com/shorts/7-4pEPubEVE", "thumbnail": "https://drive.google.com/uc?export=view&id=1IoRw1a_Yov5cJO3rxJy3BMn54goiEH9t"}]};</script>
@@ -3123,51 +3342,38 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
   <!-- 1. THE EXPERIENCE VIEW (VIDEOS SHOWCASE - DEFAULT ACTIVE) -->
   <div class="tab-view active" id="view-experience">
-    <!-- CINEMATIC HERO STATEMENT -->
-    <div class="experience-hero">
-      <div class="hero-badge-wrap">
-        <span class="hero-cinema-badge"><span class="badge-dot"></span> DIRECTED BY ANNIESTYLEZ</span>
+    <!-- COMPACT EXPERIENCE COMMAND STRIP (Zero Vertical Scroll) -->
+    <div class="experience-command-strip">
+      <div class="ecs-left">
+        <h1 class="ecs-headline">
+          <span id="heroHeadlineMain">I turn Brands</span> <span class="gold-text" id="heroHeadlineGold">into Experiences.</span>
+        </h1>
+        <p class="ecs-sub" id="heroWorkIntro">Story-led AI video ads and creative direction that convert.</p>
       </div>
-      <h1 class="hero-headline">
-        <span id="heroHeadlineMain">I turn Brands</span>
-        <span class="gold-text" id="heroHeadlineGold">into Experiences.</span>
-      </h1>
-      <p class="hero-sub" id="heroWorkIntro">
-        Story-led AI video ads and creative direction that turn your brand's skeptical audience into paying customers. We open with the exact frustration your buyer lives with, then show step by step why you are the only obvious choice.
-      </p>
 
-      <!-- 3D FLOATING GLOWING STATEMENT CARD ON PAGE 1 -->
-      <div class="statement-3d-stage hero-statement-stage">
-        <div class="statement-3d-card">
-          <div class="statement-gold-beam"></div>
-          <div class="statement-quote-mark">“</div>
-          <p class="statement-text">If it doesn't solve a problem, no one would remember it.</p>
-          <div class="statement-author">
-            <span class="author-line"></span>
-            <span class="author-name">Anniestylez Media</span>
-          </div>
+      <div class="ecs-center">
+        <div class="statement-pill">
+          <span class="statement-pill-quote">&ldquo;</span>
+          <span class="statement-pill-text">If it doesn't solve a problem, no one would remember it.</span>
+          <span class="statement-pill-author">Anniestylez Media</span>
+        </div>
+      </div>
+
+      <div class="ecs-right">
+        <div class="gallery-filters">
+          <button class="g-filter active" data-filter="landscape">Landscape (4)</button>
+          <button class="g-filter" data-filter="reel">Reels (7)</button>
+          <button class="g-filter" data-filter="all">All (11)</button>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">&lsaquo;</button>
+          <button class="carousel-arrow" id="nextTrack" title="Next projects" type="button">&rsaquo;</button>
         </div>
       </div>
     </div>
 
-    <section class="gallery-section" id="work">
-      <div class="section-head">
-        <div>
-          <h2 class="section-title">The Experience</h2>
-        </div>
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <div class="gallery-filters">
-            <button class="g-filter" data-filter="landscape">Landscape (4)</button>
-            <button class="g-filter" data-filter="reel">Reels (7)</button>
-            <button class="g-filter active" data-filter="all">All (11)</button>
-          </div>
-          <div class="carousel-nav">
-            <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">‹</button>
-            <button class="carousel-arrow" id="nextTrack" title="Next projects" type="button">›</button>
-          </div>
-        </div>
-      </div>
-
+    <!-- MAIN CAROUSEL SHELF STAGE (Fills remaining height) -->
+    <div class="experience-stage">
       <div class="carousel-shelf">
         <div class="gallery-grid landscape" id="portfolioGrid">
           <article class="card" data-kind="landscape" data-title="Real Estate Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Real Estate Campaign</div></div><div class="type">4K Cinema</div></div></article>
@@ -3189,7 +3395,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           <article class="card" data-kind="reel" data-title="Fintech & Digital Banking"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Fintech & Digital Banking</div></div><div class="type">9:16 Vertical</div></div></article>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 
   <!-- 2. STUDIO VIEW (SECOND PAGE) -->
@@ -3318,6 +3524,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
       <!-- RIGHT: PREVIEWS -->
       <div class="previews-col">
+        <div class="studio-subtabs">
+          <button type="button" class="s-subtab active" id="btnTabAnatomy" onclick="switchStudioSubTab('anatomy')">The Anatomy</button>
+          <button type="button" class="s-subtab" id="btnTabRoadmap" onclick="switchStudioSubTab('roadmap')">How We Work (3 Steps)</button>
+        </div>
+
         <div class="campaign-anatomy-card" id="campaignAnatomyCard">
           <div class="anatomy-header">
             <div class="anatomy-badge">
@@ -3362,66 +3573,10 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
             <span class="anatomy-foot-badge">4K Master &bull; Full Sound Design</span>
           </div>
         </div>
-      </div>
 
+        </div>
+      </div>
     </div>
-  
-    <!-- HOW WE WORK TOGETHER (3-STEP ROADMAP & SCREEN FORMATS) -->
-    <section class="studio-roadmap-section">
-      <div class="roadmap-header">
-        <span class="roadmap-eyebrow">HOW WE WORK TOGETHER</span>
-        <h2 class="roadmap-title">A clear brief. <span class="gold-text">A considered finish.</span></h2>
-        <p class="roadmap-sub">Creative decisions stay connected to your audience, your message, and where the video will be seen.</p>
-      </div>
-
-      <div class="roadmap-steps-grid">
-        <div class="roadmap-step-card">
-          <div class="step-card-num">01 / THE BRIEF</div>
-          <h3 class="step-card-title">Find the story worth telling.</h3>
-          <p class="step-card-desc">We define your goal, target audience, and central message. Creative references and hooks help us agree on the tone, emotion, and ambition before creating.</p>
-        </div>
-
-        <div class="roadmap-step-card">
-          <div class="step-card-num">02 / THE DIRECTION</div>
-          <h3 class="step-card-title">Make the idea visible.</h3>
-          <p class="step-card-desc">A tailored script, visual scene plan, and character continuity establish the story. We design every shot so the message connects immediately.</p>
-        </div>
-
-        <div class="roadmap-step-card">
-          <div class="step-card-num">03 / THE FINISH</div>
-          <h3 class="step-card-title">Shape it for the screen.</h3>
-          <p class="step-card-desc">AI generation, pacing, sound design, and color grading bring the piece together. Final master delivered in your chosen format (9:16 vertical OR 16:9 widescreen).</p>
-        </div>
-      </div>
-
-      <!-- ONE STORY. EVERY SCREEN FORMAT BANNER -->
-      <div class="formats-banner">
-        <div class="formats-info">
-          <span class="formats-badge">DELIVERABLES</span>
-          <h4 class="formats-title">Built for your chosen screen.</h4>
-          <p class="formats-sub">Choose your format before production begins: portrait 9:16 for mobile reels, or landscape 16:9 for larger screens and websites.</p>
-        </div>
-        <div class="formats-tags">
-          <div class="format-tag">
-            <span class="ft-ratio">9:16</span>
-            <div class="ft-details">
-              <strong>Vertical Format</strong>
-              <span>Instagram Reels • TikTok • YouTube Shorts</span>
-            </div>
-          </div>
-          <div class="format-tag">
-            <span class="ft-ratio">16:9</span>
-            <div class="ft-details">
-              <strong>Landscape Format</strong>
-              <span>YouTube • Website Heroes • Presentations</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
 
   <!-- 3. CONTACT & WHO I AM VIEW -->
   <div class="tab-view" id="view-contact">
@@ -5446,8 +5601,20 @@ filters.forEach(btn => btn.addEventListener('click', () => {
   filters.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const f = btn.dataset.filter;
-  landscape.style.display = f === 'reel' ? 'none' : 'flex';
-  reels.style.display = f === 'landscape' ? 'none' : 'flex';
+  const shelf = document.querySelector('.carousel-shelf');
+  if (f === 'landscape') {
+    landscape.style.display = 'flex';
+    reels.style.display = 'none';
+    if (shelf) shelf.classList.remove('show-both');
+  } else if (f === 'reel') {
+    landscape.style.display = 'none';
+    reels.style.display = 'flex';
+    if (shelf) shelf.classList.remove('show-both');
+  } else {
+    landscape.style.display = 'flex';
+    reels.style.display = 'flex';
+    if (shelf) shelf.classList.add('show-both');
+  }
 }));
 
 // SILKY SMOOTH MOUSE DRAG-TO-SCROLL FOR BOTH LANDSCAPE & REELS
@@ -6009,6 +6176,27 @@ if (typeof startAttentionTracking === 'function') startAttentionTracking();
   initParticles();
   loop();
 })();
+
+// Studio Subtab Switcher (Anatomy vs Roadmap)
+function switchStudioSubTab(tab) {
+  const anatomyCard = document.getElementById('campaignAnatomyCard');
+  const roadmapCard = document.getElementById('studioRoadmapCard');
+  const btnAnatomy = document.getElementById('btnTabAnatomy');
+  const btnRoadmap = document.getElementById('btnTabRoadmap');
+
+  if (tab === 'roadmap') {
+    if (anatomyCard) anatomyCard.style.display = 'none';
+    if (roadmapCard) roadmapCard.style.display = 'flex';
+    if (btnAnatomy) btnAnatomy.classList.remove('active');
+    if (btnRoadmap) btnRoadmap.classList.add('active');
+  } else {
+    if (anatomyCard) anatomyCard.style.display = 'flex';
+    if (roadmapCard) roadmapCard.style.display = 'none';
+    if (btnAnatomy) btnAnatomy.classList.add('active');
+    if (btnRoadmap) btnRoadmap.classList.remove('active');
+  }
+}
+
 </script>
 </body>
 </html>
