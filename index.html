@@ -3993,6 +3993,9 @@ body:not(.ie-active) .ie-is-hidden {
           <article class="card" data-kind="reel" data-title="Beauty, Hair & Personal Care"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Beauty, Hair & Personal Care</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Fintech & Digital Banking"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Fintech & Digital Banking</div></div><div class="type">9:16 Vertical</div></div></article>
         </div>
+
+        <!-- INDEPENDENT COPIES FOR THE "ALL" TAB (Moving/resizing here NEVER affects Reels or Landscape!) -->
+        <div class="gallery-grid all-track track-hidden" id="allGrid"></div>
       </div>
     </div>
   </div>
@@ -4713,7 +4716,7 @@ const STORAGE_KEY = 'portfolioDataV13';
 const PASS_KEY = 'portfolioAdminPass';
 const DEFAULT_PASS_HASH = '20f1bdef33f79a70390bcc8ce94573a2f7b7fbd148485dc6d761ab850a8d05ce'; // sha256 of 'kenanniezion'
 
-const baseProjects = [...document.querySelectorAll('.card')].map(c => ({
+const baseProjects = [...document.querySelectorAll('#portfolioGrid .card, #reelGrid .card')].map(c => ({
   kind: c.dataset.kind,
   title: c.dataset.title,
   description: 'Add your project description here.',
@@ -5415,7 +5418,7 @@ function apply() {
   // Update gallery cards and hide empty placeholder slots
   let activeLandscapes = 0;
   let activeReels = 0;
-  document.querySelectorAll('.card').forEach((c, i) => {
+  document.querySelectorAll('#portfolioGrid .card, #reelGrid .card').forEach((c, i) => {
     const x = data.projects[i];
     if (!x) return;
     const isSecondReel = isSecondReelSlot(x, i);
@@ -5460,6 +5463,7 @@ function apply() {
   if (filterReel) filterReel.textContent = `Reels (${activeReels})`;
   if (filterAll) filterAll.textContent = `All (${activeLandscapes + activeReels})`;
 
+  syncAllGridCopies();
   bindCards();
   if (typeof applyCustomLayout === 'function') applyCustomLayout();
 }
@@ -5532,6 +5536,37 @@ function resetActivePlayer() {
       try { ifr.src = ''; } catch (e) {}
     }
   }
+}
+
+function syncAllGridCopies() {
+  const allGrid = document.getElementById('allGrid');
+  if (!allGrid) return;
+  allGrid.innerHTML = '';
+  const sourceCards = document.querySelectorAll('#portfolioGrid .card, #reelGrid .card');
+  let landIdx = 0;
+  let reelIdx = 0;
+  sourceCards.forEach(src => {
+    if (src.style.display === 'none') return;
+    const clone = src.cloneNode(true);
+    // Strip any inline layout transforms from the original Reels/Landscape tab so All starts completely independent
+    clone.removeAttribute('style');
+    clone.classList.remove('ie-is-hidden');
+    const kind = clone.dataset.kind || (src.closest('#reelGrid') ? 'reel' : 'landscape');
+    clone.dataset.kind = kind;
+    clone.dataset.inAllTab = '1';
+    if (kind === 'reel') {
+      reelIdx++;
+      const num = String(reelIdx).padStart(2, '0');
+      clone.setAttribute('data-ie-id', 'all-reel-' + num);
+      clone.setAttribute('data-ie-label', 'All Short ' + num + ': ' + (clone.dataset.title || 'Short'));
+    } else {
+      landIdx++;
+      const num = String(landIdx).padStart(2, '0');
+      clone.setAttribute('data-ie-id', 'all-land-' + num);
+      clone.setAttribute('data-ie-label', 'All Cinema ' + num + ': ' + (clone.dataset.title || 'Cinema'));
+    }
+    allGrid.appendChild(clone);
+  });
 }
 
 function bindCards() {
@@ -6307,6 +6342,7 @@ $('logoutBtn').onclick = () => {
 const filters = document.querySelectorAll('.g-filter');
 const landscape = document.getElementById('portfolioGrid');
 const reels = document.getElementById('reelGrid');
+const allTrack = document.getElementById('allGrid');
 const prevTrackBtn = document.getElementById('prevTrack');
 const nextTrackBtn = document.getElementById('nextTrack');
 
@@ -6320,22 +6356,28 @@ function scrollCarousel(dir) {
 if (prevTrackBtn) prevTrackBtn.onclick = () => scrollCarousel('left');
 if (nextTrackBtn) nextTrackBtn.onclick = () => scrollCarousel('right');
 
+function activateGalleryTrack(f) {
+  const shelf = document.querySelector('.carousel-shelf');
+  if (f === 'landscape') {
+    if (landscape) landscape.classList.remove('track-hidden');
+    if (reels) reels.classList.add('track-hidden');
+    if (allTrack) allTrack.classList.add('track-hidden');
+  } else if (f === 'reel') {
+    if (landscape) landscape.classList.add('track-hidden');
+    if (reels) reels.classList.remove('track-hidden');
+    if (allTrack) allTrack.classList.add('track-hidden');
+  } else {
+    if (landscape) landscape.classList.add('track-hidden');
+    if (reels) reels.classList.add('track-hidden');
+    if (allTrack) allTrack.classList.remove('track-hidden');
+  }
+  if (shelf) shelf.scrollTo({ left: 0, behavior: 'smooth' });
+}
+
 filters.forEach(btn => btn.addEventListener('click', () => {
   filters.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const f = btn.dataset.filter;
-  const shelf = document.querySelector('.carousel-shelf');
-  if (f === 'landscape') {
-    landscape.classList.remove('track-hidden');
-    reels.classList.add('track-hidden');
-  } else if (f === 'reel') {
-    landscape.classList.add('track-hidden');
-    reels.classList.remove('track-hidden');
-  } else {
-    landscape.classList.remove('track-hidden');
-    reels.classList.remove('track-hidden');
-  }
-  if (shelf) shelf.scrollTo({ left: 0, behavior: 'smooth' });
+  activateGalleryTrack(btn.dataset.filter);
 }));
 
 // SILKY SMOOTH MOUSE DRAG-TO-SCROLL FOR BOTH LANDSCAPE & REELS
@@ -7004,6 +7046,23 @@ function tagAllEditableElements() {
     card.setAttribute('data-ie-id', 'land-card-' + num);
     card.setAttribute('data-ie-label', 'Cinema ' + num + ': ' + title);
   });
+
+  let allR = 0, allL = 0;
+  document.querySelectorAll('#allGrid .card').forEach(card => {
+    const kind = card.dataset.kind || 'landscape';
+    const title = card.dataset.title || 'Project';
+    if (kind === 'reel') {
+      allR++;
+      const num = String(allR).padStart(2, '0');
+      card.setAttribute('data-ie-id', 'all-reel-' + num);
+      card.setAttribute('data-ie-label', 'All Short ' + num + ': ' + title);
+    } else {
+      allL++;
+      const num = String(allL).padStart(2, '0');
+      card.setAttribute('data-ie-id', 'all-land-' + num);
+      card.setAttribute('data-ie-label', 'All Cinema ' + num + ': ' + title);
+    }
+  });
 }
 
 function applyElementTransform(el, cfg) {
@@ -7078,7 +7137,10 @@ function applyElementTransform(el, cfg) {
 }
 
 function applyFormatGridGap(formatKey, gapPx) {
-  const grid = formatKey === 'landscape' ? document.getElementById('portfolioGrid') : document.getElementById('reelGrid');
+  let grid = null;
+  if (formatKey === 'landscape') grid = document.getElementById('portfolioGrid');
+  else if (formatKey === 'reel') grid = document.getElementById('reelGrid');
+  else if (formatKey === 'all' || formatKey === 'allReel' || formatKey === 'allLandscape') grid = document.getElementById('allGrid');
   if (!grid) return;
   if (gapPx !== null && gapPx !== undefined && gapPx !== '') {
     grid.style.setProperty('gap', Math.round(Number(gapPx)) + 'px', 'important');
@@ -7089,6 +7151,11 @@ function applyFormatGridGap(formatKey, gapPx) {
 
 function getFormatGap(formatKey) {
   const fs = (ieCustomLayout && ieCustomLayout._formatSettings) ? ieCustomLayout._formatSettings : {};
+  if (formatKey === 'allReel' || formatKey === 'allLandscape') {
+    const allEntry = fs.all || fs[formatKey];
+    if (allEntry && allEntry.gap !== undefined && allEntry.gap !== null) return Math.round(Number(allEntry.gap));
+    return 18;
+  }
   const entry = fs[formatKey];
   if (entry && entry.gap !== undefined && entry.gap !== null) return Math.round(Number(entry.gap));
   return formatKey === 'landscape' ? 22 : 18;
@@ -7100,6 +7167,7 @@ function applyCustomLayout() {
   const fs = ieCustomLayout._formatSettings || {};
   applyFormatGridGap('reel', fs.reel && fs.reel.gap !== undefined ? fs.reel.gap : null);
   applyFormatGridGap('landscape', fs.landscape && fs.landscape.gap !== undefined ? fs.landscape.gap : null);
+  applyFormatGridGap('all', fs.all && fs.all.gap !== undefined ? fs.all.gap : null);
 
   document.querySelectorAll('[data-ie-id]').forEach(el => {
     const id = el.getAttribute('data-ie-id');
@@ -7164,6 +7232,18 @@ function positionSelectionBox() {
       const g = getFormatGap('landscape');
       if (gapInp) gapInp.value = g;
       if (gapVal) gapVal.textContent = g + 'px';
+    } else if (ieSelectedId && ieSelectedId.startsWith('all-reel-')) {
+      fmtGroup.style.display = 'inline-flex';
+      matchBtn.textContent = 'Apply to Portraits (in All)';
+      const g = getFormatGap('allReel');
+      if (gapInp) gapInp.value = g;
+      if (gapVal) gapVal.textContent = g + 'px';
+    } else if (ieSelectedId && ieSelectedId.startsWith('all-land-')) {
+      fmtGroup.style.display = 'inline-flex';
+      matchBtn.textContent = 'Apply to Landscapes (in All)';
+      const g = getFormatGap('allLandscape');
+      if (gapInp) gapInp.value = g;
+      if (gapVal) gapVal.textContent = g + 'px';
     } else {
       fmtGroup.style.display = 'none';
     }
@@ -7222,20 +7302,7 @@ function syncIEToolbarPagePills() {
         b.onclick = () => {
           const f = b.getAttribute('data-ie-expfilter');
           document.querySelectorAll('.g-filter').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
-          const lEl = document.getElementById('portfolioGrid');
-          const rEl = document.getElementById('reelGrid');
-          const sh = document.querySelector('.carousel-shelf');
-          if (f === 'landscape') {
-            if (lEl) lEl.classList.remove('track-hidden');
-            if (rEl) rEl.classList.add('track-hidden');
-          } else if (f === 'reel') {
-            if (lEl) lEl.classList.add('track-hidden');
-            if (rEl) rEl.classList.remove('track-hidden');
-          } else {
-            if (lEl) lEl.classList.remove('track-hidden');
-            if (rEl) rEl.classList.remove('track-hidden');
-          }
-          if (sh) sh.scrollTo({ left: 0, behavior: 'smooth' });
+          if (typeof activateGalleryTrack === 'function') activateGalleryTrack(f);
           subWrap.querySelectorAll('[data-ie-expfilter]').forEach(x => x.classList.toggle('active', x === b));
           selectIEElement(null);
         };
@@ -7263,8 +7330,10 @@ function buildLayoutBlueprintText() {
     screen: { width: window.innerWidth, height: window.innerHeight },
     updatedAt: new Date().toISOString(),
     formatSettings: {
-      portraits: fs.reel ? { width: fs.reel.w || null, height: fs.reel.h || null, spacing: fs.reel.gap !== undefined ? fs.reel.gap : 18 } : null,
-      landscapes: fs.landscape ? { width: fs.landscape.w || null, height: fs.landscape.h || null, spacing: fs.landscape.gap !== undefined ? fs.landscape.gap : 22 } : null
+      portraitsTab: fs.reel ? { width: fs.reel.w || null, height: fs.reel.h || null, spacing: fs.reel.gap !== undefined ? fs.reel.gap : 18 } : null,
+      landscapesTab: fs.landscape ? { width: fs.landscape.w || null, height: fs.landscape.h || null, spacing: fs.landscape.gap !== undefined ? fs.landscape.gap : 22 } : null,
+      allTabPortraits: fs.allReel ? { width: fs.allReel.w || null, height: fs.allReel.h || null, spacing: fs.all && fs.all.gap !== undefined ? fs.all.gap : 18 } : null,
+      allTabLandscapes: fs.allLandscape ? { width: fs.allLandscape.w || null, height: fs.allLandscape.h || null, spacing: fs.all && fs.all.gap !== undefined ? fs.all.gap : 18 } : null
     },
     changes: {}
   };
@@ -7646,12 +7715,23 @@ function bindInterfaceEditorControls() {
 
   if ($('ieMatchCardsBtn')) $('ieMatchCardsBtn').onclick = () => {
     if (!ieSelectedId || !ieSelectedEl) return;
-    const isReel = ieSelectedId.startsWith('reel-card-');
-    const isLand = ieSelectedId.startsWith('land-card-');
-    if (!isReel && !isLand) return;
+    let formatKey = null, prefix = null, doneLabel = '', baseLabel = '', gapKey = null;
+    if (ieSelectedId.startsWith('reel-card-')) {
+      formatKey = 'reel'; gapKey = 'reel'; prefix = 'reel-card-';
+      doneLabel = 'Applied to All Portraits!'; baseLabel = 'Apply to All Portraits';
+    } else if (ieSelectedId.startsWith('land-card-')) {
+      formatKey = 'landscape'; gapKey = 'landscape'; prefix = 'land-card-';
+      doneLabel = 'Applied to All Landscapes!'; baseLabel = 'Apply to All Landscapes';
+    } else if (ieSelectedId.startsWith('all-reel-')) {
+      formatKey = 'allReel'; gapKey = 'all'; prefix = 'all-reel-';
+      doneLabel = 'Applied in All Tab!'; baseLabel = 'Apply to Portraits (in All)';
+    } else if (ieSelectedId.startsWith('all-land-')) {
+      formatKey = 'allLandscape'; gapKey = 'all'; prefix = 'all-land-';
+      doneLabel = 'Applied in All Tab!'; baseLabel = 'Apply to Landscapes (in All)';
+    } else {
+      return;
+    }
 
-    const formatKey = isReel ? 'reel' : 'landscape';
-    const prefix = isReel ? 'reel-card-' : 'land-card-';
     const r = ieSelectedEl.getBoundingClientRect();
     const cur = ieCustomLayout[ieSelectedId] || {};
     const targetW = Math.round(cur.w || r.width);
@@ -7661,7 +7741,10 @@ function bindInterfaceEditorControls() {
     iePushUndo();
     if (!ieCustomLayout._formatSettings) ieCustomLayout._formatSettings = {};
     ieCustomLayout._formatSettings[formatKey] = { w: targetW, h: targetH, gap: gapPx };
-    applyFormatGridGap(formatKey, gapPx);
+    if (gapKey === 'all') {
+      ieCustomLayout._formatSettings.all = Object.assign({}, ieCustomLayout._formatSettings.all || {}, { gap: gapPx });
+    }
+    applyFormatGridGap(gapKey, gapPx);
 
     document.querySelectorAll(`[data-ie-id^="${prefix}"]`).forEach(card => {
       const cid = card.getAttribute('data-ie-id');
@@ -7677,8 +7760,6 @@ function bindInterfaceEditorControls() {
     positionSelectionBox();
 
     const btn = $('ieMatchCardsBtn');
-    const doneLabel = isReel ? 'Applied to All Portraits!' : 'Applied to All Landscapes!';
-    const baseLabel = isReel ? 'Apply to All Portraits' : 'Apply to All Landscapes';
     if (btn) {
       btn.textContent = doneLabel;
       setTimeout(() => { if (btn) btn.textContent = baseLabel; }, 1600);
@@ -7687,16 +7768,17 @@ function bindInterfaceEditorControls() {
 
   if ($('ieInputGap')) $('ieInputGap').addEventListener('input', () => {
     if (!ieSelectedId) return;
-    const isReel = ieSelectedId.startsWith('reel-card-');
-    const isLand = ieSelectedId.startsWith('land-card-');
-    if (!isReel && !isLand) return;
-    const formatKey = isReel ? 'reel' : 'landscape';
+    let gapKey = null;
+    if (ieSelectedId.startsWith('reel-card-')) gapKey = 'reel';
+    else if (ieSelectedId.startsWith('land-card-')) gapKey = 'landscape';
+    else if (ieSelectedId.startsWith('all-reel-') || ieSelectedId.startsWith('all-land-')) gapKey = 'all';
+    if (!gapKey) return;
     const gapPx = Math.round(Number($('ieInputGap').value) || 18);
     if ($('ieGapVal')) $('ieGapVal').textContent = gapPx + 'px';
     if (!ieCustomLayout._formatSettings) ieCustomLayout._formatSettings = {};
-    const prev = ieCustomLayout._formatSettings[formatKey] || {};
-    ieCustomLayout._formatSettings[formatKey] = Object.assign({}, prev, { gap: gapPx });
-    applyFormatGridGap(formatKey, gapPx);
+    const prev = ieCustomLayout._formatSettings[gapKey] || {};
+    ieCustomLayout._formatSettings[gapKey] = Object.assign({}, prev, { gap: gapPx });
+    applyFormatGridGap(gapKey, gapPx);
     localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
     positionSelectionBox();
   });
