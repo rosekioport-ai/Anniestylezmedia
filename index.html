@@ -3279,8 +3279,11 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   align-items: center;
   flex-shrink: 0;
   overflow: visible;
-  margin: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-right: 0 !important;
   padding: 0 !important;
+  transition: margin-left 0.32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .gallery-grid.track-hidden {
   display: none !important;
@@ -4712,7 +4715,8 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
       <label class="ie-field" title="Vertical shift in pixels">Y <input type="number" id="ieInputY" step="1" value="0"></label>
       <label class="ie-field" title="Width in pixels">W <input type="number" id="ieInputW" step="1" min="20"></label>
       <label class="ie-field" title="Height in pixels">H <input type="number" id="ieInputH" step="1" min="20"></label>
-      <label class="ie-field" title="Scale text and content inside block">Scale <input type="range" id="ieInputScale" min="60" max="160" value="100"><span id="ieScaleVal">100%</span></label>
+      <label class="ie-field" title="Adjust font size in pixels (wraps cleanly)">Font <button type="button" id="ieFontDecBtn" style="background:transparent;color:#f3ce7a;font-size:11px;padding:0 3px;cursor:pointer">A-</button><input type="number" id="ieInputFont" min="8" max="64" step="1" placeholder="--" style="width:36px"><span style="font-size:9.5px">px</span><button type="button" id="ieFontIncBtn" style="background:transparent;color:#f3ce7a;font-size:11px;padding:0 3px;cursor:pointer">A+</button></label>
+      <label class="ie-field" title="Scale entire block size">Scale <input type="range" id="ieInputScale" min="60" max="160" value="100"><span id="ieScaleVal">100%</span></label>
     </div>
 
     <div class="ie-tb-group">
@@ -6363,15 +6367,56 @@ const allTrack = document.getElementById('allGrid');
 const prevTrackBtn = document.getElementById('prevTrack');
 const nextTrackBtn = document.getElementById('nextTrack');
 
-function scrollCarousel(dir) {
+var activeTrackPanX = { reel: 0, landscape: 0, all: 0 };
+
+function getActiveTrackInfo() {
+  const f = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
+  const track = f === 'landscape' ? landscape : (f === 'all' ? allTrack : reels);
+  return { f, track };
+}
+
+function applyTrackPan(f, track) {
+  if (!track) return;
   const shelf = document.querySelector('.carousel-shelf');
-  if (shelf) {
-    shelf.scrollBy({ left: dir === 'left' ? -420 : 420, behavior: 'smooth' });
+  const maxPan = Math.max(0, track.scrollWidth - (shelf ? shelf.clientWidth : window.innerWidth) + 80);
+  const clamped = Math.max(0, Math.min(maxPan, activeTrackPanX[f] || 0));
+  activeTrackPanX[f] = clamped;
+  track.style.marginLeft = (-clamped) + 'px';
+  if (typeof ieActive !== 'undefined' && ieActive && typeof positionSelectionBox === 'function') {
+    setTimeout(() => positionSelectionBox(), 340);
   }
+}
+
+function panActiveTrack(deltaPx) {
+  const { f, track } = getActiveTrackInfo();
+  const shelf = document.querySelector('.carousel-shelf');
+  const isOverflowVisible = document.body.classList.contains('ie-active') || (shelf && shelf.classList.contains('ie-free-canvas'));
+  if (isOverflowVisible && track) {
+    activeTrackPanX[f] = (activeTrackPanX[f] || 0) + deltaPx;
+    applyTrackPan(f, track);
+  } else if (shelf) {
+    shelf.scrollBy({ left: deltaPx, behavior: 'smooth' });
+  }
+}
+
+function scrollCarousel(dir) {
+  panActiveTrack(dir === 'left' ? -440 : 440);
 }
 
 if (prevTrackBtn) prevTrackBtn.onclick = () => scrollCarousel('left');
 if (nextTrackBtn) nextTrackBtn.onclick = () => scrollCarousel('right');
+
+// Allow mouse wheel / trackpad scrolling over the video stage to glide smoothly across all 11 videos even in Interface Editor!
+(function bindStageWheelPan() {
+  const stage = document.querySelector('.experience-stage');
+  if (!stage) return;
+  stage.addEventListener('wheel', (e) => {
+    const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (Math.abs(delta) < 2) return;
+    e.preventDefault();
+    panActiveTrack(delta * 1.4);
+  }, { passive: false });
+})();
 
 function activateGalleryTrack(f) {
   const shelf = document.querySelector('.carousel-shelf');
@@ -6388,6 +6433,10 @@ function activateGalleryTrack(f) {
     if (reels) reels.classList.add('track-hidden');
     if (allTrack) allTrack.classList.remove('track-hidden');
   }
+  activeTrackPanX[f] = 0;
+  if (landscape) landscape.style.marginLeft = '0px';
+  if (reels) reels.style.marginLeft = '0px';
+  if (allTrack) allTrack.style.marginLeft = '0px';
   if (shelf) shelf.scrollTo({ left: 0, behavior: 'smooth' });
 }
 
@@ -7097,6 +7146,8 @@ function applyElementTransform(el, cfg) {
     el.style.removeProperty('z-index');
     el.style.removeProperty('zoom');
     el.style.removeProperty('aspect-ratio');
+    el.style.removeProperty('font-size');
+    el.style.removeProperty('line-height');
     el.classList.remove('ie-is-hidden');
     return;
   }
@@ -7146,6 +7197,14 @@ function applyElementTransform(el, cfg) {
     el.style.setProperty('z-index', String(cfg.z), 'important');
   } else {
     el.style.removeProperty('z-index');
+  }
+
+  if (cfg.fontSize && Number(cfg.fontSize) >= 8) {
+    el.style.setProperty('font-size', Math.round(Number(cfg.fontSize)) + 'px', 'important');
+    el.style.setProperty('line-height', '1.5', 'important');
+  } else {
+    el.style.removeProperty('font-size');
+    el.style.removeProperty('line-height');
   }
 
   if (cfg.hidden) {
@@ -7241,6 +7300,10 @@ function positionSelectionBox() {
   const pct = Math.round((cfg.scale || 1) * 100);
   $('ieInputScale').value = pct;
   $('ieScaleVal').textContent = pct + '%';
+  if ($('ieInputFont')) {
+    const computedFs = parseFloat(window.getComputedStyle(ieSelectedEl).fontSize) || 14;
+    $('ieInputFont').value = Math.round(cfg.fontSize || computedFs);
+  }
   $('ieHideElBtn').textContent = cfg.hidden ? 'Show' : 'Hide';
 
   const fmtGroup = $('ieFormatGroup');
@@ -7323,7 +7386,7 @@ function syncIEToolbarPagePills() {
   if (subWrap) {
     if (current === 'experience') {
       subWrap.style.display = 'inline-flex';
-      subWrap.innerHTML = '<button type="button" class="ie-btn" data-ie-expfilter="reel">Reels</button><button type="button" class="ie-btn" data-ie-expfilter="landscape">Landscape</button><button type="button" class="ie-btn" data-ie-expfilter="all">All</button>';
+      subWrap.innerHTML = '<button type="button" class="ie-btn" data-ie-expfilter="reel">Reels</button><button type="button" class="ie-btn" data-ie-expfilter="landscape">Landscape</button><button type="button" class="ie-btn" data-ie-expfilter="all">All</button><button type="button" class="ie-btn" id="iePanLeftBtn" title="Slide view left to see earlier videos">&lsaquo; Slide Left</button><button type="button" class="ie-btn" id="iePanRightBtn" title="Slide view right to see remaining Reels and videos">Slide Right &rsaquo;</button>';
       const curF = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
       subWrap.querySelectorAll('[data-ie-expfilter]').forEach(b => {
         b.classList.toggle('active', b.getAttribute('data-ie-expfilter') === curF);
@@ -7335,6 +7398,10 @@ function syncIEToolbarPagePills() {
           selectIEElement(null);
         };
       });
+      const pl = document.getElementById('iePanLeftBtn');
+      const pr = document.getElementById('iePanRightBtn');
+      if (pl) pl.onclick = () => panActiveTrack(-460);
+      if (pr) pr.onclick = () => panActiveTrack(460);
     } else if (current === 'studio') {
       subWrap.style.display = 'inline-flex';
       subWrap.innerHTML = '<button type="button" class="ie-btn active" data-ie-st="anatomy">Anatomy</button><button type="button" class="ie-btn" data-ie-st="roadmap">3 Steps</button>';
@@ -7376,6 +7443,7 @@ function buildLayoutBlueprintText() {
       y: Math.round(cfg.y || 0),
       w: cfg.w ? Math.round(cfg.w) : null,
       h: cfg.h ? Math.round(cfg.h) : null,
+      fontSize: cfg.fontSize || null,
       scale: cfg.scale || 1,
       z: cfg.z !== undefined ? cfg.z : null,
       hidden: !!cfg.hidden
@@ -7847,6 +7915,33 @@ function bindInterfaceEditorControls() {
     const inp = $(id);
     if (inp) inp.addEventListener('input', applyInspectorInput);
   });
+
+  const setSelectedFontSize = (px) => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    const clamped = Math.max(8, Math.min(64, Math.round(px)));
+    iePushUndo();
+    const cfg = ieCustomLayout[ieSelectedId] || (ieCustomLayout[ieSelectedId] = {});
+    cfg.fontSize = clamped;
+    if ($('ieInputFont')) $('ieInputFont').value = clamped;
+    applyElementTransform(ieSelectedEl, cfg);
+    positionSelectionBox();
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+  };
+
+  if ($('ieInputFont')) $('ieInputFont').addEventListener('input', () => {
+    const val = Number($('ieInputFont').value);
+    if (val >= 8 && val <= 64) setSelectedFontSize(val);
+  });
+  if ($('ieFontIncBtn')) $('ieFontIncBtn').onclick = () => {
+    if (!ieSelectedEl) return;
+    const cur = Number($('ieInputFont')?.value) || parseFloat(window.getComputedStyle(ieSelectedEl).fontSize) || 14;
+    setSelectedFontSize(cur + 1);
+  };
+  if ($('ieFontDecBtn')) $('ieFontDecBtn').onclick = () => {
+    if (!ieSelectedEl) return;
+    const cur = Number($('ieInputFont')?.value) || parseFloat(window.getComputedStyle(ieSelectedEl).fontSize) || 14;
+    setSelectedFontSize(cur - 1);
+  };
 }
 
 // Initialize on load
