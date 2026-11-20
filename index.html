@@ -3618,6 +3618,290 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   .contact-direct-btn { padding: 9px 16px !important; font-size: 11.5px !important; }
 }
 
+
+/* ========================================================
+   VISUAL INTERFACE EDITOR (MOVE & RESIZE EVERYTHING)
+   ======================================================== */
+body.ie-active::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  background-image:
+    linear-gradient(to right, rgba(243, 206, 122, 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(243, 206, 122, 0.055) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+body.ie-active.ie-show-grid::before {
+  opacity: 1;
+}
+body.ie-active [data-ie-id] {
+  cursor: move !important;
+  transition: outline-color 0.15s ease !important;
+}
+body.ie-active [data-ie-id]:hover {
+  outline: 1.5px dashed rgba(243, 206, 122, 0.72) !important;
+  outline-offset: 2px;
+}
+body.ie-active .ie-is-hidden {
+  opacity: 0.22 !important;
+  filter: grayscale(1) !important;
+  outline: 1.5px dashed rgba(255, 101, 10, 0.75) !important;
+}
+body:not(.ie-active) .ie-is-hidden {
+  display: none !important;
+}
+
+/* FLOATING SELECTION OVERLAY WITH 8 RESIZE HANDLES */
+#ieSelectionBox {
+  position: fixed;
+  z-index: 9990;
+  pointer-events: none;
+  display: none;
+  border: 2px solid #f3ce7a;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.8), 0 0 22px rgba(243, 206, 122, 0.35);
+}
+#ieSelectionBox.visible {
+  display: block;
+}
+.ie-sel-tag {
+  position: absolute;
+  top: -26px;
+  left: -2px;
+  background: linear-gradient(135deg, #fae29e 0%, #d4a94e 100%);
+  color: #0c0a07;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: move;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ie-sel-dims {
+  opacity: 0.78;
+  font-size: 9.5px;
+}
+.ie-handle {
+  position: absolute;
+  pointer-events: auto;
+  background: #ffffff;
+  border: 2px solid #d4a94e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  z-index: 9992;
+}
+.ie-handle.corner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.ie-handle.edge-h {
+  width: 24px;
+  height: 7px;
+  border-radius: 999px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ie-handle.edge-v {
+  width: 7px;
+  height: 24px;
+  border-radius: 999px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ie-handle[data-dir="nw"] { top: -6px; left: -6px; cursor: nwse-resize; }
+.ie-handle[data-dir="ne"] { top: -6px; right: -6px; cursor: nesw-resize; }
+.ie-handle[data-dir="sw"] { bottom: -6px; left: -6px; cursor: nesw-resize; }
+.ie-handle[data-dir="se"] { bottom: -6px; right: -6px; cursor: nwse-resize; }
+.ie-handle[data-dir="n"]  { top: -4px; cursor: ns-resize; }
+.ie-handle[data-dir="s"]  { bottom: -4px; cursor: ns-resize; }
+.ie-handle[data-dir="e"]  { right: -4px; cursor: ew-resize; }
+.ie-handle[data-dir="w"]  { left: -4px; cursor: ew-resize; }
+
+/* HOVER LABEL PILL */
+#ieHoverTag {
+  position: fixed;
+  z-index: 9985;
+  pointer-events: none;
+  display: none;
+  background: rgba(18, 16, 15, 0.92);
+  color: #f3ce7a;
+  border: 1px solid rgba(243, 206, 122, 0.45);
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* FLOATING DRAGGABLE INTERFACE EDITOR TOOLBAR */
+#ieToolbar {
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: min(1310px, 97vw);
+  background: rgba(22, 19, 18, 0.96);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(243, 206, 122, 0.48);
+  border-radius: 16px;
+  padding: 7px 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.94), 0 0 30px rgba(243, 206, 122, 0.18);
+  color: #fff;
+  user-select: none;
+}
+#ieToolbar.open {
+  display: flex;
+}
+.ie-tb-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ie-tb-row.inspector {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 6px;
+}
+.ie-tb-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ie-drag-grip {
+  cursor: grab;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(243, 206, 122, 0.14);
+  border: 1px solid rgba(243, 206, 122, 0.35);
+  color: #f3ce7a;
+  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.ie-drag-grip:active { cursor: grabbing; }
+.ie-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #e8e8ee;
+  border-radius: 999px;
+  padding: 3.5px 9px;
+  font-size: 10px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.ie-btn:hover {
+  border-color: rgba(243, 206, 122, 0.6);
+  color: #fff;
+  background: rgba(243, 206, 122, 0.14);
+}
+.ie-btn.active {
+  background: linear-gradient(135deg, #fae29e 0%, #d4a94e 100%);
+  color: #0c0a07;
+  border-color: transparent;
+  font-weight: 500;
+}
+.ie-btn.primary {
+  background: #ffffff;
+  color: #111011;
+  border-color: #ffffff;
+  font-weight: 500;
+}
+.ie-btn.primary:hover {
+  background: #f3ce7a;
+  border-color: #f3ce7a;
+}
+.ie-btn.accent {
+  background: rgba(217, 242, 126, 0.16);
+  border-color: rgba(217, 242, 126, 0.55);
+  color: #d9f27e;
+}
+.ie-btn.danger {
+  background: rgba(255, 101, 10, 0.14);
+  border-color: rgba(255, 101, 10, 0.45);
+  color: #ff9c66;
+}
+.ie-pill-sep {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0 2px;
+}
+.ie-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: #a0a0a8;
+}
+.ie-field input[type="number"] {
+  width: 46px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 10.5px;
+  text-align: right;
+  outline: none;
+}
+.ie-field input[type="range"] {
+  width: 68px;
+  accent-color: #f3ce7a;
+}
+.ie-selected-name {
+  font-size: 11px;
+  color: #f3ce7a;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ie-admin-banner {
+  background: linear-gradient(135deg, rgba(43, 39, 40, 0.92) 0%, rgba(22, 19, 18, 0.95) 100%);
+  border: 1px solid rgba(243, 206, 122, 0.42);
+  border-radius: 18px;
+  padding: 18px 22px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ie-admin-banner h3 {
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+.ie-admin-banner p {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+  max-width: 640px;
+}
+
 </style>
 
 <script id="portfolio-data">window.__PORTFOLIO_DATA__={"name": "Anniestylez_Media", "mark": "STORY-LED AI VIDEO ADS", "headline": "I turn Brands", "goldHeadline": "", "workIntro": "", "statement": "Story-Led AI Video Creator & Creative Director building commercials for brands and businesses that want buyers to choose them with confidence.", "about": "I take an idea from the first spark to a finished piece of video. I turn real problems into creative stories that make people see themselves, understand the problem, and recognise the brand as the solution. The goal is simple: connect with both problem-aware and solution-aware viewers, then make them want what your brand offers.\n", "email": "annieplans08@gmail.com", "whatsapp": "2348104665457", "contactText": "", "footer": "LET'S GIVE YOU", "footerGold": "AN EXPERIENCE", "footerLabel": "STORY-LED AI VIDEO ADS & CREATIVE DIRECTION", "services": [["Creative Conceptualization", "Turning a brief, product or rough idea into a clear visual concept with a strong creative direction."], ["AI Video Production", "Building original visual sequences and complete videos designed around the story, audience and objective."], ["Video Editing", "Shaping footage, visuals, sound and pacing into a polished final piece that feels deliberate and engaging."], ["AI Commercials & Ads", "Short, memorable advertising videos made to communicate value quickly and leave an impression."], ["Reels & Short Form", "Fast-moving social content built around hooks, retention, clarity and a reason to keep watching."], ["Visual Storytelling", "Creating a visual language that helps ideas, brands and stories connect without overcomplicating the message."], ["Content Production", "End-to-end support for turning a content idea into something ready to publish and share."], ["Creative Direction", "Keeping the visual idea, narrative and final execution aligned from the first frame to the last."]], "projects": [{"kind": "landscape", "title": "Real Estate Campaign", "description": "Spec Ad: NITTY HOMES\n\nThe Problem: House hunting in Lagos is often exhausting, opaque, and full of stress.\n\nThe Story: This campaign walks the viewer through the entire buyer journey, from filtering verified homes and live video viewings to physical inspection, signing a clear agreement, and finally unlocking their new front door.\n\nThe Goal: Make the buyer's frustration feel familiar, then position Nitty Homes as the trusted, stress-free solution.\n\nConcept Development • AI Video Production • Storytelling • Editing • Creative Direction", "video": "https://youtu.be/ea3XJRi3XJU", "thumbnail": "https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql"}, {"kind": "landscape", "title": "Construction Technology", "description": "Spec Ad: QENVORA PROJECTS\n\nThe Problem: Most homeowners wait months for construction to finish before finding out if their home actually feels right.\n\nThe Story: We follow a homeowner from the fear of traditional building plans to walking through a full-scale hologram of their house on the actual land before a single block is laid.\n\nThe Goal: Show buyers that they never have to gamble on their dream home before construction begins.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Fai29Htv648", "thumbnail": "https://drive.google.com/uc?export=view&id=1YNOeZMdReFpZpA4lzeAjhRUahcYEpKcc"}, {"kind": "landscape", "title": "Academic Campaign", "description": "Spec Ad: NORVERIA ACADEMY\n\nThe Problem: Parents want their children ready for a fast-moving AI and tech world without losing wisdom and strong character.\n\nThe Story: Starting with a curious boy exploring his mother's phone, the film shows how a school can channel childhood curiosity into real-world readiness through mentorship, technology, and entrepreneurship seminars.\n\nThe Goal: Show parents a school that gives their child's natural curiosity clear direction.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Q4t5WAO68e8", "thumbnail": "https://drive.google.com/uc?export=view&id=1d-7E--JZUh8UzC5I3bUMMSHxw9t5kiQL"}, {"kind": "landscape", "title": "Brand Unveiling", "description": "Campaign: BRAND UNVEILING\n\nThe Problem: Most brands announce their launch with a static logo or plain flyer that people scroll past in two seconds.\n\nThe Story: A cinematic, story-led reveal built around anticipation, mood, and visual identity so viewers immediately feel the weight and personality of the brand from frame one.\n\nThe Goal: Turn a standard brand announcement into an unforgettable visual experience.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/kuLBlKpiIr8", "thumbnail": "https://drive.google.com/uc?export=view&id=1X3nL51kLYj4NMgLw8KXRYM57TdcFIbJ1"}, {"kind": "landscape", "title": "Landscape Project 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Chauffeur Services", "description": "Spec Ad: EXECUTIVE CHAUFFEUR SERVICE\n\nThe Problem: Busy professionals do not just want a car ride; they want reliability, calm, and time back in their day.\n\nThe Story: This vertical campaign contrasts daily traffic stress with the quiet confidence of stepping into a professional, chauffeur-driven experience where every detail is handled.\n\nThe Goal: Position the service as an everyday luxury that gives clients back their peace of mind.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/dmJxexfvfHc?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=1ngt2gZVPTD8l5YGabGy5Pt1kNDkWIMUX"}, {"kind": "reel", "title": "Bridal Makeovers", "description": "Spec Ad: LUXURY BRIDAL MAKEOVERS\n\nThe Problem: Every bride shares the same quiet worry before her wedding day: wanting to look breathtaking without feeling like a stranger in her own skin.\n\nThe Story: Moving away from generic makeup transitions, this reel tells an emotional transformation story from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nThe Goal: Build deep emotional trust so brides immediately see themselves in the experience.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://vimeo.com/1242518139?share=copy&fl=sv&fe=ci", "thumbnail": "https://drive.google.com/uc?export=view&id=1fPa-RtGB7y3ZFzqn3jYHtqKhiFEsOtRt"}, {"kind": "reel", "title": "Wholesale Market Vendor", "description": "Spec Ad: WHOLESALE MARKET VENDOR\n\nThe Problem: Walking through a crowded open-air market under the heat, only to realize prices at stall after stall are inflated and unpredictable.\n\nThe Story: The video opens with the sensory exhaustion of market bargaining: the heat, the noise, the walking, and the frustration of prices doubling between stalls. Just as fatigue sets in, the shopper turns the corner and discovers the one verified wholesale vendor offering direct, transparent pricing on fresh essentials.\n\nThe Goal: Validate the shopper's real frustration first. Instead of generic market shouting, we show buyers that skipping the crowd and heading straight to this vendor is the smartest way to save both time and money.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/7PDpNIgCsm8?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=126Fi9IGTwI9kY5EbQqJN0VzV9x5vADkc"}, {"kind": "reel", "title": "Book Promo", "description": "Campaign: THE C.A.R.E. METHOD\n\nThe Problem: Many businesses focus on closing sales while leaving customers with unanswered questions and costly mistakes.\n\nThe Story: Through Tunde’s gaming PC experience, this cinematic ad reveals the cost of missed conversations and the power of educating customers.\n\nThe Goal: Promote The C.A.R.E. Method: A Customer Service & Sales Playbook* by Ademulegun Opeoluwa, a practical guide explaining how to apply the C.A.R.E. Method and answering key questions about delivering better customer service and building lasting trust.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Cinematic Editing", "video": "https://youtube.com/shorts/Iqxf8Ev2RMk", "thumbnail": "https://drive.google.com/uc?export=view&id=1kxIAYc-uJkr8OhA8mBCpt9Y66_0oR7Ot"}, {"kind": "reel", "title": "Nike Concept Heels", "description": "Spec Ad: NIKE AIR STILETTO (SPEC CONCEPT)\n\nThe Problem: Women in professional settings are forced to choose between looking sharp in formal high heels and enduring painful, rigid footwear for eight hours straight.\n\nThe Story: Sitting casually at home surrounded by her favorite Nike running shoes, a young professional candidly vents about the dreaded Monday morning boardroom walk, sparking a humorous, heartfelt plea for marathon-level cushioning inside formal stilettos.\n\nThe Goal: Demonstrate Anniestylez Media's ability to turn everyday consumer friction into viral, authentic UGC storytelling, proving that powerful advertising wins when it validates the customer's real pain before introducing a concept.\n\nConcept Development • Creative Direction • Copywriting • AI Video Production • Social Storytelling\n\n(Independent speculative concept by Anniestylez Media. Not an official Nike release.)", "video": "https://youtube.com/shorts/9NCw72sEPX8?si=0IMuHMdb2k1seVJ2", "thumbnail": "https://drive.google.com/uc?export=view&id=1UcJ7p_3GBg2VHpglXWHwhbxFKYNDWROO"}, {"kind": "reel", "title": "Beauty, Hair & Personal Care", "description": "PRIVATE BRAIDING & BEAUTY SERVICE (SIMPLY IFEOLUWA ROYALE)\n\nThe Problem: Women with sensitive scalps face an exhausting compromise: endure tight braiders and week-long headaches, or settle for gentle hands whose styles unravel within forty-eight hours.\n\nThe Story: A candid, sister-to-sister narrative where a relatable client travels to an unassuming neighborhood salon in Ikorodu, discovers elite craftsmanship with zero pain, rigorously tests the results over seven days, and upgrades to effortless private home service.\n\nThe Goal: Position the brand not just as a local hairdresser, but as a premium, pain-free beauty partner who brings luxury hair care and peace of mind straight to your doorstep.\n\nConcept Development • AI Video Production • Creative Direction • Scriptwriting • Storytelling • Video Editing.", "video": "https://youtube.com/shorts/h7JGa6iF79s", "thumbnail": "https://drive.google.com/uc?export=view&id=1H24diNr3u-sfwJcqnno7LaVuiB94NFCB"}, {"kind": "reel", "title": "Fintech & Digital Banking", "description": "Spec Ad: FINTECH & INSTANT PAYMENTS (OPAY NIGERIA)\n\nThe Problem: Professionals suffer endless spinning bank apps and delayed alerts, holding on to traditional banks while believing street rumors about modern digital apps.\n\nThe Story: An office skeptic mocks OPay and brings up the rumors, confident in his traditional bank until his own transfer delays for hours. When a coworker breezes through with hot akara paid for in seconds, the skeptic sneaks into the corner to install OPay on the App Store and gets caught in 4K by his laughing friends.\n\nThe Goal: Disarm banking snobbery with authentic workplace humor and prove that OPay is the reliable everyday payment tool that works without excuses.\n\nConcept Development • Creative Direction • Scriptwriting • AI Video Production • Storytelling • Video Editing.", "video": "https://youtube.com/shorts/7-4pEPubEVE", "thumbnail": "https://drive.google.com/uc?export=view&id=1IoRw1a_Yov5cJO3rxJy3BMn54goiEH9t"}]};</script>
@@ -4088,10 +4372,24 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
       </div>
       <div class="editor-actions">
         <span class="saved" id="savedMsg">✓ Saved to this computer!</span>
+        <button class="editor-btn" id="openInterfaceEditorBtn" type="button" style="border:1px solid rgba(243,206,122,0.7);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%);font-weight:500">Interface Editor (Move &amp; Resize)</button>
         <button class="editor-btn primary" id="saveLiveBtn">Save Changes</button>
         <button class="editor-btn" id="exportDataBtn" style="border:1px solid rgba(215,177,90,0.45);color:var(--gold-light);background:rgba(215,177,90,0.1)">📋 Copy Setup to Publish</button>
         <button class="editor-btn" id="closeEditor">Close</button>
         <button class="editor-btn danger" id="logoutBtn">Lock / Log out</button>
+      </div>
+    </div>
+
+    <!-- 0. VISUAL INTERFACE EDITOR LAUNCH CARD -->
+    <div class="ie-admin-banner">
+      <div>
+        <h3>Visual Interface Editor (Move &amp; Resize Everything)</h3>
+        <p>Click below to edit your live website like Canva. Drag any block to move it, pull any edge or corner to resize it, adjust text scale or hide items, then save live or copy your exact layout for Antigravity.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <button type="button" class="editor-btn" id="launchIEBannerBtn" style="border:1px solid rgba(243,206,122,0.75);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%);font-weight:500">Open Interface Editor</button>
+        <button type="button" class="editor-btn" id="copyLayoutBannerBtn" style="border:1px solid rgba(217,242,126,0.45);color:#d9f27e;background:rgba(217,242,126,0.1)">Copy Saved Layout</button>
+        <button type="button" class="editor-btn danger" id="resetLayoutBannerBtn">Reset Layout</button>
       </div>
     </div>
 
@@ -4338,6 +4636,74 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
 </aside>
 
 <audio id="ambientAudio" src="studio_atmosphere.mp3" preload="auto" loop playsinline></audio>
+
+
+<!-- VISUAL INTERFACE EDITOR OVERLAY & FLOATING TOOLBAR -->
+<div id="ieHoverTag"></div>
+<div id="ieSelectionBox" aria-hidden="true">
+  <div class="ie-sel-tag" id="ieSelTag">
+    <span id="ieSelLabel">Block</span>
+    <span class="ie-sel-dims" id="ieSelDims"></span>
+  </div>
+  <div class="ie-handle corner" data-dir="nw"></div>
+  <div class="ie-handle corner" data-dir="ne"></div>
+  <div class="ie-handle corner" data-dir="sw"></div>
+  <div class="ie-handle corner" data-dir="se"></div>
+  <div class="ie-handle edge-h" data-dir="n"></div>
+  <div class="ie-handle edge-h" data-dir="s"></div>
+  <div class="ie-handle edge-v" data-dir="e"></div>
+  <div class="ie-handle edge-v" data-dir="w"></div>
+</div>
+
+<div id="ieToolbar" role="region" aria-label="Visual Interface Editor">
+  <div class="ie-tb-row">
+    <div class="ie-tb-group">
+      <div class="ie-drag-grip" id="ieToolbarGrip" title="Drag this toolbar anywhere on screen">:: Interface Editor</div>
+      <span class="ie-pill-sep"></span>
+      <button type="button" class="ie-btn active" data-ie-page="experience">The Experience</button>
+      <button type="button" class="ie-btn" data-ie-page="studio">Studio</button>
+      <button type="button" class="ie-btn" data-ie-page="contact">Contact</button>
+      <span class="ie-pill-sep"></span>
+      <span id="ieSubViewPills" class="ie-tb-group">
+        <button type="button" class="ie-btn active" data-ie-expfilter="reel">Reels</button>
+        <button type="button" class="ie-btn" data-ie-expfilter="landscape">Landscape</button>
+        <button type="button" class="ie-btn" data-ie-expfilter="all">All</button>
+      </span>
+      <span class="ie-pill-sep"></span>
+      <button type="button" class="ie-btn active" id="ieGridToggle" title="Toggle 8px alignment grid">Grid: ON</button>
+      <button type="button" class="ie-btn active" id="ieRatioToggle" title="Keep original width/height ratio while resizing">Keep Shape: ON</button>
+    </div>
+
+    <div class="ie-tb-group">
+      <button type="button" class="ie-btn" id="ieUndoBtn" title="Undo last move or resize">Undo</button>
+      <button type="button" class="ie-btn" id="ieShowHiddenBtn" title="Show any hidden blocks">Show All</button>
+      <button type="button" class="ie-btn danger" id="ieResetAllBtn" title="Reset entire layout back to default">Reset All</button>
+      <span class="ie-pill-sep"></span>
+      <button type="button" class="ie-btn accent" id="ieCopySpecBtn" title="Copy exact layout measurements to send to Antigravity">Copy Layout for Antigravity</button>
+      <button type="button" class="ie-btn primary" id="ieSaveLiveBtn" title="Save layout and publish live">Save Layout Live</button>
+      <button type="button" class="ie-btn" id="ieExitBtn">Done</button>
+    </div>
+  </div>
+
+  <div class="ie-tb-row inspector">
+    <div class="ie-tb-group">
+      <span class="ie-selected-name" id="ieSelectedName">Click any block on the screen to move or resize it</span>
+      <label class="ie-field" title="Horizontal shift in pixels">X <input type="number" id="ieInputX" step="1" value="0"></label>
+      <label class="ie-field" title="Vertical shift in pixels">Y <input type="number" id="ieInputY" step="1" value="0"></label>
+      <label class="ie-field" title="Width in pixels">W <input type="number" id="ieInputW" step="1" min="20"></label>
+      <label class="ie-field" title="Height in pixels">H <input type="number" id="ieInputH" step="1" min="20"></label>
+      <label class="ie-field" title="Scale text and content inside block">Scale <input type="range" id="ieInputScale" min="60" max="160" value="100"><span id="ieScaleVal">100%</span></label>
+    </div>
+
+    <div class="ie-tb-group">
+      <button type="button" class="ie-btn" id="ieMatchCardsBtn" style="display:none" title="Apply this card size to all cards in this group">Match All Cards</button>
+      <button type="button" class="ie-btn" id="ieFrontBtn" title="Bring selected element to front">Bring Front</button>
+      <button type="button" class="ie-btn" id="ieBackBtn" title="Send selected element behind others">Send Back</button>
+      <button type="button" class="ie-btn" id="ieHideElBtn" title="Hide or show selected element">Hide</button>
+      <button type="button" class="ie-btn" id="ieResetElBtn" title="Reset only this selected block">Reset Block</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const STORAGE_KEY = 'portfolioDataV13';
@@ -5092,6 +5458,7 @@ function apply() {
   if (filterAll) filterAll.textContent = `All (${activeLandscapes + activeReels})`;
 
   bindCards();
+  if (typeof applyCustomLayout === 'function') applyCustomLayout();
 }
 
 function openProjectModal(x) {
@@ -6549,6 +6916,742 @@ function switchStudioSubTab(tab) {
     if (btnRoadmap) btnRoadmap.classList.remove('active');
   }
 }
+
+
+// ==========================================================
+// VISUAL INTERFACE EDITOR ENGINE (DRAG, MOVE, RESIZE, SAVE)
+// ==========================================================
+var IE_STORAGE_KEY = 'as_custom_layout_v1';
+var ieActive = false;
+var ieSelectedEl = null;
+var ieSelectedId = null;
+var ieSnapGrid = true;
+var ieKeepRatio = true;
+var ieUndoStack = [];
+var ieCustomLayout = ieCustomLayout || {};
+
+function loadSavedCustomLayout() {
+  try {
+    if (data && data.customLayout && typeof data.customLayout === 'object' && Object.keys(data.customLayout).length > 0) {
+      ieCustomLayout = JSON.parse(JSON.stringify(data.customLayout));
+      return;
+    }
+    const raw = localStorage.getItem(IE_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === 'object') {
+        ieCustomLayout = parsed;
+      }
+    }
+  } catch (e) {}
+}
+
+function tagAllEditableElements() {
+  const staticMap = [
+    ['.header', 'header-bar', 'Top Navigation Bar'],
+    ['.header .brand', 'header-brand', 'Brand Logo & Tagline'],
+    ['.header .nav', 'header-nav', 'Page Navigation Tabs'],
+    ['#topCtaBtn', 'header-cta', 'Start a Project Button'],
+    ['.status-pill', 'status-pill', 'Availability Status Pill'],
+    ['#audioDock', 'audio-dock', 'Studio Atmosphere Audio Player'],
+    ['.footer-row', 'footer-bar', 'Bottom Footer Strip'],
+    ['.ecs-left', 'exp-headline', 'Headline & Subtitle'],
+    ['.statement-pill', 'exp-quote', 'Core Statement Quote Pill'],
+    ['.ecs-right .gallery-filters', 'exp-filters', 'Filter Buttons (Reels / Landscape / All)'],
+    ['.ecs-right .carousel-nav', 'exp-arrows', 'Carousel Arrows'],
+    ['.experience-stage', 'exp-stage', 'Video Showcase Area'],
+    ['.generator-card', 'studio-generator', 'Campaign Brief Generator Card'],
+    ['.generator-head', 'studio-title', 'Studio Title & Stepper'],
+    ['.prompt-box', 'studio-prompt-box', 'Brief Text & Options Box'],
+    ['.studio-services', 'studio-services', '3 Service Cards Row'],
+    ['.package-scope-row', 'studio-tier-row', 'Package Tier Bar'],
+    ['#sendBriefWaBtn', 'studio-wa-btn', 'Send Brief WhatsApp Button'],
+    ['.studio-subtabs', 'studio-subtabs', 'Anatomy / How We Work Switch'],
+    ['#campaignAnatomyCard', 'studio-anatomy', 'Campaign Anatomy Card'],
+    ['#studioRoadmapCard', 'studio-roadmap', 'How We Work 3-Step Card'],
+    ['.who-card', 'contact-who-card', 'About / Who I Am Card'],
+    ['.who-top-text', 'contact-who-title', 'About Headline Block'],
+    ['.who-portrait-frame', 'contact-portrait', 'Annie Portrait Box'],
+    ['#cStatement', 'contact-statement', 'Statement Callout Box'],
+    ['#cAbout', 'contact-bio', 'About Bio Paragraph'],
+    ['.who-pillars', 'contact-pillars', '4 Specialty Pills Row'],
+    ['.contact-action-card', 'contact-channels-card', 'Contact Channels Card'],
+    ['.channels-list', 'contact-channels-list', 'Contact Links List'],
+    ['#cMainBtn', 'contact-main-cta', 'Start a Project on WhatsApp Button']
+  ];
+
+  staticMap.forEach(([sel, id, label]) => {
+    const el = document.querySelector(sel);
+    if (el) {
+      el.setAttribute('data-ie-id', id);
+      el.setAttribute('data-ie-label', label);
+    }
+  });
+
+  document.querySelectorAll('#reelGrid .card').forEach((card, idx) => {
+    const num = String(idx + 1).padStart(2, '0');
+    const title = card.dataset.title || ('Short ' + num);
+    card.setAttribute('data-ie-id', 'reel-card-' + num);
+    card.setAttribute('data-ie-label', 'Short ' + num + ': ' + title);
+  });
+
+  document.querySelectorAll('#portfolioGrid .card').forEach((card, idx) => {
+    const num = String(idx + 1).padStart(2, '0');
+    const title = card.dataset.title || ('Cinema ' + num);
+    card.setAttribute('data-ie-id', 'land-card-' + num);
+    card.setAttribute('data-ie-label', 'Cinema ' + num + ': ' + title);
+  });
+}
+
+function applyElementTransform(el, cfg) {
+  if (!el) return;
+  if (!cfg) {
+    el.style.removeProperty('transform');
+    el.style.removeProperty('width');
+    el.style.removeProperty('height');
+    el.style.removeProperty('min-width');
+    el.style.removeProperty('max-width');
+    el.style.removeProperty('min-height');
+    el.style.removeProperty('max-height');
+    el.style.removeProperty('z-index');
+    el.style.removeProperty('zoom');
+    el.style.removeProperty('aspect-ratio');
+    el.classList.remove('ie-is-hidden');
+    return;
+  }
+
+  const x = Number(cfg.x) || 0;
+  const y = Number(cfg.y) || 0;
+  const scale = Number(cfg.scale) || 1;
+  const isAudioDock = el.id === 'audioDock';
+
+  if (x !== 0 || y !== 0 || scale !== 1) {
+    if (isAudioDock) {
+      el.style.setProperty('transform', `translate(calc(-50% + ${x}px), ${y}px) scale(${scale})`, 'important');
+    } else {
+      el.style.setProperty('transform', `translate(${x}px, ${y}px) scale(${scale})`, 'important');
+    }
+  } else {
+    el.style.removeProperty('transform');
+  }
+
+  if (cfg.w) {
+    el.style.setProperty('width', Math.round(cfg.w) + 'px', 'important');
+    el.style.setProperty('max-width', 'none', 'important');
+    el.style.setProperty('min-width', Math.round(cfg.w) + 'px', 'important');
+  } else {
+    el.style.removeProperty('width');
+    el.style.removeProperty('max-width');
+    el.style.removeProperty('min-width');
+  }
+
+  if (cfg.h) {
+    el.style.setProperty('height', Math.round(cfg.h) + 'px', 'important');
+    el.style.setProperty('max-height', 'none', 'important');
+    el.style.setProperty('min-height', Math.round(cfg.h) + 'px', 'important');
+  } else {
+    el.style.removeProperty('height');
+    el.style.removeProperty('max-height');
+    el.style.removeProperty('min-height');
+  }
+
+  if (cfg.w && cfg.h && el.classList.contains('card')) {
+    el.style.setProperty('aspect-ratio', 'auto', 'important');
+  } else {
+    el.style.removeProperty('aspect-ratio');
+  }
+
+  if (cfg.z !== undefined && cfg.z !== null && cfg.z !== '') {
+    el.style.setProperty('z-index', String(cfg.z), 'important');
+  } else {
+    el.style.removeProperty('z-index');
+  }
+
+  if (cfg.hidden) {
+    el.classList.add('ie-is-hidden');
+  } else {
+    el.classList.remove('ie-is-hidden');
+  }
+}
+
+function applyCustomLayout() {
+  if (!ieCustomLayout || typeof ieCustomLayout !== 'object') ieCustomLayout = {};
+  tagAllEditableElements();
+  document.querySelectorAll('[data-ie-id]').forEach(el => {
+    const id = el.getAttribute('data-ie-id');
+    applyElementTransform(el, ieCustomLayout[id] || null);
+  });
+  if (ieActive && ieSelectedEl) {
+    positionSelectionBox();
+  }
+}
+
+function iePushUndo() {
+  ieUndoStack.push(JSON.stringify(ieCustomLayout));
+  if (ieUndoStack.length > 40) ieUndoStack.shift();
+}
+
+function positionSelectionBox() {
+  const box = $('ieSelectionBox');
+  if (!box || !ieActive || !ieSelectedEl) {
+    if (box) box.classList.remove('visible');
+    return;
+  }
+  const r = ieSelectedEl.getBoundingClientRect();
+  if (r.width === 0 && r.height === 0) {
+    box.classList.remove('visible');
+    return;
+  }
+  box.style.left = r.left + 'px';
+  box.style.top = r.top + 'px';
+  box.style.width = r.width + 'px';
+  box.style.height = r.height + 'px';
+  box.classList.add('visible');
+
+  const label = ieSelectedEl.getAttribute('data-ie-label') || ieSelectedId;
+  const cfg = ieCustomLayout[ieSelectedId] || {};
+  $('ieSelLabel').textContent = label;
+  $('ieSelDims').textContent = `${Math.round(r.width)} x ${Math.round(r.height)} px`;
+
+  $('ieSelectedName').textContent = 'Selected: ' + label;
+  $('ieInputX').value = Math.round(cfg.x || 0);
+  $('ieInputY').value = Math.round(cfg.y || 0);
+  $('ieInputW').value = Math.round(cfg.w || r.width);
+  $('ieInputH').value = Math.round(cfg.h || r.height);
+  const pct = Math.round((cfg.scale || 1) * 100);
+  $('ieInputScale').value = pct;
+  $('ieScaleVal').textContent = pct + '%';
+  $('ieHideElBtn').textContent = cfg.hidden ? 'Show' : 'Hide';
+
+  const matchBtn = $('ieMatchCardsBtn');
+  if (matchBtn) {
+    if (ieSelectedId && ieSelectedId.startsWith('reel-card-')) {
+      matchBtn.style.display = 'inline-block';
+      matchBtn.textContent = 'Match All Shorts Size';
+    } else if (ieSelectedId && ieSelectedId.startsWith('land-card-')) {
+      matchBtn.style.display = 'inline-block';
+      matchBtn.textContent = 'Match All Landscape Size';
+    } else {
+      matchBtn.style.display = 'none';
+    }
+  }
+}
+
+function selectIEElement(el) {
+  if (!el) {
+    ieSelectedEl = null;
+    ieSelectedId = null;
+    $('ieSelectionBox').classList.remove('visible');
+    $('ieSelectedName').textContent = 'Click any block on the screen to move or resize it';
+    if ($('ieMatchCardsBtn')) $('ieMatchCardsBtn').style.display = 'none';
+    return;
+  }
+  ieSelectedEl = el;
+  ieSelectedId = el.getAttribute('data-ie-id');
+  positionSelectionBox();
+}
+
+function openInterfaceEditor() {
+  tagAllEditableElements();
+  $('editor').classList.remove('open');
+  ieActive = true;
+  document.body.classList.add('ie-active');
+  if (ieSnapGrid) document.body.classList.add('ie-show-grid');
+  $('ieToolbar').classList.add('open');
+  selectIEElement(null);
+  syncIEToolbarPagePills();
+}
+
+function closeInterfaceEditor() {
+  ieActive = false;
+  document.body.classList.remove('ie-active', 'ie-show-grid');
+  $('ieToolbar').classList.remove('open');
+  $('ieSelectionBox').classList.remove('visible');
+  $('ieHoverTag').style.display = 'none';
+  ieSelectedEl = null;
+  ieSelectedId = null;
+}
+
+function syncIEToolbarPagePills() {
+  const activeView = document.querySelector('.tab-view.active');
+  const current = activeView ? activeView.id.replace('view-', '') : 'experience';
+  document.querySelectorAll('#ieToolbar [data-ie-page]').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-ie-page') === current);
+  });
+  const subWrap = $('ieSubViewPills');
+  if (subWrap) {
+    if (current === 'experience') {
+      subWrap.style.display = 'inline-flex';
+      subWrap.innerHTML = '<button type="button" class="ie-btn" data-ie-expfilter="reel">Reels</button><button type="button" class="ie-btn" data-ie-expfilter="landscape">Landscape</button><button type="button" class="ie-btn" data-ie-expfilter="all">All</button>';
+      const curF = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
+      subWrap.querySelectorAll('[data-ie-expfilter]').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-ie-expfilter') === curF);
+        b.onclick = () => {
+          const f = b.getAttribute('data-ie-expfilter');
+          document.querySelectorAll('.g-filter').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+          const lEl = document.getElementById('portfolioGrid');
+          const rEl = document.getElementById('reelGrid');
+          const sh = document.querySelector('.carousel-shelf');
+          if (f === 'landscape') {
+            if (lEl) lEl.classList.remove('track-hidden');
+            if (rEl) rEl.classList.add('track-hidden');
+          } else if (f === 'reel') {
+            if (lEl) lEl.classList.add('track-hidden');
+            if (rEl) rEl.classList.remove('track-hidden');
+          } else {
+            if (lEl) lEl.classList.remove('track-hidden');
+            if (rEl) rEl.classList.remove('track-hidden');
+          }
+          if (sh) sh.scrollTo({ left: 0, behavior: 'smooth' });
+          subWrap.querySelectorAll('[data-ie-expfilter]').forEach(x => x.classList.toggle('active', x === b));
+          selectIEElement(null);
+        };
+      });
+    } else if (current === 'studio') {
+      subWrap.style.display = 'inline-flex';
+      subWrap.innerHTML = '<button type="button" class="ie-btn active" data-ie-st="anatomy">Anatomy</button><button type="button" class="ie-btn" data-ie-st="roadmap">3 Steps</button>';
+      subWrap.querySelectorAll('[data-ie-st]').forEach(b => {
+        b.onclick = () => {
+          const st = b.getAttribute('data-ie-st');
+          if (typeof switchStudioSubTab === 'function') switchStudioSubTab(st);
+          subWrap.querySelectorAll('[data-ie-st]').forEach(x => x.classList.toggle('active', x === b));
+          selectIEElement(null);
+        };
+      });
+    } else {
+      subWrap.style.display = 'none';
+    }
+  }
+}
+
+function buildLayoutBlueprintText() {
+  const summary = {
+    screen: { width: window.innerWidth, height: window.innerHeight },
+    updatedAt: new Date().toISOString(),
+    changes: {}
+  };
+  Object.keys(ieCustomLayout).forEach(id => {
+    const cfg = ieCustomLayout[id];
+    const el = document.querySelector(`[data-ie-id="${id}"]`);
+    summary.changes[id] = {
+      label: el ? (el.getAttribute('data-ie-label') || id) : id,
+      x: Math.round(cfg.x || 0),
+      y: Math.round(cfg.y || 0),
+      w: cfg.w ? Math.round(cfg.w) : null,
+      h: cfg.h ? Math.round(cfg.h) : null,
+      scale: cfg.scale || 1,
+      z: cfg.z !== undefined ? cfg.z : null,
+      hidden: !!cfg.hidden
+    };
+  });
+  return JSON.stringify(summary, null, 2);
+}
+
+function copyLayoutBlueprint() {
+  const txt = buildLayoutBlueprintText();
+  if (Object.keys(ieCustomLayout).length === 0) {
+    alert('Move or resize at least one block first, then click Copy Layout for Antigravity.');
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(() => {
+      alert('Layout copied to your clipboard! Paste it straight into chat so I can make this exact layout permanent.');
+    }).catch(() => {
+      prompt('Copy this layout blueprint and paste it into chat:', txt);
+    });
+  } else {
+    prompt('Copy this layout blueprint and paste it into chat:', txt);
+  }
+}
+
+async function saveCustomLayoutLive() {
+  try {
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    data.customLayout = JSON.parse(JSON.stringify(ieCustomLayout));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const btn = $('ieSaveLiveBtn');
+    if (btn) btn.textContent = 'Saving...';
+    if (typeof autoPublishToCloud === 'function') {
+      await autoPublishToCloud(data);
+    }
+    if (btn) {
+      btn.textContent = 'Saved Live!';
+      setTimeout(() => { btn.textContent = 'Save Layout Live'; }, 2200);
+    }
+  } catch (e) {
+    alert('Saved to this computer! Click Copy Layout for Antigravity to also lock it into code.');
+  }
+}
+
+// ==========================================================
+// POINTER INTERACTION: CLICK SELECT, DRAG MOVE, 8-WAY RESIZE
+// ==========================================================
+let ieDragState = null;
+
+function snapVal(v) {
+  return ieSnapGrid ? Math.round(v / 8) * 8 : Math.round(v);
+}
+
+// Intercept clicks inside the page while Interface Editor is open so links/modals do not fire
+document.addEventListener('click', (e) => {
+  if (!ieActive) return;
+  if (e.target.closest('#ieToolbar') || e.target.closest('#ieSelectionBox')) return;
+  // Allow clicking filter tabs or studio subtabs ONLY when double-clicked or via toolbar; single click selects!
+  const editable = e.target.closest('[data-ie-id]');
+  if (editable) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectIEElement(editable);
+  } else {
+    selectIEElement(null);
+  }
+}, true);
+
+document.addEventListener('mousemove', (e) => {
+  if (!ieActive) return;
+  const hoverTag = $('ieHoverTag');
+  if (ieDragState) {
+    hoverTag.style.display = 'none';
+    const dx = e.clientX - ieDragState.startX;
+    const dy = e.clientY - ieDragState.startY;
+    const id = ieDragState.id;
+    const el = ieDragState.el;
+    const cfg = ieCustomLayout[id] || (ieCustomLayout[id] = {});
+
+    if (ieDragState.mode === 'move') {
+      cfg.x = snapVal(ieDragState.origX + dx);
+      cfg.y = snapVal(ieDragState.origY + dy);
+    } else if (ieDragState.mode === 'resize') {
+      const dir = ieDragState.dir;
+      let newW = ieDragState.origW;
+      let newH = ieDragState.origH;
+      let newX = ieDragState.origX;
+      let newY = ieDragState.origY;
+      const lockRatio = ieKeepRatio || e.shiftKey;
+      const ratio = ieDragState.origW / Math.max(1, ieDragState.origH);
+
+      if (dir.includes('e')) newW = Math.max(24, ieDragState.origW + dx);
+      if (dir.includes('w')) {
+        newW = Math.max(24, ieDragState.origW - dx);
+        newX = ieDragState.origX + (ieDragState.origW - newW);
+      }
+      if (dir.includes('s')) newH = Math.max(20, ieDragState.origH + dy);
+      if (dir.includes('n')) {
+        newH = Math.max(20, ieDragState.origH - dy);
+        newY = ieDragState.origY + (ieDragState.origH - newH);
+      }
+
+      if (lockRatio && dir.length === 2) {
+        if (Math.abs(dx) >= Math.abs(dy)) {
+          const targetH = Math.max(20, newW / ratio);
+          if (dir.includes('n')) newY = ieDragState.origY + (ieDragState.origH - targetH);
+          newH = targetH;
+        } else {
+          const targetW = Math.max(24, newH * ratio);
+          if (dir.includes('w')) newX = ieDragState.origX + (ieDragState.origW - targetW);
+          newW = targetW;
+        }
+      }
+
+      cfg.w = snapVal(newW);
+      cfg.h = snapVal(newH);
+      cfg.x = snapVal(newX);
+      cfg.y = snapVal(newY);
+    }
+
+    applyElementTransform(el, cfg);
+    positionSelectionBox();
+    return;
+  }
+
+  // Show hover label pill
+  if (e.target.closest('#ieToolbar') || e.target.closest('#ieSelectionBox')) {
+    hoverTag.style.display = 'none';
+    return;
+  }
+  const editable = e.target.closest('[data-ie-id]');
+  if (editable && editable !== ieSelectedEl) {
+    hoverTag.textContent = editable.getAttribute('data-ie-label') || editable.getAttribute('data-ie-id');
+    hoverTag.style.left = (e.clientX + 12) + 'px';
+    hoverTag.style.top = (e.clientY - 24) + 'px';
+    hoverTag.style.display = 'block';
+  } else {
+    hoverTag.style.display = 'none';
+  }
+});
+
+document.addEventListener('mousedown', (e) => {
+  if (!ieActive) return;
+
+  // 1. Resize Handle Drag
+  const handle = e.target.closest('.ie-handle');
+  if (handle && ieSelectedEl && ieSelectedId) {
+    e.preventDefault();
+    e.stopPropagation();
+    iePushUndo();
+    const r = ieSelectedEl.getBoundingClientRect();
+    const cfg = ieCustomLayout[ieSelectedId] || {};
+    ieDragState = {
+      mode: 'resize',
+      dir: handle.getAttribute('data-dir'),
+      id: ieSelectedId,
+      el: ieSelectedEl,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: Number(cfg.x) || 0,
+      origY: Number(cfg.y) || 0,
+      origW: Number(cfg.w) || r.width,
+      origH: Number(cfg.h) || r.height
+    };
+    return;
+  }
+
+  // 2. Drag Move via Selection Tag Pill
+  if (e.target.closest('#ieSelTag') && ieSelectedEl && ieSelectedId) {
+    e.preventDefault();
+    e.stopPropagation();
+    iePushUndo();
+    const cfg = ieCustomLayout[ieSelectedId] || {};
+    ieDragState = {
+      mode: 'move',
+      id: ieSelectedId,
+      el: ieSelectedEl,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: Number(cfg.x) || 0,
+      origY: Number(cfg.y) || 0
+    };
+    return;
+  }
+
+  if (e.target.closest('#ieToolbar')) return;
+
+  // 3. Direct Drag Move on any editable block
+  const editable = e.target.closest('[data-ie-id]');
+  if (editable) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectIEElement(editable);
+    iePushUndo();
+    const cfg = ieCustomLayout[ieSelectedId] || {};
+    ieDragState = {
+      mode: 'move',
+      id: ieSelectedId,
+      el: editable,
+      startX: e.clientX,
+      startY: e.clientY,
+      origX: Number(cfg.x) || 0,
+      origY: Number(cfg.y) || 0
+    };
+  }
+}, true);
+
+window.addEventListener('mouseup', () => {
+  if (ieDragState) {
+    ieDragState = null;
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+  }
+});
+
+// Keyboard Arrow Nudging while Interface Editor is open
+window.addEventListener('keydown', (e) => {
+  if (!ieActive || !ieSelectedEl || !ieSelectedId) return;
+  if (document.activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) return;
+  const step = e.shiftKey ? 10 : 1;
+  let moved = false;
+  const cfg = ieCustomLayout[ieSelectedId] || (ieCustomLayout[ieSelectedId] = {});
+  if (e.key === 'ArrowLeft')  { iePushUndo(); cfg.x = (cfg.x || 0) - step; moved = true; }
+  if (e.key === 'ArrowRight') { iePushUndo(); cfg.x = (cfg.x || 0) + step; moved = true; }
+  if (e.key === 'ArrowUp')    { iePushUndo(); cfg.y = (cfg.y || 0) - step; moved = true; }
+  if (e.key === 'ArrowDown')  { iePushUndo(); cfg.y = (cfg.y || 0) + step; moved = true; }
+  if (e.key === 'Escape') { selectIEElement(null); return; }
+  if (moved) {
+    e.preventDefault();
+    applyElementTransform(ieSelectedEl, cfg);
+    positionSelectionBox();
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+  }
+});
+
+window.addEventListener('resize', () => {
+  if (ieActive && ieSelectedEl) positionSelectionBox();
+});
+
+// Make the floating Interface Editor Toolbar itself draggable
+(function initToolbarDrag() {
+  const grip = $('ieToolbarGrip');
+  const tb = $('ieToolbar');
+  if (!grip || !tb) return;
+  let drag = null;
+  grip.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    const r = tb.getBoundingClientRect();
+    tb.style.transform = 'none';
+    tb.style.bottom = 'auto';
+    tb.style.left = r.left + 'px';
+    tb.style.top = r.top + 'px';
+    drag = { sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top };
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!drag) return;
+    tb.style.left = Math.max(8, Math.min(window.innerWidth - 120, drag.ox + (e.clientX - drag.sx))) + 'px';
+    tb.style.top = Math.max(8, Math.min(window.innerHeight - 60, drag.oy + (e.clientY - drag.sy))) + 'px';
+  });
+  window.addEventListener('mouseup', () => { drag = null; });
+})();
+
+// Wire up Toolbar Controls & Admin Buttons
+function bindInterfaceEditorControls() {
+  if ($('openInterfaceEditorBtn')) $('openInterfaceEditorBtn').onclick = openInterfaceEditor;
+  if ($('launchIEBannerBtn')) $('launchIEBannerBtn').onclick = openInterfaceEditor;
+  if ($('copyLayoutBannerBtn')) $('copyLayoutBannerBtn').onclick = copyLayoutBlueprint;
+  if ($('resetLayoutBannerBtn')) $('resetLayoutBannerBtn').onclick = () => {
+    if (confirm('Reset all custom positions and sizes back to default?')) {
+      ieCustomLayout = {};
+      localStorage.removeItem(IE_STORAGE_KEY);
+      if (data) delete data.customLayout;
+      applyCustomLayout();
+      alert('Layout reset to default!');
+    }
+  };
+
+  if ($('ieExitBtn')) $('ieExitBtn').onclick = closeInterfaceEditor;
+  if ($('ieSaveLiveBtn')) $('ieSaveLiveBtn').onclick = saveCustomLayoutLive;
+  if ($('ieCopySpecBtn')) $('ieCopySpecBtn').onclick = copyLayoutBlueprint;
+
+  document.querySelectorAll('#ieToolbar [data-ie-page]').forEach(btn => {
+    btn.onclick = () => {
+      const page = btn.getAttribute('data-ie-page');
+      if (typeof switchTab === 'function') switchTab(page);
+      syncIEToolbarPagePills();
+      selectIEElement(null);
+      setTimeout(() => applyCustomLayout(), 60);
+    };
+  });
+
+  if ($('ieGridToggle')) $('ieGridToggle').onclick = () => {
+    ieSnapGrid = !ieSnapGrid;
+    $('ieGridToggle').textContent = ieSnapGrid ? 'Grid: ON' : 'Grid: OFF';
+    $('ieGridToggle').classList.toggle('active', ieSnapGrid);
+    document.body.classList.toggle('ie-show-grid', ieActive && ieSnapGrid);
+  };
+
+  if ($('ieRatioToggle')) $('ieRatioToggle').onclick = () => {
+    ieKeepRatio = !ieKeepRatio;
+    $('ieRatioToggle').textContent = ieKeepRatio ? 'Keep Shape: ON' : 'Keep Shape: OFF';
+    $('ieRatioToggle').classList.toggle('active', ieKeepRatio);
+  };
+
+  if ($('ieUndoBtn')) $('ieUndoBtn').onclick = () => {
+    if (ieUndoStack.length === 0) return;
+    ieCustomLayout = JSON.parse(ieUndoStack.pop());
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    applyCustomLayout();
+  };
+
+  if ($('ieShowHiddenBtn')) $('ieShowHiddenBtn').onclick = () => {
+    iePushUndo();
+    Object.keys(ieCustomLayout).forEach(k => {
+      if (ieCustomLayout[k]) ieCustomLayout[k].hidden = false;
+    });
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    applyCustomLayout();
+  };
+
+  if ($('ieResetAllBtn')) $('ieResetAllBtn').onclick = () => {
+    if (!confirm('Reset every moved and resized block back to the original layout?')) return;
+    iePushUndo();
+    ieCustomLayout = {};
+    localStorage.removeItem(IE_STORAGE_KEY);
+    applyCustomLayout();
+    selectIEElement(null);
+  };
+
+  if ($('ieResetElBtn')) $('ieResetElBtn').onclick = () => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    iePushUndo();
+    delete ieCustomLayout[ieSelectedId];
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    applyElementTransform(ieSelectedEl, null);
+    positionSelectionBox();
+  };
+
+  if ($('ieHideElBtn')) $('ieHideElBtn').onclick = () => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    iePushUndo();
+    const cfg = ieCustomLayout[ieSelectedId] || (ieCustomLayout[ieSelectedId] = {});
+    cfg.hidden = !cfg.hidden;
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    applyElementTransform(ieSelectedEl, cfg);
+    positionSelectionBox();
+  };
+
+  if ($('ieFrontBtn')) $('ieFrontBtn').onclick = () => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    iePushUndo();
+    const cfg = ieCustomLayout[ieSelectedId] || (ieCustomLayout[ieSelectedId] = {});
+    cfg.z = Math.min(200, (Number(cfg.z) || 10) + 10);
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    applyElementTransform(ieSelectedEl, cfg);
+  };
+
+  if ($('ieBackBtn')) $('ieBackBtn').onclick = () => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    iePushUndo();
+    const cfg = ieCustomLayout[ieSelectedId] || (ieCustomLayout[ieSelectedId] = {});
+    cfg.z = Math.max(0, (Number(cfg.z) || 10) - 5);
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    applyElementTransform(ieSelectedEl, cfg);
+  };
+
+  if ($('ieMatchCardsBtn')) $('ieMatchCardsBtn').onclick = () => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    const r = ieSelectedEl.getBoundingClientRect();
+    const cur = ieCustomLayout[ieSelectedId] || {};
+    const targetW = Math.round(cur.w || r.width);
+    const targetH = Math.round(cur.h || r.height);
+    const prefix = ieSelectedId.startsWith('reel-card-') ? 'reel-card-' : 'land-card-';
+    iePushUndo();
+    document.querySelectorAll(`[data-ie-id^="${prefix}"]`).forEach(card => {
+      const cid = card.getAttribute('data-ie-id');
+      const c = ieCustomLayout[cid] || (ieCustomLayout[cid] = {});
+      c.w = targetW;
+      c.h = targetH;
+      applyElementTransform(card, c);
+    });
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    positionSelectionBox();
+  };
+
+  // Numeric & Slider Inspector Inputs
+  const applyInspectorInput = () => {
+    if (!ieSelectedId || !ieSelectedEl) return;
+    const cfg = ieCustomLayout[ieSelectedId] || (ieCustomLayout[ieSelectedId] = {});
+    cfg.x = Number($('ieInputX').value) || 0;
+    cfg.y = Number($('ieInputY').value) || 0;
+    const wVal = Number($('ieInputW').value);
+    const hVal = Number($('ieInputH').value);
+    if (wVal >= 20) cfg.w = wVal;
+    if (hVal >= 20) cfg.h = hVal;
+    const scalePct = Number($('ieInputScale').value) || 100;
+    cfg.scale = scalePct / 100;
+    $('ieScaleVal').textContent = scalePct + '%';
+    applyElementTransform(ieSelectedEl, cfg);
+    positionSelectionBox();
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+  };
+
+  ['ieInputX', 'ieInputY', 'ieInputW', 'ieInputH', 'ieInputScale'].forEach(id => {
+    const inp = $(id);
+    if (inp) inp.addEventListener('input', applyInspectorInput);
+  });
+}
+
+// Initialize on load
+loadSavedCustomLayout();
+bindInterfaceEditorControls();
+applyCustomLayout();
+
 
 </script>
 </body>
