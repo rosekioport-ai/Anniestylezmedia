@@ -3269,6 +3269,10 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   scroll-behavior: auto !important;
   scroll-snap-type: none !important;
 }
+.carousel-shelf.ie-no-scroll {
+  cursor: default !important;
+  overflow-x: visible !important;
+}
 
 /* CRITICAL: NO !important on display:flex so filters actually hide/show tracks! */
 .gallery-grid {
@@ -6377,13 +6381,53 @@ function getActiveTrackInfo() {
   return { f, track };
 }
 
+function getActualMaxPan(f, track) {
+  if (!track) return 0;
+  const shelf = document.querySelector('.carousel-shelf');
+  if (!shelf) return 0;
+  const shelfRect = shelf.getBoundingClientRect();
+  const currentPan = (activeTrackPanX && activeTrackPanX[f]) ? activeTrackPanX[f] : 0;
+  const currentScroll = shelf.scrollLeft || 0;
+  let maxVisualRight = 0;
+
+  track.querySelectorAll('.card').forEach(card => {
+    if (card.style.display === 'none' || card.classList.contains('ie-is-hidden')) return;
+    const r = card.getBoundingClientRect();
+    if (r.width === 0 || r.height === 0) return;
+    const restingRight = (r.right - shelfRect.left) + currentPan + currentScroll;
+    if (restingRight > maxVisualRight) maxVisualRight = restingRight;
+  });
+
+  const overflowPx = Math.ceil(maxVisualRight - shelf.clientWidth);
+  return overflowPx > 8 ? (overflowPx + 20) : 0;
+}
+
+function updateScrollabilityState() {
+  const { f, track } = getActiveTrackInfo();
+  const shelf = document.querySelector('.carousel-shelf');
+  if (!shelf || !track) return;
+  const maxPan = getActualMaxPan(f, track);
+  const noScroll = maxPan <= 0;
+  shelf.classList.toggle('ie-no-scroll', noScroll);
+  if (noScroll) {
+    activeTrackPanX[f] = 0;
+    track.style.marginLeft = '0px';
+    shelf.scrollLeft = 0;
+  } else if ((activeTrackPanX[f] || 0) > maxPan) {
+    activeTrackPanX[f] = maxPan;
+    track.style.marginLeft = (-maxPan) + 'px';
+  }
+  if (prevTrackBtn) prevTrackBtn.style.opacity = noScroll ? '0.28' : '';
+  if (nextTrackBtn) nextTrackBtn.style.opacity = noScroll ? '0.28' : '';
+}
+
 function applyTrackPan(f, track) {
   if (!track) return;
-  const shelf = document.querySelector('.carousel-shelf');
-  const maxPan = Math.max(0, track.scrollWidth - (shelf ? shelf.clientWidth : window.innerWidth) + 80);
+  const maxPan = getActualMaxPan(f, track);
   const clamped = Math.max(0, Math.min(maxPan, activeTrackPanX[f] || 0));
   activeTrackPanX[f] = clamped;
   track.style.marginLeft = (-clamped) + 'px';
+  updateScrollabilityState();
   if (typeof ieActive !== 'undefined' && ieActive && typeof positionSelectionBox === 'function') {
     setTimeout(() => positionSelectionBox(), 340);
   }
@@ -6392,12 +6436,18 @@ function applyTrackPan(f, track) {
 function panActiveTrack(deltaPx) {
   const { f, track } = getActiveTrackInfo();
   const shelf = document.querySelector('.carousel-shelf');
+  const maxPan = getActualMaxPan(f, track);
+  if (maxPan <= 0) {
+    updateScrollabilityState();
+    return;
+  }
   const isOverflowVisible = document.body.classList.contains('ie-active') || (shelf && shelf.classList.contains('ie-free-canvas'));
   if (isOverflowVisible && track) {
     activeTrackPanX[f] = (activeTrackPanX[f] || 0) + deltaPx;
     applyTrackPan(f, track);
   } else if (shelf) {
-    shelf.scrollBy({ left: deltaPx, behavior: 'smooth' });
+    const nextScroll = Math.max(0, Math.min(maxPan, shelf.scrollLeft + deltaPx));
+    shelf.scrollTo({ left: nextScroll, behavior: 'smooth' });
   }
 }
 
@@ -6461,18 +6511,22 @@ function setupShelfDragScroll(shelf) {
   let usePanMode = false;
   let isDragging = false;
 
+  let currentMaxPan = 0;
+
   shelf.addEventListener('mousedown', (e) => {
     if (typeof ieActive !== 'undefined' && ieActive) return;
     if (e.button !== 0) return;
+    const info = getActiveTrackInfo();
+    activeF = info.f;
+    activeTrack = info.track;
+    currentMaxPan = getActualMaxPan(activeF, activeTrack);
+    if (currentMaxPan <= 0) return;
     isDown = true;
     isDragging = false;
     startX = e.pageX;
     startScrollLeft = shelf.scrollLeft;
-    const info = getActiveTrackInfo();
-    activeF = info.f;
-    activeTrack = info.track;
     startPanX = (activeTrackPanX && activeTrackPanX[activeF]) ? activeTrackPanX[activeF] : 0;
-    usePanMode = shelf.classList.contains('ie-free-canvas') || (shelf.scrollWidth <= shelf.clientWidth + 2 && activeTrack && activeTrack.scrollWidth > shelf.clientWidth);
+    usePanMode = shelf.classList.contains('ie-free-canvas') || (shelf.scrollWidth <= shelf.clientWidth + 2);
   });
 
   const stopDrag = () => {
@@ -6490,7 +6544,7 @@ function setupShelfDragScroll(shelf) {
 
   window.addEventListener('mousemove', (e) => {
     if (typeof ieActive !== 'undefined' && ieActive) return;
-    if (!isDown) return;
+    if (!isDown || currentMaxPan <= 0) return;
     const walk = e.pageX - startX;
     if (Math.abs(walk) > 6) {
       if (!isDragging) {
@@ -6500,12 +6554,11 @@ function setupShelfDragScroll(shelf) {
       }
       e.preventDefault();
       if (usePanMode && activeTrack) {
-        const maxPan = Math.max(0, activeTrack.scrollWidth - shelf.clientWidth + 80);
-        const nextPan = Math.max(0, Math.min(maxPan, startPanX - walk));
+        const nextPan = Math.max(0, Math.min(currentMaxPan, startPanX - walk));
         activeTrackPanX[activeF] = nextPan;
         activeTrack.style.marginLeft = (-nextPan) + 'px';
       } else {
-        shelf.scrollLeft = startScrollLeft - walk;
+        shelf.scrollLeft = Math.max(0, Math.min(currentMaxPan, startScrollLeft - walk));
       }
     }
   });
@@ -7272,6 +7325,9 @@ function syncFreeCanvasClass() {
   const shf = document.querySelector('.carousel-shelf');
   if (stg) stg.classList.toggle('ie-free-canvas', hasFree);
   if (shf) shf.classList.toggle('ie-free-canvas', hasFree);
+  if (typeof updateScrollabilityState === 'function') {
+    requestAnimationFrame(() => updateScrollabilityState());
+  }
 }
 
 function applyCustomLayout() {
@@ -7401,6 +7457,7 @@ function closeInterfaceEditor() {
   $('ieHoverTag').style.display = 'none';
   ieSelectedEl = null;
   ieSelectedId = null;
+  if (typeof syncFreeCanvasClass === 'function') syncFreeCanvasClass();
 }
 
 function syncIEToolbarPagePills() {
@@ -7721,6 +7778,7 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('resize', () => {
   if (ieActive && ieSelectedEl) positionSelectionBox();
+  if (typeof updateScrollabilityState === 'function') updateScrollabilityState();
 });
 
 // Make the floating Interface Editor Toolbar itself draggable
