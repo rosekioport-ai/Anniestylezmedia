@@ -4696,7 +4696,10 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
     </div>
 
     <div class="ie-tb-group">
-      <button type="button" class="ie-btn" id="ieMatchCardsBtn" style="display:none" title="Apply this card size to all cards in this group">Match All Cards</button>
+      <span id="ieFormatGroup" style="display:none;align-items:center;gap:6px">
+        <button type="button" class="ie-btn active" id="ieMatchCardsBtn" title="Resize all other tiles in this format to match this tile with clean even spacing">Apply to All Portraits</button>
+        <label class="ie-field" title="Adjust spacing between tiles in this format">Spacing <input type="range" id="ieInputGap" min="6" max="64" value="18"><span id="ieGapVal">18px</span></label>
+      </span>
       <button type="button" class="ie-btn" id="ieFrontBtn" title="Bring selected element to front">Bring Front</button>
       <button type="button" class="ie-btn" id="ieBackBtn" title="Send selected element behind others">Send Back</button>
       <button type="button" class="ie-btn" id="ieHideElBtn" title="Hide or show selected element">Hide</button>
@@ -7074,9 +7077,30 @@ function applyElementTransform(el, cfg) {
   }
 }
 
+function applyFormatGridGap(formatKey, gapPx) {
+  const grid = formatKey === 'landscape' ? document.getElementById('portfolioGrid') : document.getElementById('reelGrid');
+  if (!grid) return;
+  if (gapPx !== null && gapPx !== undefined && gapPx !== '') {
+    grid.style.setProperty('gap', Math.round(Number(gapPx)) + 'px', 'important');
+  } else {
+    grid.style.removeProperty('gap');
+  }
+}
+
+function getFormatGap(formatKey) {
+  const fs = (ieCustomLayout && ieCustomLayout._formatSettings) ? ieCustomLayout._formatSettings : {};
+  const entry = fs[formatKey];
+  if (entry && entry.gap !== undefined && entry.gap !== null) return Math.round(Number(entry.gap));
+  return formatKey === 'landscape' ? 22 : 18;
+}
+
 function applyCustomLayout() {
   if (!ieCustomLayout || typeof ieCustomLayout !== 'object') ieCustomLayout = {};
   tagAllEditableElements();
+  const fs = ieCustomLayout._formatSettings || {};
+  applyFormatGridGap('reel', fs.reel && fs.reel.gap !== undefined ? fs.reel.gap : null);
+  applyFormatGridGap('landscape', fs.landscape && fs.landscape.gap !== undefined ? fs.landscape.gap : null);
+
   document.querySelectorAll('[data-ie-id]').forEach(el => {
     const id = el.getAttribute('data-ie-id');
     applyElementTransform(el, ieCustomLayout[id] || null);
@@ -7123,16 +7147,25 @@ function positionSelectionBox() {
   $('ieScaleVal').textContent = pct + '%';
   $('ieHideElBtn').textContent = cfg.hidden ? 'Show' : 'Hide';
 
+  const fmtGroup = $('ieFormatGroup');
   const matchBtn = $('ieMatchCardsBtn');
-  if (matchBtn) {
+  const gapInp = $('ieInputGap');
+  const gapVal = $('ieGapVal');
+  if (fmtGroup && matchBtn) {
     if (ieSelectedId && ieSelectedId.startsWith('reel-card-')) {
-      matchBtn.style.display = 'inline-block';
-      matchBtn.textContent = 'Match All Shorts Size';
+      fmtGroup.style.display = 'inline-flex';
+      matchBtn.textContent = 'Apply to All Portraits';
+      const g = getFormatGap('reel');
+      if (gapInp) gapInp.value = g;
+      if (gapVal) gapVal.textContent = g + 'px';
     } else if (ieSelectedId && ieSelectedId.startsWith('land-card-')) {
-      matchBtn.style.display = 'inline-block';
-      matchBtn.textContent = 'Match All Landscape Size';
+      fmtGroup.style.display = 'inline-flex';
+      matchBtn.textContent = 'Apply to All Landscapes';
+      const g = getFormatGap('landscape');
+      if (gapInp) gapInp.value = g;
+      if (gapVal) gapVal.textContent = g + 'px';
     } else {
-      matchBtn.style.display = 'none';
+      fmtGroup.style.display = 'none';
     }
   }
 }
@@ -7143,7 +7176,7 @@ function selectIEElement(el) {
     ieSelectedId = null;
     $('ieSelectionBox').classList.remove('visible');
     $('ieSelectedName').textContent = 'Click any block on the screen to move or resize it';
-    if ($('ieMatchCardsBtn')) $('ieMatchCardsBtn').style.display = 'none';
+    if ($('ieFormatGroup')) $('ieFormatGroup').style.display = 'none';
     return;
   }
   ieSelectedEl = el;
@@ -7225,13 +7258,20 @@ function syncIEToolbarPagePills() {
 }
 
 function buildLayoutBlueprintText() {
+  const fs = ieCustomLayout._formatSettings || {};
   const summary = {
     screen: { width: window.innerWidth, height: window.innerHeight },
     updatedAt: new Date().toISOString(),
+    formatSettings: {
+      portraits: fs.reel ? { width: fs.reel.w || null, height: fs.reel.h || null, spacing: fs.reel.gap !== undefined ? fs.reel.gap : 18 } : null,
+      landscapes: fs.landscape ? { width: fs.landscape.w || null, height: fs.landscape.h || null, spacing: fs.landscape.gap !== undefined ? fs.landscape.gap : 22 } : null
+    },
     changes: {}
   };
   Object.keys(ieCustomLayout).forEach(id => {
+    if (id === '_formatSettings') return;
     const cfg = ieCustomLayout[id];
+    if (!cfg || typeof cfg !== 'object') return;
     const el = document.querySelector(`[data-ie-id="${id}"]`);
     summary.changes[id] = {
       label: el ? (el.getAttribute('data-ie-label') || id) : id,
@@ -7606,22 +7646,60 @@ function bindInterfaceEditorControls() {
 
   if ($('ieMatchCardsBtn')) $('ieMatchCardsBtn').onclick = () => {
     if (!ieSelectedId || !ieSelectedEl) return;
+    const isReel = ieSelectedId.startsWith('reel-card-');
+    const isLand = ieSelectedId.startsWith('land-card-');
+    if (!isReel && !isLand) return;
+
+    const formatKey = isReel ? 'reel' : 'landscape';
+    const prefix = isReel ? 'reel-card-' : 'land-card-';
     const r = ieSelectedEl.getBoundingClientRect();
     const cur = ieCustomLayout[ieSelectedId] || {};
     const targetW = Math.round(cur.w || r.width);
     const targetH = Math.round(cur.h || r.height);
-    const prefix = ieSelectedId.startsWith('reel-card-') ? 'reel-card-' : 'land-card-';
+    const gapPx = $('ieInputGap') ? Math.round(Number($('ieInputGap').value) || getFormatGap(formatKey)) : getFormatGap(formatKey);
+
     iePushUndo();
+    if (!ieCustomLayout._formatSettings) ieCustomLayout._formatSettings = {};
+    ieCustomLayout._formatSettings[formatKey] = { w: targetW, h: targetH, gap: gapPx };
+    applyFormatGridGap(formatKey, gapPx);
+
     document.querySelectorAll(`[data-ie-id^="${prefix}"]`).forEach(card => {
       const cid = card.getAttribute('data-ie-id');
-      const c = ieCustomLayout[cid] || (ieCustomLayout[cid] = {});
-      c.w = targetW;
-      c.h = targetH;
-      applyElementTransform(card, c);
+      const cfg = ieCustomLayout[cid] || (ieCustomLayout[cid] = {});
+      cfg.w = targetW;
+      cfg.h = targetH;
+      cfg.x = 0;
+      cfg.y = 0;
+      applyElementTransform(card, cfg);
     });
+
     localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
     positionSelectionBox();
+
+    const btn = $('ieMatchCardsBtn');
+    const doneLabel = isReel ? 'Applied to All Portraits!' : 'Applied to All Landscapes!';
+    const baseLabel = isReel ? 'Apply to All Portraits' : 'Apply to All Landscapes';
+    if (btn) {
+      btn.textContent = doneLabel;
+      setTimeout(() => { if (btn) btn.textContent = baseLabel; }, 1600);
+    }
   };
+
+  if ($('ieInputGap')) $('ieInputGap').addEventListener('input', () => {
+    if (!ieSelectedId) return;
+    const isReel = ieSelectedId.startsWith('reel-card-');
+    const isLand = ieSelectedId.startsWith('land-card-');
+    if (!isReel && !isLand) return;
+    const formatKey = isReel ? 'reel' : 'landscape';
+    const gapPx = Math.round(Number($('ieInputGap').value) || 18);
+    if ($('ieGapVal')) $('ieGapVal').textContent = gapPx + 'px';
+    if (!ieCustomLayout._formatSettings) ieCustomLayout._formatSettings = {};
+    const prev = ieCustomLayout._formatSettings[formatKey] || {};
+    ieCustomLayout._formatSettings[formatKey] = Object.assign({}, prev, { gap: gapPx });
+    applyFormatGridGap(formatKey, gapPx);
+    localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    positionSelectionBox();
+  });
 
   // Numeric & Slider Inspector Inputs
   const applyInspectorInput = () => {
