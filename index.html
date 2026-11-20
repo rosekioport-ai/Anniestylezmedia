@@ -6930,7 +6930,7 @@ async function syncLatestCloudData() {
     if (res.ok) {
       const cloudData = await res.json();
       if (cloudData && Array.isArray(cloudData.projects) && cloudData.projects.length) {
-        let hasDiff = (cloudData.statement && cloudData.statement !== data.statement) || (cloudData.workIntro && cloudData.workIntro !== data.workIntro) || (cloudData.about && cloudData.about !== data.about);
+        let hasDiff = (cloudData.statement && cloudData.statement !== data.statement) || (cloudData.workIntro && cloudData.workIntro !== data.workIntro) || (cloudData.about && cloudData.about !== data.about) || (cloudData.customLayout && JSON.stringify(cloudData.customLayout) !== JSON.stringify(data.customLayout || {}));
         cloudData.projects.forEach((cp, idx) => {
           const current = data.projects[idx];
           if (!current || current.title !== cp.title || current.video !== cp.video || current.thumbnail !== cp.thumbnail || current.description !== cp.description) {
@@ -6943,6 +6943,10 @@ async function syncLatestCloudData() {
           try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
           } catch (e) {}
+          if (cloudData.customLayout && typeof cloudData.customLayout === 'object') {
+            ieCustomLayout = sanitizeCustomLayout(JSON.parse(JSON.stringify(cloudData.customLayout)));
+            try { localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout)); } catch (e) {}
+          }
           apply();
           if (typeof loadEditor === 'function') loadEditor();
         }
@@ -7114,17 +7118,25 @@ var ieKeepRatio = true;
 var ieUndoStack = [];
 var ieCustomLayout = ieCustomLayout || {};
 
+function sanitizeCustomLayout(layout) {
+  if (!layout || typeof layout !== 'object') return {};
+  if (layout['exp-stage'] && layout['exp-stage'].w && Number(layout['exp-stage'].w) < Math.max(800, window.innerWidth * 0.85)) {
+    delete layout['exp-stage'].w;
+  }
+  return layout;
+}
+
 function loadSavedCustomLayout() {
   try {
     if (data && data.customLayout && typeof data.customLayout === 'object' && Object.keys(data.customLayout).length > 0) {
-      ieCustomLayout = JSON.parse(JSON.stringify(data.customLayout));
+      ieCustomLayout = sanitizeCustomLayout(JSON.parse(JSON.stringify(data.customLayout)));
       return;
     }
     const raw = localStorage.getItem(IE_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed && typeof parsed === 'object') {
-        ieCustomLayout = parsed;
+        ieCustomLayout = sanitizeCustomLayout(parsed);
       }
     }
   } catch (e) {}
@@ -7238,7 +7250,8 @@ function applyElementTransform(el, cfg) {
     el.style.removeProperty('transform');
   }
 
-  if (cfg.w) {
+  const isStageBox = el.classList && el.classList.contains('experience-stage');
+  if (cfg.w && !isStageBox) {
     el.style.setProperty('width', Math.round(cfg.w) + 'px', 'important');
     el.style.setProperty('max-width', 'none', 'important');
     el.style.setProperty('min-width', Math.round(cfg.w) + 'px', 'important');
