@@ -3330,8 +3330,8 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-4px) scale(1.015) !important;
+body:not(.ie-active) .card:hover {
+  transform: translateY(-4px) scale(1.015);
 }
 
 .card .visual {
@@ -3640,7 +3640,24 @@ body.ie-active.ie-show-grid::before {
 }
 body.ie-active [data-ie-id] {
   cursor: move !important;
-  transition: outline-color 0.15s ease !important;
+  transition: none !important;
+}
+body.ie-active .card:hover {
+  transform: none;
+}
+/* CRITICAL: Remove invisible grid-line walls while editing OR when cards are freely placed */
+body.ie-active .tab-view.active,
+body.ie-active .experience-stage,
+body.ie-active .carousel-shelf,
+body.ie-active .gallery-grid,
+.experience-stage.ie-free-canvas,
+.carousel-shelf.ie-free-canvas {
+  overflow: visible !important;
+  scroll-snap-type: none !important;
+}
+body.ie-active .card,
+.ie-free-canvas .card {
+  scroll-snap-align: none !important;
 }
 body.ie-active [data-ie-id]:hover {
   outline: 1.5px dashed rgba(243, 206, 122, 0.72) !important;
@@ -4673,7 +4690,7 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
         <button type="button" class="ie-btn" data-ie-expfilter="all">All</button>
       </span>
       <span class="ie-pill-sep"></span>
-      <button type="button" class="ie-btn active" id="ieGridToggle" title="Toggle 8px alignment grid">Grid: ON</button>
+      <button type="button" class="ie-btn" id="ieGridToggle" title="Toggle 8px snap-to-grid">Snap Grid: OFF</button>
       <button type="button" class="ie-btn active" id="ieRatioToggle" title="Keep original width/height ratio while resizing">Keep Shape: ON</button>
     </div>
 
@@ -6389,6 +6406,7 @@ function setupDragScroll(slider) {
   let isDragging = false;
 
   slider.addEventListener('mousedown', (e) => {
+    if (typeof ieActive !== 'undefined' && ieActive) return;
     isDown = true;
     isDragging = false;
     startX = e.pageX - slider.offsetLeft;
@@ -6409,6 +6427,7 @@ function setupDragScroll(slider) {
   slider.addEventListener('mouseleave', stopDrag);
 
   slider.addEventListener('mousemove', (e) => {
+    if (typeof ieActive !== 'undefined' && ieActive) return;
     if (!isDown) return;
     const x = e.pageX - slider.offsetLeft;
     const walk = x - startX;
@@ -6970,7 +6989,7 @@ var IE_STORAGE_KEY = 'as_custom_layout_v1';
 var ieActive = false;
 var ieSelectedEl = null;
 var ieSelectedId = null;
-var ieSnapGrid = true;
+var ieSnapGrid = false;
 var ieKeepRatio = true;
 var ieUndoStack = [];
 var ieCustomLayout = ieCustomLayout || {};
@@ -7169,10 +7188,19 @@ function applyCustomLayout() {
   applyFormatGridGap('landscape', fs.landscape && fs.landscape.gap !== undefined ? fs.landscape.gap : null);
   applyFormatGridGap('all', fs.all && fs.all.gap !== undefined ? fs.all.gap : null);
 
+  let hasFreeCards = false;
   document.querySelectorAll('[data-ie-id]').forEach(el => {
     const id = el.getAttribute('data-ie-id');
-    applyElementTransform(el, ieCustomLayout[id] || null);
+    const cfg = ieCustomLayout[id] || null;
+    applyElementTransform(el, cfg);
+    if (cfg && el.classList.contains('card') && ((Number(cfg.x) || 0) !== 0 || (Number(cfg.y) || 0) !== 0)) {
+      hasFreeCards = true;
+    }
   });
+  const stg = document.querySelector('.experience-stage');
+  const shf = document.querySelector('.carousel-shelf');
+  if (stg) stg.classList.toggle('ie-free-canvas', hasFreeCards);
+  if (shf) shf.classList.toggle('ie-free-canvas', hasFreeCards);
   if (ieActive && ieSelectedEl) {
     positionSelectionBox();
   }
@@ -7430,6 +7458,9 @@ document.addEventListener('mousemove', (e) => {
     if (ieDragState.mode === 'move') {
       cfg.x = snapVal(ieDragState.origX + dx);
       cfg.y = snapVal(ieDragState.origY + dy);
+      if (el.classList.contains('card') && (cfg.z === undefined || cfg.z === null)) {
+        cfg.z = 25;
+      }
     } else if (ieDragState.mode === 'resize') {
       const dir = ieDragState.dir;
       let newW = ieDragState.origW;
@@ -7559,6 +7590,17 @@ window.addEventListener('mouseup', () => {
   if (ieDragState) {
     ieDragState = null;
     localStorage.setItem(IE_STORAGE_KEY, JSON.stringify(ieCustomLayout));
+    const stg = document.querySelector('.experience-stage');
+    const shf = document.querySelector('.carousel-shelf');
+    let hasFree = false;
+    Object.keys(ieCustomLayout).forEach(k => {
+      if (k.startsWith('reel-card-') || k.startsWith('land-card-') || k.startsWith('all-reel-') || k.startsWith('all-land-')) {
+        const cfg = ieCustomLayout[k];
+        if (cfg && ((Number(cfg.x) || 0) !== 0 || (Number(cfg.y) || 0) !== 0)) hasFree = true;
+      }
+    });
+    if (stg) stg.classList.toggle('ie-free-canvas', hasFree);
+    if (shf) shf.classList.toggle('ie-free-canvas', hasFree);
   }
 });
 
@@ -7640,7 +7682,7 @@ function bindInterfaceEditorControls() {
 
   if ($('ieGridToggle')) $('ieGridToggle').onclick = () => {
     ieSnapGrid = !ieSnapGrid;
-    $('ieGridToggle').textContent = ieSnapGrid ? 'Grid: ON' : 'Grid: OFF';
+    $('ieGridToggle').textContent = ieSnapGrid ? 'Snap Grid: ON' : 'Snap Grid: OFF';
     $('ieGridToggle').classList.toggle('active', ieSnapGrid);
     document.body.classList.toggle('ie-show-grid', ieActive && ieSnapGrid);
   };
