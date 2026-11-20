@@ -378,6 +378,10 @@
     "status-pill": {
       "x": 0,
       "y": 8
+    },
+    "studio-subtabs": {
+      "x": 0,
+      "y": 8
     }
   }
 }
