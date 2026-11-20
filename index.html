@@ -69,9 +69,7 @@ html, body {
   font-family: 'Poppins', sans-serif !important;
   font-weight: 400 !important;
   -webkit-font-smoothing: antialiased;
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
+  position: relative;
 }
 
 ::selection { background: var(--gold); color: #050505; }
@@ -225,18 +223,17 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 
 .tab-view {
   display: none !important;
-  height: calc(100vh - 48px - 24px - 22px) !important;
-  max-height: calc(100vh - 48px - 24px - 22px) !important;
+  flex: 1 !important;
+  min-height: 0 !important;
   overflow: hidden !important;
 }
 .tab-view.active {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 !important;
-  height: calc(100vh - 48px - 24px - 22px) !important;
-  max-height: calc(100vh - 48px - 24px - 22px) !important;
+  min-height: 0 !important;
   overflow: hidden !important;
-  animation: silkyCurtain 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: silkyCurtain 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes silkyCurtain {
@@ -3096,50 +3093,100 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   }
 }
 
-/* ZERO VERTICAL SCROLL LAYOUT */
+/* ZERO VERTICAL SCROLL LAYOUT (FIXED & BALANCED) */
+.header {
+  height: 52px !important;
+  flex-shrink: 0 !important;
+  padding: 6px 20px !important;
+  margin-bottom: 6px !important;
+}
+.status-pill-wrap {
+  margin-bottom: 6px !important;
+  flex-shrink: 0 !important;
+}
+.status-pill {
+  padding: 4px 14px !important;
+  font-size: 10.5px !important;
+}
+.footer-row {
+  height: 36px !important;
+  flex-shrink: 0 !important;
+  margin-top: 4px !important;
+  padding: 6px 4px 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  font-size: 10.5px !important;
+}
+/* TUCK AUDIO DOCK NEATLY IN FOOTER CENTER SO IT NEVER OVERLAPS CARDS */
+.audio-dock {
+  bottom: 8px !important;
+  padding: 5px 14px !important;
+  gap: 10px !important;
+  z-index: 80 !important;
+}
+.audio-toggle-btn {
+  width: 26px !important;
+  height: 26px !important;
+  font-size: 9px !important;
+}
+.audio-title {
+  font-size: 10.5px !important;
+}
+.audio-sub {
+  font-size: 8.5px !important;
+}
+
+/* PAGE 1: EXPERIENCE COMMAND STRIP */
 .experience-command-strip {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  height: 50px;
   flex-shrink: 0;
-  padding: 2px 4px;
-  margin-bottom: 6px;
+  padding: 2px 4px 8px;
+  margin-bottom: 2px;
 }
 .ecs-left {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex-shrink: 0;
+  min-width: 0;
+  max-width: 36%;
 }
 .ecs-headline {
-  font-size: 19px;
-  font-weight: 500;
-  line-height: 1.2;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
   color: #fff;
   margin: 0;
-  letter-spacing: -0.015em;
+  white-space: nowrap;
 }
 .ecs-sub {
-  font-size: 11px;
+  font-size: 11px !important;
+  font-weight: 400 !important;
   color: var(--text-muted);
-  margin-top: 2px;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .ecs-center {
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
+  min-width: 0;
 }
 .statement-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 18px;
-  background: rgba(22, 19, 16, 0.75);
+  padding: 6px 16px;
+  background: rgba(22, 19, 16, 0.78);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(223, 186, 106, 0.25);
+  border: 1px solid rgba(223, 186, 106, 0.28);
   border-radius: 999px;
   font-size: 11px;
   color: var(--gold-light);
@@ -3162,32 +3209,51 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .ecs-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
 }
+.ecs-right .gallery-filters {
+  margin-bottom: 0 !important;
+  padding: 4px !important;
+}
+.ecs-right .g-filter {
+  padding: 6px 16px !important;
+  font-size: 11.5px !important;
+  font-weight: 400 !important;
+}
+.ecs-right .g-filter.active {
+  font-weight: 500 !important;
+}
+.ecs-right .carousel-arrow {
+  width: 34px !important;
+  height: 34px !important;
+  font-size: 16px !important;
+}
+
+/* PAGE 1: MAIN CAROUSEL SHELF STAGE */
 .experience-stage {
   flex: 1;
-  height: calc(100% - 56px);
-  max-height: calc(100% - 56px);
+  min-height: 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   overflow: hidden;
   position: relative;
+  padding: 4px 0 8px;
 }
-/* CAROUSEL SHELF: CONTINUOUS ZERO-CROP HORIZONTAL STAGE */
 .carousel-shelf {
   flex: 1;
-  height: 100% !important;
-  max-height: 100% !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: stretch !important;
-  gap: 18px !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  padding: 4px 2px 8px !important;
+  scroll-snap-type: x proximity;
+  padding: 8px 4px 10px;
   scrollbar-width: none;
   -ms-overflow-style: none;
   cursor: grab;
@@ -3204,86 +3270,71 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   scroll-snap-type: none !important;
 }
 
+/* CRITICAL: NO !important on display:flex so filters actually hide/show tracks! */
 .gallery-grid {
-  display: flex !important;
-  gap: 18px !important;
-  height: 100% !important;
-  max-height: 100% !important;
-  align-items: stretch !important;
-  flex-shrink: 0 !important;
-  overflow: visible !important;
+  display: flex;
+  gap: 18px;
+  height: 100%;
+  max-height: 100%;
+  align-items: center;
+  flex-shrink: 0;
+  overflow: visible;
   margin: 0 !important;
   padding: 0 !important;
 }
+.gallery-grid.track-hidden {
+  display: none !important;
+}
 
-/* SHORTS / REEL CARD: 100% UNTOUCHED 9:16 VERTICAL ASPECT RATIO */
+/* REELS / SHORTS: TRUE 9:16 VERTICAL PROPORTION, ZERO CROPPING, 5 CARDS VISIBLE */
 .gallery-grid.reel .card,
 .card[data-kind="reel"],
 .reel .card {
-  height: 100% !important;
-  max-height: 100% !important;
+  height: clamp(320px, 64vh, 470px) !important;
+  max-height: calc(100% - 8px) !important;
   aspect-ratio: 9 / 16 !important;
   width: auto !important;
   min-width: unset !important;
   max-width: none !important;
   flex-shrink: 0 !important;
   position: relative !important;
-  border-radius: 18px !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
   scroll-snap-align: start;
   background: #09090c;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.gallery-grid.reel .card .visual,
-.card[data-kind="reel"] .visual,
-.reel .card .visual {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  background: #000000 !important;
-  overflow: hidden !important;
-}
-
-.gallery-grid.reel .card .visual img,
-.card[data-kind="reel"] .visual img,
-.reel .card .visual img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  display: block !important;
-}
-
-/* 4K CINEMA / LANDSCAPE CARD: 100% TRUE 16:9 RATIO */
+/* 4K CINEMA / LANDSCAPE: REFINED 16:9 CINEMA PROPORTION (NOT GIANT 1100PX BILLBOARDS) */
 .gallery-grid.landscape .card,
 .card[data-kind="landscape"],
 .landscape .card {
-  height: 100% !important;
-  max-height: 100% !important;
+  height: clamp(230px, 46vh, 340px) !important;
+  max-height: calc(100% - 16px) !important;
   aspect-ratio: 16 / 9 !important;
   width: auto !important;
   min-width: unset !important;
   max-width: none !important;
   flex-shrink: 0 !important;
   position: relative !important;
-  border-radius: 18px !important;
+  border-radius: 16px !important;
   overflow: hidden !important;
   box-sizing: border-box !important;
   scroll-snap-align: start;
   background: #09090c;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.gallery-grid.landscape .card .visual,
-.card[data-kind="landscape"] .visual,
-.landscape .card .visual {
+.card:hover {
+  transform: translateY(-4px) scale(1.015) !important;
+}
+
+.card .visual {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
@@ -3292,9 +3343,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   overflow: hidden !important;
 }
 
-.gallery-grid.landscape .card .visual img,
-.card[data-kind="landscape"] .visual img,
-.landscape .card .visual img {
+.card .visual img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
@@ -3302,14 +3351,14 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   display: block !important;
 }
 
-/* CLEAN SUBTLE BOTTOM OVERLAY THAT NEVER BLOCKS VIDEO CONTENT */
+/* SUBTLE BOTTOM TITLE BAR */
 .card .meta {
   position: absolute !important;
   left: 0 !important;
   right: 0 !important;
   bottom: 0 !important;
-  padding: 10px 14px !important;
-  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.95) 100%) !important;
+  padding: 10px 12px !important;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.55) 45%, rgba(0, 0, 0, 0.92) 100%) !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: flex-end !important;
@@ -3317,16 +3366,29 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   z-index: 4 !important;
   pointer-events: none !important;
 }
+.card .meta .label {
+  font-size: 12.5px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+}
+.card .meta .type {
+  font-size: 9px !important;
+  font-weight: 400 !important;
+  padding: 3px 9px !important;
+}
+
+/* PAGE 2: STUDIO ZERO-SCROLL FIT */
 .studio-subtabs {
   display: flex;
   gap: 6px;
   padding: 4px;
-  background: rgba(18, 15, 12, 0.7);
+  background: rgba(18, 15, 12, 0.78);
   backdrop-filter: blur(14px);
-  border: 1px solid rgba(223, 186, 106, 0.2);
+  border: 1px solid rgba(223, 186, 106, 0.22);
   border-radius: 999px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   width: max-content;
+  flex-shrink: 0;
 }
 .s-subtab {
   background: transparent;
@@ -3334,7 +3396,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   border-radius: 999px;
   padding: 5px 14px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
   border: none;
   transition: all 0.25s var(--ease);
@@ -3342,24 +3404,62 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
 .s-subtab.active {
   background: linear-gradient(135deg, #e5c57b 0%, #d4a94e 45%, #b68733 100%);
   color: #0c0a07;
-  font-weight: 600;
+  font-weight: 500;
 }
 .studio-grid {
+  flex: 1 !important;
+  min-height: 0 !important;
   height: 100% !important;
   max-height: 100% !important;
   overflow: hidden !important;
-  min-height: 0 !important;
-  display: grid;
-  grid-template-columns: 1.45fr 1fr;
-  gap: 16px;
+  display: grid !important;
+  grid-template-columns: 1.42fr 1fr !important;
+  gap: 16px !important;
+  padding-bottom: 6px;
 }
 .generator-card {
   height: 100% !important;
   max-height: 100% !important;
-  overflow-y: auto !important;
-  scrollbar-width: thin;
-  padding: 18px 22px !important;
-  gap: 10px !important;
+  overflow: hidden !important;
+  padding: 14px 20px !important;
+  gap: 8px !important;
+  justify-content: space-between !important;
+}
+.generator-title {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  margin-bottom: 4px !important;
+}
+.stepper {
+  margin-bottom: 0 !important;
+}
+.prompt-box {
+  padding: 10px 14px !important;
+  gap: 6px !important;
+}
+.prompt-textarea {
+  min-height: 44px !important;
+  max-height: 54px !important;
+  font-size: 12px !important;
+}
+.studio-service-card {
+  padding: 10px 12px !important;
+  gap: 4px !important;
+}
+.ssc-title {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+.ssc-desc {
+  font-size: 10.5px !important;
+  line-height: 1.4 !important;
+}
+.package-scope-row {
+  padding: 6px 10px !important;
+}
+.send-brief-btn {
+  padding: 10px 18px !important;
+  font-size: 12px !important;
 }
 .previews-col {
   height: 100% !important;
@@ -3368,30 +3468,154 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
   display: flex !important;
   flex-direction: column !important;
 }
+/* CRITICAL: NO !important on display:flex so Anatomy/Roadmap toggle works! */
 .campaign-anatomy-card {
-  height: 100% !important;
-  max-height: 100% !important;
-  padding: 20px 22px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  overflow: hidden !important;
+  flex: 1;
+  min-height: 0;
+  padding: 16px 20px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  gap: 8px !important;
 }
+.campaign-anatomy-card.subcard-hidden {
+  display: none !important;
+}
+.anatomy-title {
+  font-size: 19px !important;
+  font-weight: 400 !important;
+  margin: 4px 0 !important;
+}
+.anatomy-sub {
+  font-size: 11.5px !important;
+  line-height: 1.45 !important;
+}
+.anatomy-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px !important;
+}
+.anatomy-layer {
+  padding: 10px 14px !important;
+  gap: 4px !important;
+}
+.layer-heading {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+.layer-desc {
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+}
+
+/* PAGE 3: CONTACT ZERO-SCROLL FIT */
 .contact-page-grid {
+  flex: 1 !important;
+  min-height: 0 !important;
   height: 100% !important;
   max-height: 100% !important;
   overflow: hidden !important;
-  min-height: 0 !important;
   display: grid !important;
-  grid-template-columns: 1.25fr 0.85fr !important;
+  grid-template-columns: 1.2fr 0.9fr !important;
   gap: 18px !important;
+  padding-bottom: 6px;
 }
 .who-card, .contact-action-card {
   height: 100% !important;
   max-height: 100% !important;
-  padding: 20px 24px !important;
-  overflow-y: auto !important;
-  scrollbar-width: thin;
+  padding: 18px 24px !important;
+  overflow: hidden !important;
+  gap: 10px !important;
+  justify-content: space-between !important;
+}
+.who-title {
+  font-size: 26px !important;
+  font-weight: 400 !important;
+  line-height: 1.15 !important;
+}
+.who-portrait-frame {
+  width: 96px !important;
+  height: 118px !important;
+}
+.who-statement {
+  font-size: 12.5px !important;
+  line-height: 1.45 !important;
+  padding: 10px 14px !important;
+}
+.who-body {
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+}
+.contact-card-title {
+  font-size: 22px !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+}
+.contact-card-desc {
+  font-size: 11.5px !important;
+  line-height: 1.45 !important;
+}
+.channels-list {
+  gap: 7px !important;
+}
+.channel-item {
+  padding: 8px 12px !important;
+}
+.contact-direct-btn {
+  padding: 11px 18px !important;
+  font-size: 12.5px !important;
+}
+
+
+/* COMPACT LAPTOP SCREEN PROTECTION (600px-740px viewport height) */
+@media (max-height: 740px) {
+  .header { height: 46px !important; padding: 4px 18px !important; margin-bottom: 4px !important; }
+  .status-pill-wrap { margin-bottom: 4px !important; }
+  .status-pill { padding: 2px 12px !important; font-size: 10px !important; }
+  .footer-row { height: 30px !important; padding: 4px 4px 0 !important; margin-top: 2px !important; }
+  .audio-dock { bottom: 5px !important; padding: 4px 12px !important; }
+
+  /* Studio compact fit */
+  .studio-subtabs { margin-bottom: 5px !important; padding: 3px !important; }
+  .s-subtab { padding: 4px 12px !important; font-size: 10.5px !important; }
+  .generator-card { padding: 10px 16px !important; gap: 6px !important; }
+  .generator-title { font-size: 17px !important; margin-bottom: 2px !important; }
+  .prompt-box { padding: 8px 12px !important; gap: 5px !important; }
+  .prompt-textarea { min-height: 34px !important; max-height: 40px !important; padding: 4px 0 !important; }
+  .studio-service-card { padding: 7px 10px !important; gap: 2px !important; }
+  .ssc-desc { font-size: 10px !important; line-height: 1.3 !important; }
+  .package-scope-row { padding: 5px 8px !important; }
+  .send-brief-btn { padding: 8px 14px !important; font-size: 11.5px !important; }
+
+  .campaign-anatomy-card { padding: 11px 16px !important; gap: 5px !important; }
+  .anatomy-badge { padding: 3px 10px !important; font-size: 9px !important; }
+  .anatomy-title { font-size: 16px !important; margin: 2px 0 !important; }
+  .anatomy-sub { font-size: 10.5px !important; line-height: 1.3 !important; }
+  .anatomy-layers { gap: 6px !important; }
+  .anatomy-layer { padding: 7px 11px !important; gap: 2px !important; }
+  .layer-num, .layer-tag { font-size: 9px !important; }
+  .layer-heading { font-size: 12px !important; }
+  .layer-desc { font-size: 10px !important; line-height: 1.3 !important; }
+  .anatomy-foot { font-size: 10px !important; padding-top: 4px !important; }
+
+  /* Contact compact fit */
+  .who-card, .contact-action-card { padding: 14px 20px !important; gap: 8px !important; }
+  .who-title { font-size: 22px !important; }
+  .who-portrait-frame { width: 82px !important; height: 98px !important; }
+  .who-statement { font-size: 11.5px !important; padding: 8px 12px !important; }
+  .who-body { font-size: 11.5px !important; line-height: 1.45 !important; }
+  .pillar-pill { padding: 4px 10px !important; font-size: 10px !important; }
+
+  .contact-card-sub { font-size: 9.5px !important; }
+  .contact-card-title { font-size: 18px !important; margin: 2px 0 !important; }
+  .contact-card-desc { font-size: 10.5px !important; line-height: 1.35 !important; }
+  .channels-list { gap: 5px !important; }
+  .channel-item { padding: 6px 10px !important; border-radius: 10px !important; }
+  .channel-icon { width: 28px !important; height: 28px !important; font-size: 12px !important; }
+  .channel-name { font-size: 8.5px !important; }
+  .channel-val { font-size: 11.5px !important; }
+  .contact-direct-btn { padding: 9px 16px !important; font-size: 11.5px !important; }
 }
 
 </style>
@@ -3466,7 +3690,7 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
     <!-- MAIN CAROUSEL SHELF STAGE (Fills remaining height) -->
     <div class="experience-stage">
       <div class="carousel-shelf">
-        <div class="gallery-grid landscape" id="portfolioGrid" style="display:none">
+        <div class="gallery-grid landscape track-hidden" id="portfolioGrid">
           <article class="card" data-kind="landscape" data-title="Real Estate Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Real Estate Campaign</div></div><div class="type">4K Cinema</div></div></article>
           <article class="card" data-kind="landscape" data-title="Construction Technology"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Construction Technology</div></div><div class="type">4K Cinema</div></div></article>
           <article class="card" data-kind="landscape" data-title="Academic Campaign"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Academic Campaign</div></div><div class="type">4K Cinema</div></div></article>
@@ -3662,6 +3886,51 @@ button { font: inherit; border: none; cursor: pointer; outline: none; }
           <div class="anatomy-foot">
             <span>&#10022; 100% Original Direction</span>
             <span class="anatomy-foot-badge">4K Master &bull; Full Sound Design</span>
+          </div>
+        </div>
+
+        <div class="campaign-anatomy-card subcard-hidden" id="studioRoadmapCard">
+          <div class="anatomy-header">
+            <div class="anatomy-badge">
+              <span class="anatomy-dot"></span>
+              <span>HOW WE WORK &bull; 3 STEPS</span>
+            </div>
+            <h2 class="anatomy-title">A clear brief. <span class="gold-text">A considered finish.</span></h2>
+            <p class="anatomy-sub">Creative decisions stay connected to your audience, your message, and where the video will be seen.</p>
+          </div>
+
+          <div class="anatomy-layers">
+            <div class="anatomy-layer">
+              <div class="layer-top">
+                <span class="layer-num">STEP 01</span>
+                <span class="layer-tag">THE BRIEF</span>
+              </div>
+              <h3 class="layer-heading">Find the story worth telling</h3>
+              <p class="layer-desc">We define your goal, target audience, and central message. References and hooks help us agree on tone before creating.</p>
+            </div>
+
+            <div class="anatomy-layer">
+              <div class="layer-top">
+                <span class="layer-num">STEP 02</span>
+                <span class="layer-tag">THE DIRECTION</span>
+              </div>
+              <h3 class="layer-heading">Make the idea visible</h3>
+              <p class="layer-desc">A tailored script, visual scene plan, and character continuity establish the story so every shot connects immediately.</p>
+            </div>
+
+            <div class="anatomy-layer">
+              <div class="layer-top">
+                <span class="layer-num">STEP 03</span>
+                <span class="layer-tag">THE FINISH</span>
+              </div>
+              <h3 class="layer-heading">Shape it for your screen</h3>
+              <p class="layer-desc">AI generation, pacing, sound design, and color grading bring it together. Delivered in 9:16 vertical or 16:9 widescreen.</p>
+            </div>
+          </div>
+
+          <div class="anatomy-foot">
+            <span>&#10022; Built for any screen</span>
+            <span class="anatomy-foot-badge">9:16 Reels &bull; 16:9 Cinema</span>
           </div>
         </div>
 
@@ -4772,7 +5041,7 @@ function apply() {
   // Update Hero Statement in The Experience
   if ($('heroHeadlineMain')) $('heroHeadlineMain').textContent = data.headline || 'I turn Brands';
   if ($('heroHeadlineGold')) $('heroHeadlineGold').textContent = data.goldHeadline || 'into Experiences.';
-  if ($('heroWorkIntro')) $('heroWorkIntro').textContent = data.workIntro || data.statement || 'AI Video Creator & Editor crafting bold, story-led films for brands, products, and visionaries that demand to be experienced, not just watched.';
+  if ($('heroWorkIntro')) $('heroWorkIntro').textContent = data.workIntro || 'Story-led AI video ads and creative direction that convert.';
 
   // Update gallery cards and hide empty placeholder slots
   let activeLandscapes = 0;
@@ -5673,15 +5942,8 @@ const nextTrackBtn = document.getElementById('nextTrack');
 
 function scrollCarousel(dir) {
   const shelf = document.querySelector('.carousel-shelf');
-  const activeFilter = document.querySelector('.g-filter.active')?.dataset.filter || 'all';
-  if (activeFilter === 'all' && shelf) {
-    shelf.scrollBy({ left: dir === 'left' ? -380 : 380, behavior: 'smooth' });
-    return;
-  }
-  let targetTrack = (activeFilter === 'landscape') ? landscape : reels;
-  if (!targetTrack && shelf) targetTrack = shelf;
-  if (targetTrack) {
-    targetTrack.scrollBy({ left: dir === 'left' ? -340 : 340, behavior: 'smooth' });
+  if (shelf) {
+    shelf.scrollBy({ left: dir === 'left' ? -420 : 420, behavior: 'smooth' });
   }
 }
 
@@ -5692,17 +5954,18 @@ filters.forEach(btn => btn.addEventListener('click', () => {
   filters.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const f = btn.dataset.filter;
+  const shelf = document.querySelector('.carousel-shelf');
   if (f === 'landscape') {
-    landscape.style.display = 'flex';
-    reels.style.display = 'none';
+    landscape.classList.remove('track-hidden');
+    reels.classList.add('track-hidden');
   } else if (f === 'reel') {
-    landscape.style.display = 'none';
-    reels.style.display = 'flex';
+    landscape.classList.add('track-hidden');
+    reels.classList.remove('track-hidden');
   } else {
-    // 'all': Show both side by side in one continuous horizontal glide
-    landscape.style.display = 'flex';
-    reels.style.display = 'flex';
+    landscape.classList.remove('track-hidden');
+    reels.classList.remove('track-hidden');
   }
+  if (shelf) shelf.scrollTo({ left: 0, behavior: 'smooth' });
 }));
 
 // SILKY SMOOTH MOUSE DRAG-TO-SCROLL FOR BOTH LANDSCAPE & REELS
@@ -6275,13 +6538,13 @@ function switchStudioSubTab(tab) {
   const btnRoadmap = document.getElementById('btnTabRoadmap');
 
   if (tab === 'roadmap') {
-    if (anatomyCard) anatomyCard.style.display = 'none';
-    if (roadmapCard) roadmapCard.style.display = 'flex';
+    if (anatomyCard) anatomyCard.classList.add('subcard-hidden');
+    if (roadmapCard) roadmapCard.classList.remove('subcard-hidden');
     if (btnAnatomy) btnAnatomy.classList.remove('active');
     if (btnRoadmap) btnRoadmap.classList.add('active');
   } else {
-    if (anatomyCard) anatomyCard.style.display = 'flex';
-    if (roadmapCard) roadmapCard.style.display = 'none';
+    if (anatomyCard) anatomyCard.classList.remove('subcard-hidden');
+    if (roadmapCard) roadmapCard.classList.add('subcard-hidden');
     if (btnAnatomy) btnAnatomy.classList.add('active');
     if (btnRoadmap) btnRoadmap.classList.remove('active');
   }
