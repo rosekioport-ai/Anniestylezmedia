@@ -3984,9 +3984,7 @@ body:not(.ie-active) .ie-is-hidden {
 
       <div class="ecs-right">
         <div class="gallery-filters">
-          <button class="g-filter active" data-filter="reel">Reels / Shorts (7)</button>
-          <button class="g-filter" data-filter="landscape">4K Cinema (4)</button>
-          <button class="g-filter" data-filter="all">All (11)</button>
+          <button class="g-filter active" data-filter="all">All (11)</button>
         </div>
         <div class="carousel-nav">
           <button class="carousel-arrow" id="prevTrack" title="Previous projects" type="button">&lsaquo;</button>
@@ -4008,7 +4006,7 @@ body:not(.ie-active) .ie-is-hidden {
           <article class="card" data-kind="landscape" data-title="Landscape Project 07" style="display:none"><div class="visual"><span class="placeholder">Drop project here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Landscape Project 07</div></div><div class="type">4K Cinema</div></div></article>
         </div>
 
-        <div class="gallery-grid reel" id="reelGrid">
+        <div class="gallery-grid reel track-hidden" id="reelGrid">
           <article class="card" data-kind="reel" data-title="Chauffeur Services"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">01</div><div class="label">Chauffeur Services</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Bridal Makeovers"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">02</div><div class="label">Bridal Makeovers</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Wholesale Market Vendor"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">03</div><div class="label">Wholesale Market Vendor</div></div><div class="type">9:16 Vertical</div></div></article>
@@ -4016,10 +4014,18 @@ body:not(.ie-active) .ie-is-hidden {
           <article class="card" data-kind="reel" data-title="Nike Concept Heels"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">05</div><div class="label">Nike Concept Heels</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Beauty, Hair & Personal Care"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">06</div><div class="label">Beauty, Hair & Personal Care</div></div><div class="type">9:16 Vertical</div></div></article>
           <article class="card" data-kind="reel" data-title="Fintech & Digital Banking"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">07</div><div class="label">Fintech & Digital Banking</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 08" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">08</div><div class="label">Reel 08</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 09" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">09</div><div class="label">Reel 09</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 10" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">10</div><div class="label">Reel 10</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 11" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">11</div><div class="label">Reel 11</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 12" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">12</div><div class="label">Reel 12</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 13" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">13</div><div class="label">Reel 13</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 14" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">14</div><div class="label">Reel 14</div></div><div class="type">9:16 Vertical</div></div></article>
+          <article class="card" data-kind="reel" data-title="Reel 15" style="display:none"><div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">15</div><div class="label">Reel 15</div></div><div class="type">9:16 Vertical</div></div></article>
         </div>
 
-        <!-- INDEPENDENT COPIES FOR THE "ALL" TAB (Moving/resizing here NEVER affects Reels or Landscape!) -->
-        <div class="gallery-grid all-track track-hidden" id="allGrid"></div>
+        <!-- MAIN UNIFIED "ALL" SHOWCASE -->
+        <div class="gallery-grid all-track" id="allGrid"></div>
       </div>
     </div>
   </div>
@@ -4980,6 +4986,62 @@ window.__PORTFOLIO_DATA__ = {
       "description": "Spec Ad: FINTECH & INSTANT PAYMENTS (OPAY NIGERIA)\n\nThe Problem: Professionals suffer endless spinning bank apps and delayed alerts, holding on to traditional banks while believing street rumors about modern digital apps.\n\nThe Story: An office skeptic mocks OPay and brings up the rumors, confident in his traditional bank until his own transfer delays for hours. When a coworker breezes through with hot akara paid for in seconds, the skeptic sneaks into the corner to install OPay on the App Store and gets caught in 4K by his laughing friends.\n\nThe Goal: Disarm banking snobbery with authentic workplace humor and prove that OPay is the reliable everyday payment tool that works without excuses.\n\nConcept Development • Creative Direction • Scriptwriting • AI Video Production • Storytelling • Video Editing.",
       "video": "https://youtube.com/shorts/7-4pEPubEVE",
       "thumbnail": "https://drive.google.com/uc?export=view&id=1IoRw1a_Yov5cJO3rxJy3BMn54goiEH9t"
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 08",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 09",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 10",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 11",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 12",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 13",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 14",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
+    },
+    {
+      "kind": "reel",
+      "title": "Reel 15",
+      "description": "Add your project description here.",
+      "video": "",
+      "thumbnail": ""
     }
   ]
 };
@@ -4992,6 +5054,10 @@ let data = structuredClone(embedded || defaultData);
 // If user has non-empty edits in their browser localStorage, merge them in
 if (savedLocal && Array.isArray(savedLocal.projects)) {
   savedLocal.projects.forEach((sp, idx) => {
+    if (!data.projects[idx] && sp && sp.kind) {
+      data.projects[idx] = structuredClone(sp);
+      return;
+    }
     if (data.projects[idx]) {
       const isOfficialFilled = !!(embedded && embedded.projects && embedded.projects[idx] && embedded.projects[idx].video && embedded.projects[idx].video.trim());
       // If the official embedded project is already filled with a real video, NEVER let empty or generic placeholder titles wipe it out!
@@ -5269,11 +5335,16 @@ function loadEditor() {
   $('projectEditor').innerHTML = `
     <div style="grid-column: 1 / -1; background: rgba(215,177,90,0.08); border: 1px solid var(--gold-border); border-radius: 12px; padding: 14px 18px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
       <div>
-        <strong style="color: var(--gold-light); font-size: 13px;">Active Project Videos: ${totalLoaded} of 14 loaded</strong>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Reel 02 (Second Reel slot) accepts Vimeo ONLY. All other 13 slots accept YouTube, Google Drive, or MP4.</div>
+        <strong style="color: var(--gold-light); font-size: 13px;">Active Project Videos: ${totalLoaded} of ${data.projects.length} slots loaded</strong>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Reel 02 (Second Reel slot) accepts Vimeo ONLY. All other Landscape and Reel slots accept YouTube, Google Drive, or MP4.</div>
       </div>
+      <button type="button" class="editor-btn" onclick="addNewReelSlot()" style="border:1px solid rgba(243,206,122,0.65);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%);font-weight:500">+ Add Another Reel Slot</button>
     </div>
-  ` + data.projects.map((x, i) => {
+  ` + (() => {
+    let landNum = 0;
+    let reelNum = 0;
+    return data.projects.map((x, i) => {
+    const slotNum = x.kind === 'reel' ? (++reelNum) : (++landNum);
     const isSecondReel = isSecondReelSlot(x, i);
     const parsed = parseVideoUrl(x.video, isSecondReel);
     const hasVideo = !!parsed;
@@ -5328,7 +5399,7 @@ function loadEditor() {
     return `
     <div class="project-box">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h4 style="margin:0">${x.kind === 'reel' ? 'Reel' : 'Landscape'} ${String(i % 7 + 1).padStart(2, '0')}${isSecondReel ? ' (Second Reel: Vimeo Only)' : ''}</h4>
+        <h4 style="margin:0">${x.kind === 'reel' ? 'Reel' : 'Landscape'} ${String(slotNum).padStart(2, '0')}${isSecondReel ? ' (Second Reel: Vimeo Only)' : ''}</h4>
         <span style="font-size: 11px; font-weight: 700; color: ${badgeColor}; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 999px;">${badgeText}</span>
       </div>
       <div class="field"><label>Title</label><input data-project="${i}" data-part="title" value="${esc(x.title)}"></div>
@@ -5341,6 +5412,25 @@ function loadEditor() {
       <div class="field"><label>Thumbnail URL</label><input data-project="${i}" data-part="thumbnail" value="${esc(x.thumbnail)}" placeholder="Google Drive share link or direct URL" style="font-size:12px"></div>
     </div>
   `}).join('');
+  })();
+}
+
+function addNewReelSlot() {
+  collect();
+  const nextReelNum = data.projects.filter(p => p.kind === 'reel').length + 1;
+  const numStr = String(nextReelNum).padStart(2, '0');
+  data.projects.push({
+    kind: 'reel',
+    title: 'Reel ' + numStr,
+    description: 'Add your project description here.',
+    video: '',
+    thumbnail: ''
+  });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  apply();
+  loadEditor();
+  const boxes = document.querySelectorAll('#projectEditor .project-box');
+  if (boxes.length) boxes[boxes.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function collect() {
@@ -5439,6 +5529,24 @@ function apply() {
   if ($('heroHeadlineMain')) $('heroHeadlineMain').textContent = data.headline || 'I turn Brands';
   if ($('heroHeadlineGold')) $('heroHeadlineGold').textContent = data.goldHeadline || 'into Experiences.';
   if ($('heroWorkIntro')) $('heroWorkIntro').textContent = data.workIntro || 'Story-led AI video ads and creative direction that convert.';
+
+  // Ensure DOM has enough hidden Reel slots for any extra Reels (Reel 16+)
+  const rGridDom = document.getElementById('reelGrid');
+  if (rGridDom && Array.isArray(data.projects)) {
+    const neededReels = data.projects.filter(p => p && p.kind === 'reel').length;
+    let curReels = rGridDom.querySelectorAll('.card').length;
+    while (curReels < neededReels) {
+      curReels++;
+      const nStr = String(curReels).padStart(2, '0');
+      const art = document.createElement('article');
+      art.className = 'card';
+      art.dataset.kind = 'reel';
+      art.dataset.title = 'Reel ' + nStr;
+      art.style.display = 'none';
+      art.innerHTML = `<div class="visual"><span class="placeholder">Drop reel here</span></div><div class="meta"><div><div class="num">${nStr}</div><div class="label">Reel ${nStr}</div></div><div class="type">9:16 Vertical</div></div>`;
+      rGridDom.appendChild(art);
+    }
+  }
 
   // Update gallery cards and hide empty placeholder slots
   let activeLandscapes = 0;
@@ -6376,7 +6484,7 @@ const nextTrackBtn = document.getElementById('nextTrack');
 var activeTrackPanX = { reel: 0, landscape: 0, all: 0 };
 
 function getActiveTrackInfo() {
-  const f = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
+  const f = document.querySelector('.g-filter.active')?.dataset.filter || 'all';
   const track = f === 'landscape' ? landscape : (f === 'all' ? allTrack : reels);
   return { f, track };
 }
@@ -6930,7 +7038,7 @@ async function syncLatestCloudData() {
     if (res.ok) {
       const cloudData = await res.json();
       if (cloudData && Array.isArray(cloudData.projects) && cloudData.projects.length) {
-        let hasDiff = (cloudData.statement && cloudData.statement !== data.statement) || (cloudData.workIntro && cloudData.workIntro !== data.workIntro) || (cloudData.about && cloudData.about !== data.about) || (cloudData.customLayout && JSON.stringify(cloudData.customLayout) !== JSON.stringify(data.customLayout || {}));
+        let hasDiff = (cloudData.projects.length !== data.projects.length) || (cloudData.statement && cloudData.statement !== data.statement) || (cloudData.workIntro && cloudData.workIntro !== data.workIntro) || (cloudData.about && cloudData.about !== data.about) || (cloudData.customLayout && JSON.stringify(cloudData.customLayout) !== JSON.stringify(data.customLayout || {}));
         cloudData.projects.forEach((cp, idx) => {
           const current = data.projects[idx];
           if (!current || current.title !== cp.title || current.video !== cp.video || current.thumbnail !== cp.thumbnail || current.description !== cp.description) {
@@ -7324,7 +7432,7 @@ function getFormatGap(formatKey) {
 }
 
 function syncFreeCanvasClass() {
-  const f = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
+  const f = document.querySelector('.g-filter.active')?.dataset.filter || 'all';
   const trackSel = f === 'landscape' ? '#portfolioGrid .card' : (f === 'all' ? '#allGrid .card' : '#reelGrid .card');
   let hasFree = false;
   document.querySelectorAll(trackSel).forEach(card => {
@@ -7353,7 +7461,13 @@ function applyCustomLayout() {
 
   document.querySelectorAll('[data-ie-id]').forEach(el => {
     const id = el.getAttribute('data-ie-id');
-    applyElementTransform(el, ieCustomLayout[id] || null);
+    let cfg = ieCustomLayout[id] || null;
+    if (!cfg && id && id.startsWith('all-reel-') && fs.allReel && fs.allReel.w && fs.allReel.h) {
+      cfg = { w: fs.allReel.w, h: fs.allReel.h };
+    } else if (!cfg && id && id.startsWith('all-land-') && fs.allLandscape && fs.allLandscape.w && fs.allLandscape.h) {
+      cfg = { w: fs.allLandscape.w, h: fs.allLandscape.h };
+    }
+    applyElementTransform(el, cfg);
   });
   syncFreeCanvasClass();
   if (ieActive && ieSelectedEl) {
@@ -7483,18 +7597,7 @@ function syncIEToolbarPagePills() {
   if (subWrap) {
     if (current === 'experience') {
       subWrap.style.display = 'inline-flex';
-      subWrap.innerHTML = '<button type="button" class="ie-btn" data-ie-expfilter="reel">Reels</button><button type="button" class="ie-btn" data-ie-expfilter="landscape">Landscape</button><button type="button" class="ie-btn" data-ie-expfilter="all">All</button><button type="button" class="ie-btn" id="iePanLeftBtn" title="Slide view left to see earlier videos">&lsaquo; Slide Left</button><button type="button" class="ie-btn" id="iePanRightBtn" title="Slide view right to see remaining Reels and videos">Slide Right &rsaquo;</button>';
-      const curF = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
-      subWrap.querySelectorAll('[data-ie-expfilter]').forEach(b => {
-        b.classList.toggle('active', b.getAttribute('data-ie-expfilter') === curF);
-        b.onclick = () => {
-          const f = b.getAttribute('data-ie-expfilter');
-          document.querySelectorAll('.g-filter').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
-          if (typeof activateGalleryTrack === 'function') activateGalleryTrack(f);
-          subWrap.querySelectorAll('[data-ie-expfilter]').forEach(x => x.classList.toggle('active', x === b));
-          selectIEElement(null);
-        };
-      });
+      subWrap.innerHTML = '<button type="button" class="ie-btn" id="iePanLeftBtn" title="Slide view left to see earlier videos">&lsaquo; Slide Left</button><button type="button" class="ie-btn" id="iePanRightBtn" title="Slide view right to see more videos">Slide Right &rsaquo;</button>';
       const pl = document.getElementById('iePanLeftBtn');
       const pr = document.getElementById('iePanRightBtn');
       if (pl) pl.onclick = () => panActiveTrack(-460);
