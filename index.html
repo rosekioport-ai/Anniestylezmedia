@@ -5594,7 +5594,9 @@ function bindCards() {
   document.querySelectorAll('.card').forEach(card => {
     card.onclick = (e) => {
       const slider = card.closest('.gallery-grid');
-      if (slider && slider._lastDragTime && (Date.now() - slider._lastDragTime < 220)) {
+      const shelfEl = card.closest('.carousel-shelf');
+      if ((slider && slider._lastDragTime && (Date.now() - slider._lastDragTime < 260)) ||
+          (shelfEl && shelfEl._lastDragTime && (Date.now() - shelfEl._lastDragTime < 260))) {
         return;
       }
       openProjectModal({
@@ -6438,6 +6440,7 @@ function activateGalleryTrack(f) {
   if (reels) reels.style.marginLeft = '0px';
   if (allTrack) allTrack.style.marginLeft = '0px';
   if (shelf) shelf.scrollTo({ left: 0, behavior: 'smooth' });
+  if (typeof syncFreeCanvasClass === 'function') syncFreeCanvasClass();
 }
 
 filters.forEach(btn => btn.addEventListener('click', () => {
@@ -6446,57 +6449,72 @@ filters.forEach(btn => btn.addEventListener('click', () => {
   activateGalleryTrack(btn.dataset.filter);
 }));
 
-// SILKY SMOOTH MOUSE DRAG-TO-SCROLL FOR BOTH LANDSCAPE & REELS
-function setupDragScroll(slider) {
-  if (!slider) return;
+// SILKY SMOOTH CURSOR CLICK-AND-HOLD DRAG-TO-SCROLL FOR REELS, LANDSCAPE & ALL
+function setupShelfDragScroll(shelf) {
+  if (!shelf) return;
   let isDown = false;
   let startX = 0;
-  let scrollLeft = 0;
+  let startScrollLeft = 0;
+  let startPanX = 0;
+  let activeF = 'reel';
+  let activeTrack = null;
+  let usePanMode = false;
   let isDragging = false;
 
-  slider.addEventListener('mousedown', (e) => {
+  shelf.addEventListener('mousedown', (e) => {
     if (typeof ieActive !== 'undefined' && ieActive) return;
+    if (e.button !== 0) return;
     isDown = true;
     isDragging = false;
-    startX = e.pageX - slider.offsetLeft;
-    scrollLeft = slider.scrollLeft;
+    startX = e.pageX;
+    startScrollLeft = shelf.scrollLeft;
+    const info = getActiveTrackInfo();
+    activeF = info.f;
+    activeTrack = info.track;
+    startPanX = (activeTrackPanX && activeTrackPanX[activeF]) ? activeTrackPanX[activeF] : 0;
+    usePanMode = shelf.classList.contains('ie-free-canvas') || (shelf.scrollWidth <= shelf.clientWidth + 2 && activeTrack && activeTrack.scrollWidth > shelf.clientWidth);
   });
 
   const stopDrag = () => {
     if (!isDown) return;
     isDown = false;
-    slider.classList.remove('is-dragging');
+    shelf.classList.remove('is-dragging');
+    if (activeTrack) activeTrack.style.transition = '';
     if (isDragging) {
-      slider._lastDragTime = Date.now();
+      shelf._lastDragTime = Date.now();
     }
     isDragging = false;
   };
 
   window.addEventListener('mouseup', stopDrag);
-  slider.addEventListener('mouseleave', stopDrag);
 
-  slider.addEventListener('mousemove', (e) => {
+  window.addEventListener('mousemove', (e) => {
     if (typeof ieActive !== 'undefined' && ieActive) return;
     if (!isDown) return;
-    const x = e.pageX - slider.offsetLeft;
-    const walk = x - startX;
-    if (Math.abs(walk) > 10) {
+    const walk = e.pageX - startX;
+    if (Math.abs(walk) > 6) {
       if (!isDragging) {
         isDragging = true;
-        slider.classList.add('is-dragging');
+        shelf.classList.add('is-dragging');
+        if (usePanMode && activeTrack) activeTrack.style.transition = 'none';
       }
       e.preventDefault();
-      slider.scrollLeft = scrollLeft - walk;
+      if (usePanMode && activeTrack) {
+        const maxPan = Math.max(0, activeTrack.scrollWidth - shelf.clientWidth + 80);
+        const nextPan = Math.max(0, Math.min(maxPan, startPanX - walk));
+        activeTrackPanX[activeF] = nextPan;
+        activeTrack.style.marginLeft = (-nextPan) + 'px';
+      } else {
+        shelf.scrollLeft = startScrollLeft - walk;
+      }
     }
   });
 
-  slider.addEventListener('dragstart', (e) => e.preventDefault());
+  shelf.addEventListener('dragstart', (e) => e.preventDefault());
 }
 
-setupDragScroll(landscape);
-setupDragScroll(reels);
 const mainShelf = document.querySelector('.carousel-shelf');
-if (mainShelf) setupDragScroll(mainShelf);
+if (mainShelf) setupShelfDragScroll(mainShelf);
 
 // Dynamic WhatsApp Brief Pre-filler with Selected Service, Mood, Package & Options
 let currentService = 'AI videos';
@@ -7239,6 +7257,23 @@ function getFormatGap(formatKey) {
   return formatKey === 'landscape' ? 22 : 18;
 }
 
+function syncFreeCanvasClass() {
+  const f = document.querySelector('.g-filter.active')?.dataset.filter || 'reel';
+  const trackSel = f === 'landscape' ? '#portfolioGrid .card' : (f === 'all' ? '#allGrid .card' : '#reelGrid .card');
+  let hasFree = false;
+  document.querySelectorAll(trackSel).forEach(card => {
+    const id = card.getAttribute('data-ie-id');
+    const cfg = ieCustomLayout && id ? ieCustomLayout[id] : null;
+    if (cfg && ((Number(cfg.x) || 0) !== 0 || (Number(cfg.y) || 0) !== 0)) {
+      hasFree = true;
+    }
+  });
+  const stg = document.querySelector('.experience-stage');
+  const shf = document.querySelector('.carousel-shelf');
+  if (stg) stg.classList.toggle('ie-free-canvas', hasFree);
+  if (shf) shf.classList.toggle('ie-free-canvas', hasFree);
+}
+
 function applyCustomLayout() {
   if (!ieCustomLayout || typeof ieCustomLayout !== 'object') ieCustomLayout = {};
   tagAllEditableElements();
@@ -7247,19 +7282,11 @@ function applyCustomLayout() {
   applyFormatGridGap('landscape', fs.landscape && fs.landscape.gap !== undefined ? fs.landscape.gap : null);
   applyFormatGridGap('all', fs.all && fs.all.gap !== undefined ? fs.all.gap : null);
 
-  let hasFreeCards = false;
   document.querySelectorAll('[data-ie-id]').forEach(el => {
     const id = el.getAttribute('data-ie-id');
-    const cfg = ieCustomLayout[id] || null;
-    applyElementTransform(el, cfg);
-    if (cfg && el.classList.contains('card') && ((Number(cfg.x) || 0) !== 0 || (Number(cfg.y) || 0) !== 0)) {
-      hasFreeCards = true;
-    }
+    applyElementTransform(el, ieCustomLayout[id] || null);
   });
-  const stg = document.querySelector('.experience-stage');
-  const shf = document.querySelector('.carousel-shelf');
-  if (stg) stg.classList.toggle('ie-free-canvas', hasFreeCards);
-  if (shf) shf.classList.toggle('ie-free-canvas', hasFreeCards);
+  syncFreeCanvasClass();
   if (ieActive && ieSelectedEl) {
     positionSelectionBox();
   }
