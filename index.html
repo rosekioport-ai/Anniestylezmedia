@@ -4215,6 +4215,527 @@ body:not(.ie-active) .ie-is-hidden {
   }
 }
 
+
+/* ========================================================
+   FULL-SCREEN EDGE-TO-EDGE ADMIN STUDIO (ZERO BLACK MARGINS, ZERO PAGE SCROLL)
+   ======================================================== */
+.editor {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  background: #111011 !important;
+  z-index: 950 !important;
+}
+.editor-panel {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  overflow: hidden !important;
+  background: radial-gradient(circle at 82% 8%, rgba(243, 206, 122, 0.08), #181617 42%, #111011 100%) !important;
+}
+
+/* LEFT PITCH-BLACK NAVIGATION RAIL */
+.admin-rail {
+  width: 224px;
+  flex-shrink: 0;
+  height: 100vh;
+  background: #111011;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 14px 16px;
+  box-sizing: border-box;
+}
+.admin-rail-brand {
+  padding: 4px 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.admin-rail-title {
+  font-size: 18px;
+  font-weight: 400;
+  color: #f3ce7a;
+  line-height: 1.2;
+}
+.admin-rail-sub {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.admin-rail-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 14px;
+  flex: 1;
+}
+.admin-nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #a6a6b0;
+  font-size: 12.5px;
+  font-weight: 400;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.admin-nav-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+}
+.admin-nav-item.active {
+  background: rgba(243, 206, 122, 0.12);
+  border-color: rgba(243, 206, 122, 0.35);
+  color: #fff3d4;
+}
+.admin-nav-item .an-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+.admin-nav-item.active .an-dot {
+  background: #f3ce7a;
+  box-shadow: 0 0 8px rgba(243, 206, 122, 0.8);
+}
+.admin-rail-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-rail-ie-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  padding-left: 4px;
+}
+.admin-rail-cta {
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fae29e 0%, #d4a94e 100%);
+  color: #0c0a07;
+  font-size: 11.5px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+.admin-rail-mini-row {
+  display: flex;
+  gap: 6px;
+}
+.admin-mini-btn {
+  flex: 1;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #d4d4d8;
+  font-size: 10.5px;
+  cursor: pointer;
+}
+.admin-mini-btn.danger {
+  color: #ff9c66;
+  border-color: rgba(255, 101, 10, 0.35);
+}
+
+/* RIGHT FULL-HEIGHT WORKSPACE SHELL */
+.admin-main-shell {
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.editor-head {
+  height: 60px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 22px !important;
+  margin: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(17, 16, 17, 0.72) !important;
+  gap: 14px !important;
+}
+.editor-head h2 {
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+.editor-head .hint {
+  font-size: 11px !important;
+  margin: 2px 0 0 !important;
+  color: var(--text-muted) !important;
+}
+.editor-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: nowrap !important;
+  flex-shrink: 0 !important;
+}
+.editor-actions .editor-btn {
+  padding: 7px 13px !important;
+  font-size: 11.5px !important;
+  font-weight: 400 !important;
+  border-radius: 999px !important;
+  white-space: nowrap !important;
+}
+.editor-actions .editor-btn.primary {
+  background: #ffffff !important;
+  color: #111011 !important;
+  border: 1px solid #ffffff !important;
+  font-weight: 500 !important;
+}
+
+/* TAB PANES: FILL 100% OF REMAINING SCREEN WITH ZERO PAGE SCROLL */
+.admin-tab-pane {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 14px 22px 16px;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 12px;
+}
+.admin-tab-pane.active {
+  display: flex;
+}
+.admin-kpi-row {
+  flex-shrink: 0;
+  margin: 0 !important;
+  gap: 12px !important;
+}
+.admin-kpi-row .stat-card {
+  padding: 12px 18px !important;
+  background: rgba(43, 39, 40, 0.55) !important;
+  border: 1px solid rgba(243, 206, 122, 0.2) !important;
+  border-radius: 16px !important;
+}
+.admin-kpi-row .stat-card-val {
+  font-size: 26px !important;
+  font-weight: 400 !important;
+  margin: 2px 0 !important;
+}
+.admin-bento-3col {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 12px;
+  overflow: hidden;
+}
+.admin-bento-2col {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 14px;
+  overflow: hidden;
+}
+.admin-bento-col {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+.admin-tab-pane .stats-detail-box {
+  background: rgba(34, 31, 32, 0.72) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 14px 16px !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+}
+.admin-fill-box {
+  flex: 1;
+  min-height: 0;
+}
+.admin-scroll-inner {
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.admin-box-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+.admin-box-head h4 {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: #ffffff !important;
+  margin: 0 !important;
+}
+.admin-box-tag {
+  font-size: 10.5px;
+  color: var(--gold-light);
+}
+.admin-tip-box {
+  background: rgba(243, 206, 122, 0.07);
+  border: 1px solid rgba(243, 206, 122, 0.22);
+  border-radius: 14px;
+  padding: 11px 14px;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  flex-shrink: 0;
+}
+.admin-tip-box code {
+  background: rgba(0, 0, 0, 0.45);
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: var(--gold);
+}
+.admin-watch-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  background: rgba(34, 31, 32, 0.72);
+  border: 1px solid rgba(243, 206, 122, 0.2);
+  border-radius: 14px;
+  padding: 10px 16px;
+}
+
+/* TAB 3: MASTER-DETAIL PROJECT VIDEOS WORKSPACE */
+.admin-projects-shell {
+  display: grid !important;
+  grid-template-columns: 280px 1fr !important;
+  gap: 14px !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+.ap-sidebar {
+  background: rgba(24, 22, 23, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+.ap-sidebar-head {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.ap-sidebar-title { font-size: 13px; color: #fff; }
+.ap-sidebar-sub { font-size: 10.5px; color: var(--text-muted); }
+.ap-add-btn {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fae29e 0%, #d4a94e 100%);
+  color: #0c0a07;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+}
+.ap-slot-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  scrollbar-width: thin;
+}
+.ap-slot-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #d4d4d8;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.ap-slot-btn:hover { background: rgba(255, 255, 255, 0.04); }
+.ap-slot-btn.active {
+  background: rgba(243, 206, 122, 0.12);
+  border-color: rgba(243, 206, 122, 0.4);
+  color: #fff;
+}
+.ap-slot-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ap-slot-main { display: flex; flex-direction: column; min-width: 0; }
+.ap-slot-tag { font-size: 9.5px; color: var(--gold); text-transform: uppercase; letter-spacing: 0.06em; }
+.ap-slot-title { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.ap-detail-stage {
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.ap-detail-card {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  margin: 0 !important;
+  padding: 18px 22px !important;
+  background: rgba(34, 31, 32, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 16px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+.ap-detail-card.ap-detail-hidden {
+  display: none !important;
+}
+.ap-detail-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+.ap-detail-eyebrow { font-size: 10px; color: var(--gold); letter-spacing: 0.08em; }
+.ap-detail-head h4 { font-size: 18px; font-weight: 400; color: #fff; margin: 2px 0 0; }
+.ap-status-pill {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+.ap-detail-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 230px;
+  gap: 18px;
+  overflow: hidden;
+}
+.ap-detail-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+.ap-desc-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.ap-desc-field textarea {
+  flex: 1 !important;
+  min-height: 80px !important;
+  resize: none !important;
+}
+.ap-detail-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.ap-preview-label { font-size: 11px; color: var(--text-muted); }
+.ap-preview-frame {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0a0a0c;
+  border: 1px solid rgba(243, 206, 122, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+.ap-preview-frame.is-reel { width: 175px; aspect-ratio: 9 / 16; }
+.ap-preview-frame.is-land { width: 100%; aspect-ratio: 16 / 9; }
+
+/* TAB 4 & 5 FORM POLISH */
+.admin-form-card .field { margin-bottom: 8px; }
+.admin-form-card input, .admin-form-card textarea {
+  background: rgba(14, 13, 14, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  padding: 9px 12px !important;
+  font-size: 12.5px !important;
+}
+.admin-textarea-stack {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-grow-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.admin-grow-field textarea {
+  flex: 1 !important;
+  resize: none !important;
+}
+
+/* MOBILE ADMIN FALLBACK */
+@media (max-width: 900px) {
+  .editor-panel { flex-direction: column !important; }
+  .admin-rail {
+    width: 100% !important;
+    height: auto !important;
+    padding: 10px 12px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+  .admin-rail-brand, .admin-rail-footer { display: none !important; }
+  .admin-rail-nav { flex-direction: row !important; overflow-x: auto !important; margin-top: 0 !important; }
+  .admin-nav-item { width: auto !important; white-space: nowrap !important; padding: 6px 12px !important; }
+  .admin-bento-3col, .admin-bento-2col, .admin-projects-shell, .ap-detail-body { grid-template-columns: 1fr !important; overflow-y: auto !important; }
+}
+
 </style>
 
 <script id="portfolio-data">window.__PORTFOLIO_DATA__={"name": "Anniestylez_Media", "mark": "STORY-LED AI VIDEO ADS", "headline": "I turn Brands", "goldHeadline": "", "workIntro": "", "statement": "Story-Led AI Video Creator & Creative Director building commercials for brands and businesses that want buyers to choose them with confidence.", "about": "I take an idea from the first spark to a finished piece of video. I turn real problems into creative stories that make people see themselves, understand the problem, and recognise the brand as the solution. The goal is simple: connect with both problem-aware and solution-aware viewers, then make them want what your brand offers.\n", "email": "annieplans08@gmail.com", "whatsapp": "2348104665457", "contactText": "", "footer": "LET'S GIVE YOU", "footerGold": "AN EXPERIENCE", "footerLabel": "STORY-LED AI VIDEO ADS & CREATIVE DIRECTION", "services": [["Creative Conceptualization", "Turning a brief, product or rough idea into a clear visual concept with a strong creative direction."], ["AI Video Production", "Building original visual sequences and complete videos designed around the story, audience and objective."], ["Video Editing", "Shaping footage, visuals, sound and pacing into a polished final piece that feels deliberate and engaging."], ["AI Commercials & Ads", "Short, memorable advertising videos made to communicate value quickly and leave an impression."], ["Reels & Short Form", "Fast-moving social content built around hooks, retention, clarity and a reason to keep watching."], ["Visual Storytelling", "Creating a visual language that helps ideas, brands and stories connect without overcomplicating the message."], ["Content Production", "End-to-end support for turning a content idea into something ready to publish and share."], ["Creative Direction", "Keeping the visual idea, narrative and final execution aligned from the first frame to the last."]], "projects": [{"kind": "landscape", "title": "Real Estate Campaign", "description": "Spec Ad: NITTY HOMES\n\nThe Problem: House hunting in Lagos is often exhausting, opaque, and full of stress.\n\nThe Story: This campaign walks the viewer through the entire buyer journey, from filtering verified homes and live video viewings to physical inspection, signing a clear agreement, and finally unlocking their new front door.\n\nThe Goal: Make the buyer's frustration feel familiar, then position Nitty Homes as the trusted, stress-free solution.\n\nConcept Development • AI Video Production • Storytelling • Editing • Creative Direction", "video": "https://youtu.be/ea3XJRi3XJU", "thumbnail": "https://drive.google.com/uc?export=view&id=1uwO2fZDtkeuKubHd9i4AtgShRqVO98ql"}, {"kind": "landscape", "title": "Construction Technology", "description": "Spec Ad: QENVORA PROJECTS\n\nThe Problem: Most homeowners wait months for construction to finish before finding out if their home actually feels right.\n\nThe Story: We follow a homeowner from the fear of traditional building plans to walking through a full-scale hologram of their house on the actual land before a single block is laid.\n\nThe Goal: Show buyers that they never have to gamble on their dream home before construction begins.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Fai29Htv648", "thumbnail": "https://drive.google.com/uc?export=view&id=1YNOeZMdReFpZpA4lzeAjhRUahcYEpKcc"}, {"kind": "landscape", "title": "Academic Campaign", "description": "Spec Ad: NORVERIA ACADEMY\n\nThe Problem: Parents want their children ready for a fast-moving AI and tech world without losing wisdom and strong character.\n\nThe Story: Starting with a curious boy exploring his mother's phone, the film shows how a school can channel childhood curiosity into real-world readiness through mentorship, technology, and entrepreneurship seminars.\n\nThe Goal: Show parents a school that gives their child's natural curiosity clear direction.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/Q4t5WAO68e8", "thumbnail": "https://drive.google.com/uc?export=view&id=1d-7E--JZUh8UzC5I3bUMMSHxw9t5kiQL"}, {"kind": "landscape", "title": "Brand Unveiling", "description": "Campaign: BRAND UNVEILING\n\nThe Problem: Most brands announce their launch with a static logo or plain flyer that people scroll past in two seconds.\n\nThe Story: A cinematic, story-led reveal built around anticipation, mood, and visual identity so viewers immediately feel the weight and personality of the brand from frame one.\n\nThe Goal: Turn a standard brand announcement into an unforgettable visual experience.\n\nConcept Development • AI Video Production • Storytelling • Creative Direction • Editing", "video": "https://youtu.be/kuLBlKpiIr8", "thumbnail": "https://drive.google.com/uc?export=view&id=1X3nL51kLYj4NMgLw8KXRYM57TdcFIbJ1"}, {"kind": "landscape", "title": "Landscape Project 05", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 06", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "landscape", "title": "Landscape Project 07", "description": "Add your project description here.", "video": "", "thumbnail": ""}, {"kind": "reel", "title": "Chauffeur Services", "description": "Spec Ad: EXECUTIVE CHAUFFEUR SERVICE\n\nThe Problem: Busy professionals do not just want a car ride; they want reliability, calm, and time back in their day.\n\nThe Story: This vertical campaign contrasts daily traffic stress with the quiet confidence of stepping into a professional, chauffeur-driven experience where every detail is handled.\n\nThe Goal: Position the service as an everyday luxury that gives clients back their peace of mind.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/dmJxexfvfHc?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=1ngt2gZVPTD8l5YGabGy5Pt1kNDkWIMUX"}, {"kind": "reel", "title": "Bridal Makeovers", "description": "Spec Ad: LUXURY BRIDAL MAKEOVERS\n\nThe Problem: Every bride shares the same quiet worry before her wedding day: wanting to look breathtaking without feeling like a stranger in her own skin.\n\nThe Story: Moving away from generic makeup transitions, this reel tells an emotional transformation story from quiet pre-wedding anticipation to the unforgettable moment she sees her final bridal glow.\n\nThe Goal: Build deep emotional trust so brides immediately see themselves in the experience.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://vimeo.com/1242518139?share=copy&fl=sv&fe=ci", "thumbnail": "https://drive.google.com/uc?export=view&id=1fPa-RtGB7y3ZFzqn3jYHtqKhiFEsOtRt"}, {"kind": "reel", "title": "Wholesale Market Vendor", "description": "Spec Ad: WHOLESALE MARKET VENDOR\n\nThe Problem: Walking through a crowded open-air market under the heat, only to realize prices at stall after stall are inflated and unpredictable.\n\nThe Story: The video opens with the sensory exhaustion of market bargaining: the heat, the noise, the walking, and the frustration of prices doubling between stalls. Just as fatigue sets in, the shopper turns the corner and discovers the one verified wholesale vendor offering direct, transparent pricing on fresh essentials.\n\nThe Goal: Validate the shopper's real frustration first. Instead of generic market shouting, we show buyers that skipping the crowd and heading straight to this vendor is the smartest way to save both time and money.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Editing", "video": "https://youtube.com/shorts/7PDpNIgCsm8?feature=share", "thumbnail": "https://drive.google.com/uc?export=view&id=126Fi9IGTwI9kY5EbQqJN0VzV9x5vADkc"}, {"kind": "reel", "title": "Book Promo", "description": "Campaign: THE C.A.R.E. METHOD\n\nThe Problem: Many businesses focus on closing sales while leaving customers with unanswered questions and costly mistakes.\n\nThe Story: Through Tunde’s gaming PC experience, this cinematic ad reveals the cost of missed conversations and the power of educating customers.\n\nThe Goal: Promote The C.A.R.E. Method: A Customer Service & Sales Playbook* by Ademulegun Opeoluwa, a practical guide explaining how to apply the C.A.R.E. Method and answering key questions about delivering better customer service and building lasting trust.\n\nConcept Development • AI Video Production • Creative Direction • Storytelling • Cinematic Editing", "video": "https://youtube.com/shorts/Iqxf8Ev2RMk", "thumbnail": "https://drive.google.com/uc?export=view&id=1kxIAYc-uJkr8OhA8mBCpt9Y66_0oR7Ot"}, {"kind": "reel", "title": "Nike Concept Heels", "description": "Spec Ad: NIKE AIR STILETTO (SPEC CONCEPT)\n\nThe Problem: Women in professional settings are forced to choose between looking sharp in formal high heels and enduring painful, rigid footwear for eight hours straight.\n\nThe Story: Sitting casually at home surrounded by her favorite Nike running shoes, a young professional candidly vents about the dreaded Monday morning boardroom walk, sparking a humorous, heartfelt plea for marathon-level cushioning inside formal stilettos.\n\nThe Goal: Demonstrate Anniestylez Media's ability to turn everyday consumer friction into viral, authentic UGC storytelling, proving that powerful advertising wins when it validates the customer's real pain before introducing a concept.\n\nConcept Development • Creative Direction • Copywriting • AI Video Production • Social Storytelling\n\n(Independent speculative concept by Anniestylez Media. Not an official Nike release.)", "video": "https://youtube.com/shorts/9NCw72sEPX8?si=0IMuHMdb2k1seVJ2", "thumbnail": "https://drive.google.com/uc?export=view&id=1UcJ7p_3GBg2VHpglXWHwhbxFKYNDWROO"}, {"kind": "reel", "title": "Beauty, Hair & Personal Care", "description": "PRIVATE BRAIDING & BEAUTY SERVICE (SIMPLY IFEOLUWA ROYALE)\n\nThe Problem: Women with sensitive scalps face an exhausting compromise: endure tight braiders and week-long headaches, or settle for gentle hands whose styles unravel within forty-eight hours.\n\nThe Story: A candid, sister-to-sister narrative where a relatable client travels to an unassuming neighborhood salon in Ikorodu, discovers elite craftsmanship with zero pain, rigorously tests the results over seven days, and upgrades to effortless private home service.\n\nThe Goal: Position the brand not just as a local hairdresser, but as a premium, pain-free beauty partner who brings luxury hair care and peace of mind straight to your doorstep.\n\nConcept Development • AI Video Production • Creative Direction • Scriptwriting • Storytelling • Video Editing.", "video": "https://youtube.com/shorts/h7JGa6iF79s", "thumbnail": "https://drive.google.com/uc?export=view&id=1H24diNr3u-sfwJcqnno7LaVuiB94NFCB"}, {"kind": "reel", "title": "Fintech & Digital Banking", "description": "Spec Ad: FINTECH & INSTANT PAYMENTS (OPAY NIGERIA)\n\nThe Problem: Professionals suffer endless spinning bank apps and delayed alerts, holding on to traditional banks while believing street rumors about modern digital apps.\n\nThe Story: An office skeptic mocks OPay and brings up the rumors, confident in his traditional bank until his own transfer delays for hours. When a coworker breezes through with hot akara paid for in seconds, the skeptic sneaks into the corner to install OPay on the App Store and gets caught in 4K by his laughing friends.\n\nThe Goal: Disarm banking snobbery with authentic workplace humor and prove that OPay is the reliable everyday payment tool that works without excuses.\n\nConcept Development • Creative Direction • Scriptwriting • AI Video Production • Storytelling • Video Editing.", "video": "https://youtube.com/shorts/7-4pEPubEVE", "thumbnail": "https://drive.google.com/uc?export=view&id=1IoRw1a_Yov5cJO3rxJy3BMn54goiEH9t"}]};</script>
@@ -4693,243 +5214,292 @@ The goal is simple: connect with both problem-aware and solution-aware viewers, 
   </div>
 </div>
 
-<!-- FULL ADMIN EDITOR PANEL -->
+<!-- FULL-SCREEN EDGE-TO-EDGE ADMIN STUDIO (ZERO VERTICAL SCROLL, ZERO BLACK SIDE MARGINS) -->
 <div class="editor" id="editor">
   <div class="editor-panel">
-    <div class="editor-head">
-      <div>
-        <h2>Edit your site</h2>
-        <div class="hint">Make any changes you like. Click <b>Save Changes</b> to instantly update what visitors see on your live website.</div>
-      </div>
-      <div class="editor-actions">
-        <span class="saved" id="savedMsg">✓ Saved to this computer!</span>
-        <button class="editor-btn" id="openInterfaceEditorBtn" type="button" style="border:1px solid rgba(243,206,122,0.7);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%);font-weight:500">Interface Editor (Move &amp; Resize)</button>
-        <button class="editor-btn primary" id="saveLiveBtn">Save Changes</button>
-        <button class="editor-btn" id="exportDataBtn" style="border:1px solid rgba(215,177,90,0.45);color:var(--gold-light);background:rgba(215,177,90,0.1)">📋 Copy Setup to Publish</button>
-        <button class="editor-btn" id="closeEditor">Close</button>
-        <button class="editor-btn danger" id="logoutBtn">Lock / Log out</button>
-      </div>
-    </div>
-
-    <!-- 0. VISUAL INTERFACE EDITOR LAUNCH CARD -->
-    <div class="ie-admin-banner">
-      <div>
-        <h3>Visual Interface Editor (Move &amp; Resize Everything)</h3>
-        <p>Click below to edit your live website like Canva. Drag any block to move it, pull any edge or corner to resize it, adjust text scale or hide items, then save live or copy your exact layout for Antigravity.</p>
-      </div>
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-        <button type="button" class="editor-btn" id="launchIEBannerBtn" style="border:1px solid rgba(243,206,122,0.75);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%);font-weight:500">Open Interface Editor</button>
-        <button type="button" class="editor-btn" id="copyLayoutBannerBtn" style="border:1px solid rgba(217,242,126,0.45);color:#d9f27e;background:rgba(217,242,126,0.1)">Copy Saved Layout</button>
-        <button type="button" class="editor-btn danger" id="resetLayoutBannerBtn">Reset Layout</button>
-      </div>
-    </div>
-
-    <!-- 1. LIVE VISITOR & AUDIENCE INSIGHTS DASHBOARD -->
-    <section class="editor-section" id="statsSection">
-      <div class="stats-head">
-        <div>
-          <h3>Live Visitor &amp; Audience Insights</h3>
-          <div class="hint">Real-time stats on how many people visit each day, where they linger, and which projects get clicked.</div>
-        </div>
-        <button type="button" class="editor-btn" id="refreshStatsBtn">⟳ Refresh Live Stats</button>
+    <!-- LEFT VERTICAL NAVIGATION RAIL -->
+    <aside class="admin-rail">
+      <div class="admin-rail-brand">
+        <div class="admin-rail-title">Anniestylez</div>
+        <div class="admin-rail-sub">Admin Studio</div>
       </div>
 
-      <!-- 3 TOP SUMMARY CARDS -->
-      <div class="stats-cards-grid">
-        <div class="stat-card">
-          <div class="stat-card-label">TODAY'S VISITORS</div>
-          <div class="stat-card-val" id="statTodayVisits">0</div>
-          <div class="stat-card-sub" id="statTodaySub">Active today</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">TOTAL ALL-TIME VISITS</div>
-          <div class="stat-card-val" id="statTotalVisits">0</div>
-          <div class="stat-card-sub">Recorded across all devices</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-card-label">MOST TIME SPENT ON</div>
-          <div class="stat-card-val" id="statTopTab" style="font-size:20px">The Experience</div>
-          <div class="stat-card-sub" id="statTopTabPct">Watching videos &amp; reels</div>
+      <nav class="admin-rail-nav" aria-label="Admin sections">
+        <button type="button" class="admin-nav-item active" data-admin-tab="overview" onclick="switchAdminTab('overview')">
+          <span class="an-dot"></span><span>Overview &amp; Traffic</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-tab="watch" onclick="switchAdminTab('watch')">
+          <span class="an-dot"></span><span>Watch Time &amp; Logs</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-tab="projects" onclick="switchAdminTab('projects')">
+          <span class="an-dot"></span><span>Project Videos</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-tab="text" onclick="switchAdminTab('text')">
+          <span class="an-dot"></span><span>Site Text &amp; Bio</span>
+        </button>
+        <button type="button" class="admin-nav-item" data-admin-tab="security" onclick="switchAdminTab('security')">
+          <span class="an-dot"></span><span>WhatsApp &amp; Security</span>
+        </button>
+      </nav>
+
+      <div class="admin-rail-footer">
+        <div class="admin-rail-ie-label">Visual Canvas Mode</div>
+        <button type="button" class="admin-rail-cta" id="launchIEBannerBtn">Open Interface Editor</button>
+        <div class="admin-rail-mini-row">
+          <button type="button" class="admin-mini-btn" id="copyLayoutBannerBtn">Copy Layout</button>
+          <button type="button" class="admin-mini-btn danger" id="resetLayoutBannerBtn">Reset</button>
         </div>
       </div>
+    </aside>
 
-      <!-- ATTENTION & TIME SPENT PROGRESS BARS -->
-      <div class="stats-detail-box" style="margin-top:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
-          <h4 style="font-size:13px;color:#fff;margin:0;font-family:'Sora',sans-serif">Where Visitors Spend Their Time</h4>
-          <span style="font-size:11px;color:var(--gold-light)">Attention Distribution</span>
+    <!-- RIGHT FULL-SCREEN WORKSPACE SHELL -->
+    <div class="admin-main-shell">
+      <!-- TOP SINGLE-ROW ACTION HEADER -->
+      <header class="editor-head">
+        <div class="editor-head-title-wrap">
+          <h2 id="adminActiveHeading">Overview &amp; Traffic</h2>
+          <div class="hint" id="adminActiveHint">Live visitor insights and site controls. Click Save Changes to publish live.</div>
         </div>
-        <div class="time-bars-list">
-          <div class="time-bar-item">
-            <div class="time-bar-info">
-              <span>The Experience (Videos &amp; Reels)</span>
-              <span id="timeExpPct">0%</span>
-            </div>
-            <div class="time-bar-track">
-              <div class="time-bar-fill" id="timeExpBar" style="width:0%"></div>
-            </div>
+        <div class="editor-actions">
+          <span class="saved" id="savedMsg">Saved!</span>
+          <button type="button" class="editor-btn" id="refreshStatsBtn">Refresh Stats</button>
+          <button class="editor-btn" id="openInterfaceEditorBtn" type="button" style="border:1px solid rgba(243,206,122,0.7);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%)">Interface Editor</button>
+          <button class="editor-btn" id="exportDataBtn" style="border:1px solid rgba(215,177,90,0.45);color:var(--gold-light);background:rgba(215,177,90,0.1)">Copy Setup</button>
+          <button class="editor-btn primary" id="saveLiveBtn">Save Changes</button>
+          <button class="editor-btn" id="closeEditor">Close</button>
+          <button class="editor-btn danger" id="logoutBtn">Log out</button>
+        </div>
+      </header>
+
+      <!-- TAB 1: OVERVIEW & TRAFFIC (FULL-WIDTH ZERO-SCROLL BENTO) -->
+      <div class="admin-tab-pane active" id="admin-tab-overview">
+        <div class="stats-cards-grid admin-kpi-row">
+          <div class="stat-card">
+            <div class="stat-card-label">TODAY'S VISITORS</div>
+            <div class="stat-card-val" id="statTodayVisits">0</div>
+            <div class="stat-card-sub" id="statTodaySub">Active today</div>
           </div>
-          <div class="time-bar-item">
-            <div class="time-bar-info">
-              <span>Studio (Creative Brief Generator)</span>
-              <span id="timeStudioPct">0%</span>
-            </div>
-            <div class="time-bar-track">
-              <div class="time-bar-fill" id="timeStudioBar" style="width:0%"></div>
-            </div>
+          <div class="stat-card">
+            <div class="stat-card-label">TOTAL ALL-TIME VISITS</div>
+            <div class="stat-card-val" id="statTotalVisits">0</div>
+            <div class="stat-card-sub">External visitors recorded</div>
           </div>
-          <div class="time-bar-item">
-            <div class="time-bar-info">
-              <span>Contact &amp; Who I Am</span>
-              <span id="timeContactPct">0%</span>
-            </div>
-            <div class="time-bar-track">
-              <div class="time-bar-fill" id="timeContactBar" style="width:0%"></div>
-            </div>
+          <div class="stat-card">
+            <div class="stat-card-label">MOST TIME SPENT ON</div>
+            <div class="stat-card-val" id="statTopTab" style="font-size:20px">The Experience</div>
+            <div class="stat-card-sub" id="statTopTabPct">Watching videos &amp; reels</div>
           </div>
         </div>
-      </div>
 
-      <!-- LAST 7 DAYS VISITOR TRAFFIC -->
-      <div class="stats-detail-box" style="margin-top:14px">
-        <h4 style="font-size:13px;color:#fff;margin-bottom:12px;font-family:'Sora',sans-serif">Daily Traffic (Last 7 Days)</h4>
-        <div class="day-trend-row" id="dayTrendRow">
-          <!-- Populated dynamically via loadAdminStats() -->
-        </div>
-      </div>
-
-      <!-- ACTION & PROJECT CLICKS -->
-      <div class="stats-split-grid" style="margin-top:14px">
-        <div class="stats-detail-box">
-          <h4 style="font-size:13px;color:#fff;margin-bottom:10px;font-family:'Sora',sans-serif">Client Inquiries &amp; Actions</h4>
-          <div class="action-stats-list">
-            <div class="action-stat-row">
-              <span>⚡ Campaign Briefs Sent to WhatsApp</span>
-              <b id="statBriefClicks">0</b>
+        <div class="admin-bento-3col">
+          <!-- COL 1: ATTENTION + 7-DAY TREND -->
+          <div class="admin-bento-col">
+            <div class="stats-detail-box admin-fill-box">
+              <div class="admin-box-head">
+                <h4>Where Visitors Spend Their Time</h4>
+                <span class="admin-box-tag">Attention</span>
+              </div>
+              <div class="time-bars-list">
+                <div class="time-bar-item">
+                  <div class="time-bar-info"><span>The Experience</span><span id="timeExpPct">0%</span></div>
+                  <div class="time-bar-track"><div class="time-bar-fill" id="timeExpBar" style="width:0%"></div></div>
+                </div>
+                <div class="time-bar-item">
+                  <div class="time-bar-info"><span>Studio (Brief Generator)</span><span id="timeStudioPct">0%</span></div>
+                  <div class="time-bar-track"><div class="time-bar-fill" id="timeStudioBar" style="width:0%"></div></div>
+                </div>
+                <div class="time-bar-item">
+                  <div class="time-bar-info"><span>Contact &amp; Who I Am</span><span id="timeContactPct">0%</span></div>
+                  <div class="time-bar-track"><div class="time-bar-fill" id="timeContactBar" style="width:0%"></div></div>
+                </div>
+              </div>
             </div>
-            <div class="action-stat-row">
-              <span>💬 "Start a Project" Button Clicks</span>
-              <b id="statStartClicks">0</b>
+
+            <div class="stats-detail-box admin-fill-box">
+              <div class="admin-box-head">
+                <h4>Daily Traffic (Last 7 Days)</h4>
+                <span class="admin-box-tag">Daily</span>
+              </div>
+              <div class="day-trend-row" id="dayTrendRow"></div>
+            </div>
+          </div>
+
+          <!-- COL 2: CLIENT ACTIONS + COUNTRIES -->
+          <div class="admin-bento-col">
+            <div class="stats-detail-box">
+              <div class="admin-box-head">
+                <h4>Client Inquiries &amp; Actions</h4>
+                <span class="admin-box-tag">Leads</span>
+              </div>
+              <div class="action-stats-list">
+                <div class="action-stat-row">
+                  <span>WhatsApp Brief Clicks</span>
+                  <b id="statBriefClicks">0</b>
+                </div>
+                <div class="action-stat-row">
+                  <span>Start a Project Clicks</span>
+                  <b id="statStartClicks">0</b>
+                </div>
+              </div>
+            </div>
+
+            <div class="stats-detail-box admin-fill-box admin-scroll-inner">
+              <div class="admin-box-head">
+                <h4>Visitor Locations by Country</h4>
+                <span class="admin-box-tag" id="statTopCountryLabel">Live Geolocation</span>
+              </div>
+              <div class="action-stats-list" id="countryStatsList">
+                <div class="action-stat-row"><span>Loading country data...</span><b>...</b></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COL 3: PLATFORMS + SHARE TIP -->
+          <div class="admin-bento-col">
+            <div class="stats-detail-box admin-fill-box admin-scroll-inner">
+              <div class="admin-box-head">
+                <h4>Platforms &amp; Referral Sources</h4>
+                <span class="admin-box-tag" id="statTopSourceLabel">Where They Clicked</span>
+              </div>
+              <div class="action-stats-list" id="sourceStatsList">
+                <div class="action-stat-row"><span>Loading platform data...</span><b>...</b></div>
+              </div>
+            </div>
+
+            <div class="admin-tip-box">
+              <strong style="color:var(--gold-light)">Share Link Tip:</strong> Add
+              <code>?ref=linkedin</code>, <code>?ref=whatsapp</code>, or <code>?ref=x</code>
+              to your portfolio link when posting so you can see which post brings the most clients.
             </div>
           </div>
         </div>
-        <div class="stats-detail-box">
-          <h4 style="font-size:13px;color:#fff;margin-bottom:10px;font-family:'Sora',sans-serif">Most Clicked Campaigns</h4>
-          <div class="action-stats-list" id="topCampaignsList">
-            <div class="action-stat-row"><span>Projects clicked will show here</span><b>0</b></div>
-          </div>
-        </div>
       </div>
 
-      <!-- AD WATCH TIME & AUDIENCE RETENTION TRACKER -->
-      <div class="stats-detail-box" style="margin-top:14px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
+      <!-- TAB 2: WATCH TIME & RETENTION -->
+      <div class="admin-tab-pane" id="admin-tab-watch">
+        <div class="admin-watch-topbar">
           <div>
-            <h4 style="font-size:14px;color:#fff;margin:0;font-family:'Sora',sans-serif;display:flex;align-items:center;gap:8px">
-              <span style="color:var(--gold)">&#9201;</span> Video Watch Time &amp; Attention Tracker
-            </h4>
-            <div style="font-size:11.5px;color:var(--text-muted);margin-top:3px">See exactly which ad was clicked and how many seconds each visitor stayed watching</div>
+            <h4 style="font-size:15px;color:#fff;margin:0">Video Watch Time &amp; Audience Retention</h4>
+            <div style="font-size:11.5px;color:var(--text-muted);margin-top:2px">See exactly which ad external visitors clicked and how many seconds they stayed watching.</div>
           </div>
-          <div style="display:flex;align-items:center;gap:12px">
-            <span style="font-size:11px;color:var(--gold-light);background:rgba(215,177,90,0.1);padding:4px 10px;border-radius:999px;border:1px solid rgba(215,177,90,0.25)" id="totalAdWatchBadge">0s Total Watch Time</span>
-            <button type="button" onclick="clearOwnerTestWatchLogs()" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);color:#ddd;padding:4px 10px;border-radius:999px;font-size:11px;cursor:pointer;font-family:'Poppins',sans-serif" title="Remove local test watches from this computer">Clear My Test Plays</button>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:11px;color:var(--gold-light);background:rgba(215,177,90,0.12);padding:5px 12px;border-radius:999px;border:1px solid rgba(215,177,90,0.28)" id="totalAdWatchBadge">0s Total Watch Time</span>
+            <button type="button" onclick="clearOwnerTestWatchLogs()" class="editor-btn" title="Remove local test watches from this computer">Clear My Test Plays</button>
           </div>
         </div>
 
-        <!-- PER-AD WATCH STATS LIST -->
-        <div class="action-stats-list" id="adWatchList" style="display:flex;flex-direction:column;gap:10px">
-          <div class="action-stat-row"><span>Loading video watch times...</span><b>...</b></div>
-        </div>
+        <div class="admin-bento-2col">
+          <div class="admin-bento-col">
+            <div class="stats-detail-box admin-fill-box admin-scroll-inner">
+              <div class="admin-box-head">
+                <h4>Watch Time Per Video</h4>
+                <span class="admin-box-tag">Retention</span>
+              </div>
+              <div class="action-stats-list" id="adWatchList" style="display:flex;flex-direction:column;gap:8px">
+                <div class="action-stat-row"><span>Loading video watch times...</span><b>...</b></div>
+              </div>
+            </div>
 
-        <!-- RECENT WATCH SESSIONS HISTORY -->
-        <div style="margin-top:16px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <span style="font-size:12px;font-weight:600;color:#fff;letter-spacing:0.5px">Recent Watch Sessions (Second-by-Second Log)</span>
-            <span style="font-size:10.5px;color:var(--text-muted)">Latest plays</span>
+            <div class="stats-detail-box admin-scroll-inner" style="max-height:38%">
+              <div class="admin-box-head">
+                <h4>Most Clicked Campaigns</h4>
+                <span class="admin-box-tag">Top Clicks</span>
+              </div>
+              <div class="action-stats-list" id="topCampaignsList">
+                <div class="action-stat-row"><span>Projects clicked will show here</span><b>0</b></div>
+              </div>
+            </div>
           </div>
-          <div class="action-stats-list" id="adWatchSessionsList" style="max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px">
-            <div class="action-stat-row" style="font-size:11.5px"><span>No watch sessions recorded yet. Watch any video on Page 1 to see live seconds appear here!</span></div>
-          </div>
-        </div>
-      </div>
-<!-- VISITOR COUNTRIES & TRAFFIC PLATFORMS -->
-      <div class="stats-split-grid" style="margin-top:14px">
-        <div class="stats-detail-box">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
-            <h4 style="font-size:13px;color:#fff;margin:0;font-family:'Sora',sans-serif">Visitor Locations by Country</h4>
-            <span style="font-size:11px;color:var(--gold-light)" id="statTopCountryLabel">Live Geolocation</span>
-          </div>
-          <div class="action-stats-list" id="countryStatsList">
-            <div class="action-stat-row"><span>Loading country data...</span><b>...</b></div>
-          </div>
-        </div>
 
-        <div class="stats-detail-box">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
-            <h4 style="font-size:13px;color:#fff;margin:0;font-family:'Sora',sans-serif">Platforms &amp; Referral Sources</h4>
-            <span style="font-size:11px;color:var(--gold-light)" id="statTopSourceLabel">Where They Clicked</span>
-          </div>
-          <div class="action-stats-list" id="sourceStatsList">
-            <div class="action-stat-row"><span>Loading platform data...</span><b>...</b></div>
+          <div class="stats-detail-box admin-fill-box admin-scroll-inner">
+            <div class="admin-box-head">
+              <h4>Recent Watch Sessions (Second-by-Second Log)</h4>
+              <span class="admin-box-tag">Latest Plays</span>
+            </div>
+            <div class="action-stats-list" id="adWatchSessionsList" style="display:flex;flex-direction:column;gap:8px">
+              <div class="action-stat-row" style="font-size:11.5px"><span>No watch sessions recorded yet.</span></div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- TRACKING TIP BOX -->
-      <div style="margin-top:12px;background:rgba(243,206,122,0.06);border:1px solid rgba(243,206,122,0.22);border-radius:12px;padding:12px 16px;font-size:11.5px;color:var(--text-muted);line-height:1.6">
-        <strong style="color:var(--gold-light)">💡 Share Link Pro-Tip:</strong> When posting your link on social media, you can add 
-        <code style="background:rgba(0,0,0,0.4);padding:2px 6px;border-radius:4px;color:var(--gold)">?ref=linkedin</code> or 
-        <code style="background:rgba(0,0,0,0.4);padding:2px 6px;border-radius:4px;color:var(--gold)">?ref=whatsapp</code> or 
-        <code style="background:rgba(0,0,0,0.4);padding:2px 6px;border-radius:4px;color:var(--gold)">?ref=x</code> to your link to see exactly which post brings the most clients!
+      <!-- TAB 3: PROJECT VIDEOS (FULL-WIDTH MASTER-DETAIL WORKSPACE, ZERO PAGE SCROLL) -->
+      <div class="admin-tab-pane" id="admin-tab-projects">
+        <div class="project-editor admin-projects-shell" id="projectEditor"></div>
       </div>
-    </section>
 
-    <section class="editor-section">
-      <h3>Admin Security</h3>
-      <div class="form-grid">
-        <div class="field full">
-          <label>Change Admin Password</label>
-          <input id="eAdminPass" type="password" placeholder="Leave empty to keep current password">
-          <div class="hint">Your password is encrypted and keeps unauthorized visitors from editing your work.</div>
-        </div>
-      </div>
-    </section>
-    <section class="editor-section">
-      <h3>WhatsApp & Campaign Brief Number</h3>
-      <div class="form-grid">
-        <div class="field full">
-          <label>All WhatsApp Buttons Phone Number</label>
-          <input id="eWhatsapp" inputmode="tel" placeholder="e.g. +2348104665457 or 2348104665457">
-          <div class="hint">This number connects ALL WhatsApp buttons across your entire site, including:
-            <br>• The Studio "Send this campaign brief to Annie on WhatsApp" button
-            <br>• The top header "Start a project" button
-            <br>• The Contact page "Chat on WhatsApp" card and main button
-            <br>• The footer WhatsApp link
-            <br>You can type it with or without "+" (e.g. +2348104665457 or 08104665457).
+      <!-- TAB 4: SITE TEXT & BIO (2-COLUMN FULL-SCREEN FORM, ZERO PAGE SCROLL) -->
+      <div class="admin-tab-pane" id="admin-tab-text">
+        <div class="admin-bento-2col">
+          <div class="stats-detail-box admin-fill-box admin-form-card">
+            <div class="admin-box-head">
+              <h4>Brand, Hero &amp; Contact Labels</h4>
+              <span class="admin-box-tag">Identity</span>
+            </div>
+            <div class="form-grid admin-compact-form">
+              <div class="field"><label>Name</label><input id="eName"></div>
+              <div class="field"><label>Top label</label><input id="eMark"></div>
+              <div class="field full"><label>Main headline</label><input id="eHeadline"></div>
+              <div class="field full"><label>Gold headline line</label><input id="eGoldHeadline"></div>
+              <div class="field"><label>Email</label><input id="eEmail" type="email"></div>
+              <div class="field"><label>Contact button text</label><input id="eContactText"></div>
+            </div>
+          </div>
+
+          <div class="stats-detail-box admin-fill-box admin-form-card">
+            <div class="admin-box-head">
+              <h4>Story, Statement &amp; About Bio</h4>
+              <span class="admin-box-tag">Copy</span>
+            </div>
+            <div class="admin-textarea-stack">
+              <div class="field"><label>Work intro</label><textarea id="eWorkIntro" rows="2"></textarea></div>
+              <div class="field"><label>About statement</label><textarea id="eStatement" rows="3"></textarea></div>
+              <div class="field admin-grow-field"><label>About paragraph</label><textarea id="eAbout"></textarea></div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="editor-section">
-      <h3>Personal / Hero</h3>
-      <div class="form-grid">
-        <div class="field"><label>Name</label><input id="eName"></div>
-        <div class="field"><label>Top label</label><input id="eMark"></div>
-        <div class="field full"><label>Main headline</label><input id="eHeadline"></div>
-        <div class="field full"><label>Gold headline line</label><input id="eGoldHeadline"></div>
-        <div class="field full"><label>Work intro</label><textarea id="eWorkIntro"></textarea></div>
-        <div class="field full"><label>About statement</label><textarea id="eStatement"></textarea></div>
-        <div class="field full"><label>About paragraph</label><textarea id="eAbout"></textarea></div>
-        <div class="field"><label>Email</label><input id="eEmail" type="email"></div>
-        <div class="field"><label>Contact button text</label><input id="eContactText"></div>
+      <!-- TAB 5: WHATSAPP & SECURITY (2-COLUMN FULL-SCREEN, ZERO PAGE SCROLL) -->
+      <div class="admin-tab-pane" id="admin-tab-security">
+        <div class="admin-bento-2col">
+          <div class="stats-detail-box admin-fill-box admin-form-card">
+            <div class="admin-box-head">
+              <h4>WhatsApp &amp; Campaign Brief Number</h4>
+              <span class="admin-box-tag">Direct Leads</span>
+            </div>
+            <div class="field" style="margin-top:8px">
+              <label>All WhatsApp Buttons Phone Number</label>
+              <input id="eWhatsapp" inputmode="tel" placeholder="e.g. +2348104665457 or 2348104665457">
+            </div>
+            <div class="admin-tip-box" style="margin-top:12px">
+              This number connects ALL WhatsApp buttons across your entire site:
+              <br>• The Studio "Send this campaign brief to Annie on WhatsApp" button
+              <br>• The top header "Start a project" button
+              <br>• The Contact page "Chat on WhatsApp" card and main button
+              <br>• The footer WhatsApp link
+              <br><br>Type it with or without "+" (for example: +2348104665457 or 08104665457).
+            </div>
+          </div>
+
+          <div class="stats-detail-box admin-fill-box admin-form-card">
+            <div class="admin-box-head">
+              <h4>Admin Security &amp; Owner Privacy</h4>
+              <span class="admin-box-tag">Protected</span>
+            </div>
+            <div class="field" style="margin-top:8px">
+              <label>Change Admin Password</label>
+              <input id="eAdminPass" type="password" placeholder="Leave empty to keep current password">
+              <div class="hint" style="margin-top:6px">Your password is encrypted and prevents visitors from editing your site.</div>
+            </div>
+            <div class="admin-tip-box" style="margin-top:14px">
+              <strong style="color:#d9f27e">Owner Computer Filter Active:</strong> Visits, clicks, and test video plays from this computer are automatically ignored so your analytics only reflect genuine external visitors.
+            </div>
+          </div>
+        </div>
       </div>
-    </section>
-    <section class="editor-section">
-      <h3>Projects: 7 Landscape + 7 Reels</h3>
-      <div class="project-editor" id="projectEditor"></div>
-      <div class="hint">Paste a Google Drive image sharing link or direct image URL for the thumbnail. Paste your YouTube, Google Drive, or MP4 link for the video (Vimeo is disabled).</div>
-    </section>
+
+    </div>
   </div>
 </div>
 
@@ -5630,87 +6200,121 @@ function loadEditor() {
     return !!parseVideoUrl(p.video, isSecondReel);
   }).length;
 
-  $('projectEditor').innerHTML = `
-    <div style="grid-column: 1 / -1; background: rgba(215,177,90,0.08); border: 1px solid var(--gold-border); border-radius: 12px; padding: 14px 18px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-      <div>
-        <strong style="color: var(--gold-light); font-size: 13px;">Active Project Videos: ${totalLoaded} of ${data.projects.length} slots loaded</strong>
-        <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Reel 02 (Second Reel slot) accepts Vimeo ONLY. All other Landscape and Reel slots accept YouTube, Google Drive, or MP4.</div>
-      </div>
-      <button type="button" class="editor-btn" onclick="addNewReelSlot()" style="border:1px solid rgba(243,206,122,0.65);color:#0c0a07;background:linear-gradient(135deg,#fae29e 0%,#d4a94e 100%);font-weight:500">+ Add Another Reel Slot</button>
-    </div>
-  ` + (() => {
-    let landNum = 0;
-    let reelNum = 0;
-    return data.projects.map((x, i) => {
-    const slotNum = x.kind === 'reel' ? (++reelNum) : (++landNum);
+  if (typeof window._activeAdminProjIdx !== 'number' || window._activeAdminProjIdx >= data.projects.length) {
+    window._activeAdminProjIdx = 0;
+  }
+
+  let lCount = 0;
+  let rCount = 0;
+  const metaList = data.projects.map((x, i) => {
+    const isReel = x.kind === 'reel';
+    const num = isReel ? (++rCount) : (++lCount);
     const isSecondReel = isSecondReelSlot(x, i);
     const parsed = parseVideoUrl(x.video, isSecondReel);
     const hasVideo = !!parsed;
-    let badgeText = 'No link';
-    let badgeColor = '#71717a';
+    const hasThumb = !!(x.thumbnail && x.thumbnail.trim());
+    return { x, i, isReel, num, isSecondReel, parsed, hasVideo, hasThumb };
+  });
+
+  const sidebarItemsHtml = metaList.map(m => {
+    const activeCls = m.i === window._activeAdminProjIdx ? ' active' : '';
+    const dotColor = m.hasVideo ? '#10b981' : (m.hasThumb ? '#f3ce7a' : '#52525b');
+    const kindTag = m.isReel ? 'Reel ' + String(m.num).padStart(2, '0') : 'Cinema ' + String(m.num).padStart(2, '0');
+    return `
+      <button type="button" class="ap-slot-btn${activeCls}" data-slot-idx="${m.i}" onclick="selectAdminProjectSlot(${m.i})">
+        <span class="ap-slot-dot" style="background:${dotColor}"></span>
+        <span class="ap-slot-main">
+          <span class="ap-slot-tag">${kindTag}</span>
+          <span class="ap-slot-title">${esc(m.x.title || kindTag)}</span>
+        </span>
+      </button>`;
+  }).join('');
+
+  const detailCardsHtml = metaList.map(m => {
+    const { x, i, isReel, num, isSecondReel, parsed, hasVideo } = m;
+    let badgeText = 'Empty Slot';
+    let badgeColor = '#a1a1aa';
 
     if (isSecondReel) {
-      if (hasVideo) {
-        badgeText = '✓ Vimeo (Reel 02 Exclusive)';
-        badgeColor = '#10b981';
-      } else if (x.video && x.video.trim()) {
-        badgeText = '✕ Vimeo Required';
-        badgeColor = '#ef4444';
-      }
+      if (hasVideo) { badgeText = 'Vimeo (Reel 02 Exclusive)'; badgeColor = '#10b981'; }
+      else if (x.video && x.video.trim()) { badgeText = 'Vimeo Required'; badgeColor = '#ef4444'; }
     } else {
       const isVimeo = !!(x.video && x.video.toLowerCase().includes('vimeo'));
-      if (isVimeo) {
-        badgeText = '✕ Vimeo Blocked';
-        badgeColor = '#ef4444';
-      } else if (hasVideo) {
-        badgeText = parsed.type === 'youtube' ? '✓ YouTube (HD)' : (parsed.type === 'drive' ? '✓ Google Drive' : '✓ Video');
+      if (isVimeo) { badgeText = 'Vimeo Blocked'; badgeColor = '#ef4444'; }
+      else if (hasVideo) {
+        badgeText = parsed.type === 'youtube' ? 'YouTube HD Connected' : (parsed.type === 'drive' ? 'Google Drive Connected' : 'Video Connected');
         badgeColor = '#10b981';
-      }
-    }
-
-    let statusLine = '<div style="font-size:11px; color:#71717a; margin-top:4px;">No link added yet</div>';
-    if (isSecondReel) {
-      if (hasVideo) {
-        statusLine = `<div style="font-size:11px; color:#10b981; margin-top:4px; display:flex; justify-content:space-between; align-items:center;"><span>✓ Vimeo connected (Reel 02 Exclusive)</span><a href="${esc(x.video)}" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline;">Test link in new tab ↗</a></div>`;
-      } else if (x.video && x.video.trim()) {
-        statusLine = '<div style="font-size:11px; color:#ef4444; margin-top:4px; font-weight:600;">✕ Only Vimeo is allowed for Reel 02 (Second Reel slot)! Other links are rejected.</div>';
-      }
-    } else {
-      const isVimeo = !!(x.video && x.video.toLowerCase().includes('vimeo'));
-      if (isVimeo) {
-        statusLine = '<div style="font-size:11px; color:#ef4444; margin-top:4px; font-weight:600;">✕ Vimeo is not accepted for this slot! Only Reel 02 (Second Reel slot) accepts Vimeo. Enter a YouTube, Google Drive, or MP4 link instead.</div>';
-      } else if (hasVideo) {
-        statusLine = `<div style="font-size:11px; color:#10b981; margin-top:4px; display:flex; justify-content:space-between; align-items:center;"><span>✓ ${parsed.type === 'youtube' ? 'YouTube' : (parsed.type === 'drive' ? 'Google Drive' : 'Direct Video')} connected</span><a href="${esc(x.video)}" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline;">Test link in new tab ↗</a></div>`;
       }
     }
 
     const inputLabel = isSecondReel
-      ? 'Video link (VIMEO ONLY for Reel 02: Second Reel)'
-      : 'Video link (YouTube, Google Drive, or MP4: No Vimeo)';
+      ? 'Video Link (Vimeo Only for Reel 02)'
+      : 'Video Link (YouTube, Google Drive, or MP4)';
     const inputPlaceholder = isSecondReel
-      ? 'Paste Vimeo link here (Only Vimeo allowed for Reel 02)'
+      ? 'Paste Vimeo link here'
       : 'Paste YouTube, Google Drive, or MP4 link';
     const oninputValidation = isSecondReel
-      ? "if(this.value.trim() && !this.value.toLowerCase().includes('vimeo')){alert('Only Vimeo links are allowed for Reel 02 (Second Reel slot)! All other links are rejected.');this.value='';}"
-      : "if(this.value.toLowerCase().includes('vimeo')){alert('Vimeo links are not accepted for this slot! Only Reel 02 (Second Reel slot) accepts Vimeo.');this.value='';}";
+      ? "if(this.value.trim() && !this.value.toLowerCase().includes('vimeo')){alert('Only Vimeo links are allowed for Reel 02.');this.value='';}"
+      : "if(this.value.toLowerCase().includes('vimeo')){alert('Vimeo links are only allowed for Reel 02. Enter a YouTube, Google Drive, or MP4 link.');this.value='';}";
+
+    const thumbSources = getDriveImageSources(x.thumbnail);
+    const thumbPreview = thumbSources[0] || '';
+    const hiddenCls = i === window._activeAdminProjIdx ? '' : ' ap-detail-hidden';
 
     return `
-    <div class="project-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h4 style="margin:0">${x.kind === 'reel' ? 'Reel' : 'Landscape'} ${String(slotNum).padStart(2, '0')}${isSecondReel ? ' (Second Reel: Vimeo Only)' : ''}</h4>
-        <span style="font-size: 11px; font-weight: 700; color: ${badgeColor}; background: rgba(255,255,255,0.06); padding: 3px 10px; border-radius: 999px;">${badgeText}</span>
+      <div class="project-box ap-detail-card${hiddenCls}" data-detail-idx="${i}">
+        <div class="ap-detail-head">
+          <div>
+            <span class="ap-detail-eyebrow">${isReel ? 'PORTRAIT 9:16 REEL' : 'WIDESCREEN 16:9 CINEMA'} &bull; SLOT ${String(num).padStart(2, '0')}</span>
+            <h4>${isReel ? 'Reel' : 'Landscape'} ${String(num).padStart(2, '0')}${isSecondReel ? ' (Vimeo Only)' : ''}</h4>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            ${hasVideo ? `<a href="${esc(x.video)}" target="_blank" rel="noopener" class="editor-btn" style="padding:5px 12px;font-size:11px">Test Video Link</a>` : ''}
+            <span class="ap-status-pill" style="color:${badgeColor};border-color:${badgeColor}44">${badgeText}</span>
+          </div>
+        </div>
+
+        <div class="ap-detail-body">
+          <div class="ap-detail-fields">
+            <div class="field"><label>Project Title</label><input data-project="${i}" data-part="title" value="${esc(x.title)}"></div>
+            <div class="field"><label>${inputLabel}</label><input data-project="${i}" data-part="video" value="${esc(x.video)}" placeholder="${inputPlaceholder}" oninput="${oninputValidation}"></div>
+            <div class="field"><label>Thumbnail URL (Google Drive share link or direct image URL)</label><input data-project="${i}" data-part="thumbnail" value="${esc(x.thumbnail)}" placeholder="Paste thumbnail link here"></div>
+            <div class="field ap-desc-field"><label>Story / Description</label><textarea data-project="${i}" data-part="description">${esc(x.description)}</textarea></div>
+          </div>
+
+          <div class="ap-detail-preview">
+            <div class="ap-preview-label">Thumbnail Preview</div>
+            <div class="ap-preview-frame ${isReel ? 'is-reel' : 'is-land'}">
+              ${thumbPreview ? `<img src="${esc(thumbPreview)}" alt="" style="width:100%;height:100%;object-fit:cover;display:block">` : '<span>No thumbnail yet</span>'}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  $('projectEditor').innerHTML = `
+    <div class="ap-sidebar">
+      <div class="ap-sidebar-head">
+        <div>
+          <div class="ap-sidebar-title">All Video Slots</div>
+          <div class="ap-sidebar-sub">${totalLoaded} of ${data.projects.length} active</div>
+        </div>
+        <button type="button" class="ap-add-btn" onclick="addNewReelSlot()">+ Add Reel</button>
       </div>
-      <div class="field"><label>Title</label><input data-project="${i}" data-part="title" value="${esc(x.title)}"></div>
-      <div class="field"><label>Description</label><textarea data-project="${i}" data-part="description">${esc(x.description)}</textarea></div>
-      <div class="field">
-        <label>${inputLabel}</label>
-        <input data-project="${i}" data-part="video" value="${esc(x.video)}" placeholder="${inputPlaceholder}" style="font-size:12px; font-family: monospace;" oninput="${oninputValidation}">
-        ${statusLine}
-      </div>
-      <div class="field"><label>Thumbnail URL</label><input data-project="${i}" data-part="thumbnail" value="${esc(x.thumbnail)}" placeholder="Google Drive share link or direct URL" style="font-size:12px"></div>
+      <div class="ap-slot-list">${sidebarItemsHtml}</div>
     </div>
-  `}).join('');
-  })();
+    <div class="ap-detail-stage">${detailCardsHtml}</div>
+  `;
+}
+
+function selectAdminProjectSlot(idx) {
+  window._activeAdminProjIdx = idx;
+  document.querySelectorAll('.ap-slot-btn').forEach(b => {
+    b.classList.toggle('active', Number(b.dataset.slotIdx) === idx);
+  });
+  document.querySelectorAll('.ap-detail-card').forEach(card => {
+    card.classList.toggle('ap-detail-hidden', Number(card.dataset.detailIdx) !== idx);
+  });
 }
 
 function addNewReelSlot() {
@@ -5724,11 +6328,10 @@ function addNewReelSlot() {
     video: '',
     thumbnail: ''
   });
+  window._activeAdminProjIdx = data.projects.length - 1;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   apply();
   loadEditor();
-  const boxes = document.querySelectorAll('#projectEditor .project-box');
-  if (boxes.length) boxes[boxes.length - 1].scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function collect() {
@@ -8499,6 +9102,29 @@ function bindInterfaceEditorControls() {
 loadSavedCustomLayout();
 bindInterfaceEditorControls();
 applyCustomLayout();
+
+
+
+function switchAdminTab(tabName) {
+  const titles = {
+    overview: ['Overview & Traffic', 'Live visitor insights, attention distribution, and referral sources.'],
+    watch: ['Watch Time & Retention', 'Exact seconds external visitors watched each video campaign.'],
+    projects: ['Project Videos', 'Select any Landscape or Reel slot on the left to edit its links, thumbnail, and story.'],
+    text: ['Site Text & Bio', 'Update your headline, storytelling bio, email, and button labels.'],
+    security: ['WhatsApp & Security', 'Manage your WhatsApp lead number and Admin login password.']
+  };
+  document.querySelectorAll('.admin-nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-admin-tab') === tabName);
+  });
+  document.querySelectorAll('.admin-tab-pane').forEach(pane => {
+    pane.classList.toggle('active', pane.id === 'admin-tab-' + tabName);
+  });
+  const info = titles[tabName] || titles.overview;
+  if ($('adminActiveHeading')) $('adminActiveHeading').textContent = info[0];
+  if ($('adminActiveHint')) $('adminActiveHint').textContent = info[1];
+}
+
+
 
 
 </script>
